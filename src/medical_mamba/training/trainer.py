@@ -367,7 +367,7 @@ class Trainer:
 
             # ── Kendall σ diagnostic ──────────────────────────────────────
             for name, sigma in self.criterion.sigma_values().items():
-                self.log(f"  [σ] {name}: {sigma:.4f}")
+                self.log(f"  [sigma] {name}: {sigma:.4f}")
                 self.writer.add_scalar(f"kendall_sigma/{name}", sigma, epoch)
 
             # ── TensorBoard ───────────────────────────────────────────────
@@ -393,7 +393,7 @@ class Trainer:
             if is_best:
                 self.best_avg_f1 = avg_f1
                 self.epochs_no_improve = 0
-                self.log(f"  ✓ New best avg_f1={avg_f1:.4f}")
+                self.log(f"  >> New best avg_f1={avg_f1:.4f}")
             else:
                 self.epochs_no_improve += 1
 
