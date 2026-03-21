@@ -1,0 +1,54 @@
+# ─── Project Outputs ───────────────────────────────────────────────
+outputs/
+data/
+*.npz
+*.pt
+*.pth
+
+# ─── Python ───────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# ─── Virtual Environments ────────────────────────────────────────
+.venv/
+venv/
+ENV/
+env/
+
+# ─── Jupyter ──────────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ─── Environment / Secrets ───────────────────────────────────────
+.env
+
+# ─── OS Files ─────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── IDE ──────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ─── TensorBoard ─────────────────────────────────────────────────
+runs/
+events.out.tfevents.*
+
+# ─── Misc ─────────────────────────────────────────────────────────
+*.log
+*.bak
+*.tmp
+
+# ─── Dataset ─────────────────────────────────────────────────────────
+bloodmnist_dataset
+dermamnist_dataset
+octmnist_dataset
+pathmnist_dataset

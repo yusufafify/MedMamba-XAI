@@ -1,0 +1,10 @@
+training:
+  mode: multi_task
+  epochs: 100
+  lr: 5.0e-5
+  warmup_epochs: 15
+  label_smoothing: 0.1
+  mixed_precision: true
+  early_stopping_patience: 20
+project:
+  batch_size: 32

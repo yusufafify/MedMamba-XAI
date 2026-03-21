@@ -1,0 +1,7 @@
+model:
+  size: base
+  patch_size: 8
+  head_dropout: 0.1
+  depths: [2, 2, 12, 2]
+  embed_dim: 128
+  drop_path_rate: 0.4

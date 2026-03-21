@@ -1,0 +1,10 @@
+training:
+  mode: single_task
+  epochs: 100
+  lr: 1.0e-4
+  warmup_epochs: 10
+  label_smoothing: 0.1
+  mixed_precision: true
+  early_stopping_patience: 15
+project:
+  batch_size: 32
