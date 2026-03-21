@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="MedMamba-XAI",
+    name="medical_mamba",
     version="0.1.0",
     description="Interpretable Mamba Models for High-Fidelity Medical Image Classification",
     python_requires=">=3.9",
@@ -18,7 +18,6 @@ setup(
         "tensorboard>=2.14.0",
         "pyyaml>=6.0",
         "tqdm>=4.65.0",
-        "python-dotenv>=1.0.0",
     ],
     extras_require={
         "dev": [
