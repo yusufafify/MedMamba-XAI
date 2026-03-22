@@ -1,6 +1,6 @@
 model:
   size: tiny
-  patch_size: 8
+  patch_size: 16
   head_dropout: 0.1
   depths: [2, 2, 6, 2]
   embed_dim: 96

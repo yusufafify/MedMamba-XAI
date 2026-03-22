@@ -1,10 +1,16 @@
 training:
   mode: single_task
   epochs: 100
-  lr: 1.0e-4
-  warmup_epochs: 10
+  lr: 3.0e-4
+  min_lr: 1.0e-6
+  weight_decay: 0.05
+  warmup_epochs: 15
+  grad_clip: 1.0
   label_smoothing: 0.1
   mixed_precision: true
-  early_stopping_patience: 15
-project:
-  batch_size: 64
+  scheduler: cosine_warmup
+  plateau_factor: 0.5
+  plateau_patience: 10
+  plateau_min_lr: 1.0e-6
+  early_stopping_patience: 20
+  save_best_metric: avg_f1_macro

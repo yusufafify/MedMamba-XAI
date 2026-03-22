@@ -1,14 +1,33 @@
+# =============================================================================
+# MedMamba-XAI — Global Default Configuration
+# =============================================================================
+# This file defines ALL configurable parameters with their default values.
+# Specific configs (data/, model/, training/) only override what they change.
+# Rule: each key lives in exactly ONE section. No cross-section duplication.
+#
+# Merge order (later wins):
+#   default.yaml → data/*.yaml → model/*.yaml → training/*.yaml
+#
+# Usage:
+#   python scripts/train.py \
+#       --config   configs/default.yaml \
+#       --data     configs/data/pathmnist.yaml \
+#       --model    configs/model/vmamba_tiny.yaml \
+#       --training configs/training/single_task.yaml
+# =============================================================================
+
+# ── Project-level (infrastructure, reproducibility) ─────────────────────────
 project:
   name: MedMamba-XAI
   seed: 42
   device: cuda:0
   output_dir: runs/medical_mamba
-  batch_size: 64
-  num_workers: 8  # 0 on Windows, 4+ on Linux/Colab
+  batch_size: 256
+  num_workers: 8            # 0 on Windows, 4+ on Linux/Colab/server
 
+# ── Data (paths and loading behaviour) ──────────────────────────────────────
 data:
-  dataset: pathmnist
-  single_dataset: null
+  single_dataset: null      # null = use all roots; "pathmnist" = single-task
   img_size: 224
   use_weighted_sampler: true
   roots:
@@ -17,19 +36,33 @@ data:
     bloodmnist: dataset/bloodmnist_dataset
     octmnist:   dataset/octmnist_dataset
 
+# ── Model (architecture defaults — overridden by model/*.yaml) ───────────────
 model:
   size: tiny
   patch_size: 8
   head_dropout: 0.1
+  embed_dim: 96
+  depths: [2, 2, 6, 2]
+  drop_path_rate: 0.2
 
+# ── Training (hyperparameters — overridden by training/*.yaml) ───────────────
 training:
-  mode: single_task
+  mode: single_task         # "single_task" | "multi_task"
   epochs: 100
   lr: 1.0e-4
+  min_lr: 1.0e-6            # cosine annealing floor
   weight_decay: 0.05
   warmup_epochs: 10
   grad_clip: 1.0
   label_smoothing: 0.1
   mixed_precision: true
-  early_stopping_patience: 15
+
+  # Scheduler
+  scheduler: cosine_warmup  # "cosine_warmup" | "reduce_on_plateau"
+  plateau_factor: 0.5       # ReduceLROnPlateau: multiply LR by this on plateau
+  plateau_patience: 10       # ReduceLROnPlateau: epochs to wait before reducing
+  plateau_min_lr: 1.0e-6   # ReduceLROnPlateau: floor
+
+  # Early stopping
+  early_stopping_patience: 20
   save_best_metric: avg_f1_macro

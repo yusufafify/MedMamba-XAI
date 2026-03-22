@@ -85,15 +85,27 @@ class TrainConfig:
     patch_size:   int   = 4                  # 4 = high-res, 8 = fast/low-VRAM
     head_dropout: float = 0.1
 
-    # ── Training ──────────────────────────────────────────────────────────
+    # ── Training — optimiser ─────────────────────────────────────────────
     epochs:          int   = 100
     lr:              float = 1e-4
+    min_lr:          float = 1e-6           # cosine annealing / plateau LR floor
     weight_decay:    float = 0.05
     warmup_epochs:   int   = 10
     grad_clip:       float = 1.0
     label_smoothing: float = 0.1
     use_amp:         bool  = True
-    patience:        int   = 15             # early-stopping epochs without improvement
+
+    # ── Training — scheduler ──────────────────────────────────────────────
+    # "cosine_warmup"    : warmup then cosine decay to min_lr (default)
+    # "reduce_on_plateau": reduce LR when avg_f1_macro stops improving
+    scheduler:        str   = "cosine_warmup"
+    plateau_factor:   float = 0.5           # LR multiplier on plateau
+    plateau_patience: int   = 5             # epochs before reducing LR
+    plateau_min_lr:   float = 1e-6          # floor for plateau scheduler
+
+    # ── Training — stopping & saving ──────────────────────────────────────
+    patience:          int = 15             # early-stopping epochs without improvement
+    save_best_metric:  str = "avg_f1_macro" # metric tracked for best checkpoint
 
     # ── Output ────────────────────────────────────────────────────────────
     output_dir: str          = "./runs/medical_mamba"
@@ -204,12 +216,25 @@ class Trainer:
         ])
 
         # ── Scheduler ─────────────────────────────────────────────────────
-        self.scheduler = CosineWarmupScheduler(
-            self.optimizer,
-            warmup_epochs=cfg.warmup_epochs,
-            max_epochs=cfg.epochs,
-            min_lr=1e-6,
-        )
+        if cfg.scheduler == "reduce_on_plateau":
+            self.scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+                self.optimizer,
+                mode="max",                  # maximise avg_f1_macro
+                factor=cfg.plateau_factor,
+                patience=cfg.plateau_patience,
+                min_lr=cfg.plateau_min_lr,
+                verbose=False,
+            )
+            self._plateau_scheduler = True
+        else:
+            # Default: cosine warmup (recommended for training from scratch)
+            self.scheduler = CosineWarmupScheduler(
+                self.optimizer,
+                warmup_epochs=cfg.warmup_epochs,
+                max_epochs=cfg.epochs,
+                min_lr=cfg.min_lr,
+            )
+            self._plateau_scheduler = False
 
         # ── AMP ───────────────────────────────────────────────────────────
         self.scaler = GradScaler(
@@ -344,12 +369,17 @@ class Trainer:
             t0 = time.time()
 
             train_out = self._run_epoch("train")
-            self.scheduler.step()
             val_out   = self._run_epoch("val")
 
             elapsed   = time.time() - t0
             val_m     = val_out["metrics"]
             avg_f1    = val_m.get("avg_f1_macro", val_m.get("f1_macro", 0.0))
+
+            # ── Scheduler step ────────────────────────────────────────────
+            if self._plateau_scheduler:
+                self.scheduler.step(avg_f1)  # ReduceLROnPlateau needs metric
+            else:
+                self.scheduler.step()        # CosineWarmup steps by epoch count
 
             # ── Console ───────────────────────────────────────────────────
             self.log(

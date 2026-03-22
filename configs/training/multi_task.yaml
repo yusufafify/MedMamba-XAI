@@ -1,10 +1,28 @@
+# =============================================================================
+# Multi-task training configuration
+# =============================================================================
+# Only overrides training.* keys from default.yaml.
+# project.* keys (batch_size, num_workers) live exclusively in default.yaml.
+#
+# Key differences from single_task:
+#   - Lower LR (5e-5) for stability across 4 datasets
+#   - Longer warmup (15 epochs) — more tasks to stabilise
+#   - More patience (20 epochs) — multi-task convergence is slower
+#   - ReduceLROnPlateau as fallback scheduler option
+# =============================================================================
 training:
   mode: multi_task
   epochs: 100
   lr: 5.0e-5
+  min_lr: 1.0e-7
+  weight_decay: 0.05
   warmup_epochs: 15
+  grad_clip: 1.0
   label_smoothing: 0.1
   mixed_precision: true
+  scheduler: cosine_warmup
+  plateau_factor: 0.5
+  plateau_patience: 10
+  plateau_min_lr: 1.0e-7
   early_stopping_patience: 20
-project:
-  batch_size: 32
+  save_best_metric: avg_f1_macro
