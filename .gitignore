@@ -1,6 +1,5 @@
 # ─── Project Outputs ───────────────────────────────────────────────
 outputs/
-data/
 *.npz
 *.pt
 *.pth
