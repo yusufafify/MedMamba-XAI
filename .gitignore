@@ -45,6 +45,7 @@ events.out.tfevents.*
 *.log
 *.bak
 *.tmp
+logs/
 
 # ─── Dataset ─────────────────────────────────────────────────────────
 bloodmnist_dataset

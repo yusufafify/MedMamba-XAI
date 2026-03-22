@@ -7,4 +7,4 @@ training:
   mixed_precision: true
   early_stopping_patience: 15
 project:
-  batch_size: 32
+  batch_size: 64

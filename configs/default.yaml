@@ -1,10 +1,10 @@
 project:
   name: MedMamba-XAI
   seed: 42
-  device: cuda
+  device: cuda:0
   output_dir: runs/medical_mamba
-  batch_size: 32
-  num_workers: 0   # 0 on Windows, 4+ on Linux/Colab
+  batch_size: 64
+  num_workers: 8  # 0 on Windows, 4+ on Linux/Colab
 
 data:
   dataset: pathmnist
