@@ -68,8 +68,9 @@ def evaluate(
     all_labels = []
 
     with torch.no_grad():
-        for images, labels in tqdm(loader, desc="Evaluating"):
-            images = images.to(device, non_blocking=True)
+        for batch in tqdm(loader, desc="Evaluating"):
+            images = batch["image"].to(device, non_blocking=True)
+            labels = batch["label"]
             logits, _ = model(images)
             preds = logits.argmax(dim=1).cpu().numpy()
             all_preds.extend(preds)

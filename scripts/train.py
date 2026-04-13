@@ -66,6 +66,7 @@ from medical_mamba.data.dataset import build_dataloaders
 from medical_mamba.data.transforms import build_transforms_map
 from medical_mamba.models.medical_vmamba import build_model
 from medical_mamba.models.resnet_baseline import ResNetBaseline
+from medical_mamba.models.vit_baseline import ViTBaseline
 from medical_mamba.data.constants import DATASET_META
 from medical_mamba.training.trainer import Trainer, TrainConfig
 from medical_mamba.utils.seed import set_seed
@@ -236,6 +237,14 @@ def main() -> None:
         print(f"[model] Building ResNet50 baseline (pretrained={model.get('pretrained', True)})")
         built_model = ResNetBaseline(
             task_configs=task_configs,
+            pretrained=model.get("pretrained", True),
+            head_dropout=model.get("head_dropout", 0.1),
+        )
+    elif model_type == "vit":
+        print(f"[model] Building ViT baseline (size={cfg_obj.model_size}, pretrained={model.get('pretrained', True)})")
+        built_model = ViTBaseline(
+            task_configs=task_configs,
+            model_size=cfg_obj.model_size,
             pretrained=model.get("pretrained", True),
             head_dropout=model.get("head_dropout", 0.1),
         )

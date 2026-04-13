@@ -1,0 +1,5 @@
+model:
+  type: vit
+  size: tiny
+  pretrained: true
+  head_dropout: 0.1
