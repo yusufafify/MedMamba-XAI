@@ -1,0 +1,504 @@
+2026-03-22 02:06:45,636 [INFO] Building VMamba-tiny | patch=4
+2026-03-22 02:06:46,331 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 02:06:46,333 [INFO] ================================================================
+2026-03-22 02:06:46,333 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda | AMP=True
+2026-03-22 02:06:46,333 [INFO] ================================================================
+2026-03-22 02:09:38,238 [INFO] Building VMamba-tiny | patch=4
+2026-03-22 02:09:38,918 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 02:09:38,920 [INFO] ================================================================
+2026-03-22 02:09:38,920 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda:0 | AMP=True
+2026-03-22 02:09:38,920 [INFO] ================================================================
+2026-03-22 02:12:08,473 [INFO] Building VMamba-tiny | patch=4
+2026-03-22 02:12:09,167 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 02:12:09,169 [INFO] ================================================================
+2026-03-22 02:12:09,169 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda:0 | AMP=True
+2026-03-22 02:12:09,170 [INFO] ================================================================
+2026-03-22 02:13:54,154 [INFO] Building VMamba-tiny | patch=4
+2026-03-22 02:13:54,841 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 02:13:54,843 [INFO] ================================================================
+2026-03-22 02:13:54,843 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda:0 | AMP=True
+2026-03-22 02:13:54,843 [INFO] ================================================================
+2026-03-22 02:14:54,272 [INFO] Building VMamba-tiny | patch=4
+2026-03-22 02:14:54,945 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 02:14:54,948 [INFO] ================================================================
+2026-03-22 02:14:54,948 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda:0 | AMP=True
+2026-03-22 02:14:54,948 [INFO] ================================================================
+2026-03-22 02:22:14,004 [INFO] Building VMamba-tiny | patch=8
+2026-03-22 02:22:14,689 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 02:22:14,695 [INFO] ================================================================
+2026-03-22 02:22:14,695 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda:0 | AMP=True
+2026-03-22 02:22:14,695 [INFO] ================================================================
+2026-03-22 02:26:00,872 [INFO] Ep 001/100 | train_loss=1.5107 | val_loss=1.2592 | avg_f1=0.6403 | lr=2.00e-05 | 226s
+2026-03-22 02:26:00,872 [INFO]   [pathmnist] acc=0.6360 f1=0.6403
+2026-03-22 02:26:00,872 [INFO]   [sigma] pathmnist: 1.0012
+2026-03-22 02:26:00,874 [INFO]   >> New best avg_f1=0.6403
+2026-03-22 02:29:46,552 [INFO] Ep 002/100 | train_loss=1.3136 | val_loss=1.1393 | avg_f1=0.6913 | lr=3.00e-05 | 225s
+2026-03-22 02:29:46,552 [INFO]   [pathmnist] acc=0.6929 f1=0.6913
+2026-03-22 02:29:46,552 [INFO]   [sigma] pathmnist: 1.0034
+2026-03-22 02:29:46,553 [INFO]   >> New best avg_f1=0.6913
+2026-03-22 02:40:06,182 [INFO] Building VMamba-tiny | patch=8
+2026-03-22 02:40:06,874 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 02:40:06,877 [INFO] ================================================================
+2026-03-22 02:40:06,877 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda:0 | AMP=True
+2026-03-22 02:40:06,877 [INFO] ================================================================
+2026-03-22 02:43:56,371 [INFO] Building VMamba-tiny | patch=8
+2026-03-22 02:43:57,059 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 02:43:57,061 [INFO] ================================================================
+2026-03-22 02:43:57,061 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda:0 | AMP=True
+2026-03-22 02:43:57,061 [INFO] ================================================================
+2026-03-22 02:45:01,767 [INFO] Building VMamba-tiny | patch=8
+2026-03-22 02:45:02,453 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 02:45:02,455 [INFO] ================================================================
+2026-03-22 02:45:02,455 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda:0 | AMP=True
+2026-03-22 02:45:02,455 [INFO] ================================================================
+2026-03-22 02:48:19,181 [INFO] Building VMamba-tiny | patch=16
+2026-03-22 02:48:19,870 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 02:48:19,873 [INFO] ================================================================
+2026-03-22 02:48:19,873 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda:0 | AMP=True
+2026-03-22 02:48:19,873 [INFO] ================================================================
+2026-03-22 02:49:38,430 [INFO] Ep 001/100 | train_loss=1.6704 | val_loss=1.3984 | avg_f1=0.5532 | lr=2.00e-05 | 79s
+2026-03-22 02:49:38,431 [INFO]   [pathmnist] acc=0.5682 f1=0.5532
+2026-03-22 02:49:38,431 [INFO]   [sigma] pathmnist: 1.0003
+2026-03-22 02:49:38,433 [INFO]   >> New best avg_f1=0.5532
+2026-03-22 02:50:54,795 [INFO] Ep 002/100 | train_loss=1.4956 | val_loss=1.3125 | avg_f1=0.5937 | lr=3.00e-05 | 75s
+2026-03-22 02:50:54,795 [INFO]   [pathmnist] acc=0.6037 f1=0.5937
+2026-03-22 02:50:54,795 [INFO]   [sigma] pathmnist: 1.0010
+2026-03-22 02:50:54,796 [INFO]   >> New best avg_f1=0.5937
+2026-03-22 02:52:12,252 [INFO] Ep 003/100 | train_loss=1.3863 | val_loss=1.2379 | avg_f1=0.6409 | lr=4.00e-05 | 76s
+2026-03-22 02:52:12,252 [INFO]   [pathmnist] acc=0.6382 f1=0.6409
+2026-03-22 02:52:12,252 [INFO]   [sigma] pathmnist: 1.0017
+2026-03-22 02:52:12,253 [INFO]   >> New best avg_f1=0.6409
+2026-03-22 02:52:51,402 [INFO] Building VMamba-tiny | patch=16
+2026-03-22 02:52:52,085 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 02:52:52,088 [INFO] ================================================================
+2026-03-22 02:52:52,088 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda:0 | AMP=True
+2026-03-22 02:52:52,088 [INFO] ================================================================
+2026-03-22 02:54:11,962 [INFO] Ep 001/100 | train_loss=1.6131 | val_loss=1.3472 | avg_f1=0.5872 | lr=4.00e-05 | 80s
+2026-03-22 02:54:11,963 [INFO]   [pathmnist] acc=0.5930 f1=0.5872
+2026-03-22 02:54:11,963 [INFO]   [sigma] pathmnist: 1.0007
+2026-03-22 02:54:11,972 [INFO]   >> New best avg_f1=0.5872
+2026-03-22 02:55:29,171 [INFO] Ep 002/100 | train_loss=1.4263 | val_loss=1.2778 | avg_f1=0.6097 | lr=6.00e-05 | 76s
+2026-03-22 02:55:29,171 [INFO]   [pathmnist] acc=0.6156 f1=0.6097
+2026-03-22 02:55:29,171 [INFO]   [sigma] pathmnist: 1.0018
+2026-03-22 02:55:29,172 [INFO]   >> New best avg_f1=0.6097
+2026-03-22 02:56:46,515 [INFO] Ep 003/100 | train_loss=1.3164 | val_loss=1.1590 | avg_f1=0.6919 | lr=8.00e-05 | 76s
+2026-03-22 02:56:46,515 [INFO]   [pathmnist] acc=0.6939 f1=0.6919
+2026-03-22 02:56:46,515 [INFO]   [sigma] pathmnist: 1.0033
+2026-03-22 02:56:46,516 [INFO]   >> New best avg_f1=0.6919
+2026-03-22 02:58:03,285 [INFO] Ep 004/100 | train_loss=1.2436 | val_loss=1.1187 | avg_f1=0.7001 | lr=1.00e-04 | 76s
+2026-03-22 02:58:03,285 [INFO]   [pathmnist] acc=0.7041 f1=0.7001
+2026-03-22 02:58:03,285 [INFO]   [sigma] pathmnist: 1.0050
+2026-03-22 02:58:03,286 [INFO]   >> New best avg_f1=0.7001
+2026-03-22 02:59:20,919 [INFO] Ep 005/100 | train_loss=1.1569 | val_loss=1.0281 | avg_f1=0.7443 | lr=1.20e-04 | 76s
+2026-03-22 02:59:20,920 [INFO]   [pathmnist] acc=0.7494 f1=0.7443
+2026-03-22 02:59:20,920 [INFO]   [sigma] pathmnist: 1.0072
+2026-03-22 02:59:20,921 [INFO]   >> New best avg_f1=0.7443
+2026-03-22 03:00:37,995 [INFO] Ep 006/100 | train_loss=1.1000 | val_loss=0.9288 | avg_f1=0.7914 | lr=1.40e-04 | 76s
+2026-03-22 03:00:37,995 [INFO]   [pathmnist] acc=0.7975 f1=0.7914
+2026-03-22 03:00:37,996 [INFO]   [sigma] pathmnist: 1.0098
+2026-03-22 03:00:37,996 [INFO]   >> New best avg_f1=0.7914
+2026-03-22 03:03:10,710 [INFO] Building VMamba-tiny | patch=16
+2026-03-22 03:03:11,398 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 03:03:11,405 [INFO] ================================================================
+2026-03-22 03:03:11,405 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda:0 | AMP=True
+2026-03-22 03:03:11,405 [INFO] ================================================================
+2026-03-22 03:04:30,801 [INFO] Ep 001/100 | train_loss=1.6131 | val_loss=1.3472 | avg_f1=0.5872 | lr=4.00e-05 | 79s
+2026-03-22 03:04:30,801 [INFO]   [pathmnist] acc=0.5930 f1=0.5872
+2026-03-22 03:04:30,802 [INFO]   [sigma] pathmnist: 1.0007
+2026-03-22 03:04:30,804 [INFO]   >> New best avg_f1=0.5872
+2026-03-22 03:05:47,463 [INFO] Ep 002/100 | train_loss=1.4263 | val_loss=1.2778 | avg_f1=0.6097 | lr=6.00e-05 | 75s
+2026-03-22 03:05:47,463 [INFO]   [pathmnist] acc=0.6156 f1=0.6097
+2026-03-22 03:05:47,464 [INFO]   [sigma] pathmnist: 1.0018
+2026-03-22 03:05:47,464 [INFO]   >> New best avg_f1=0.6097
+2026-03-22 03:07:04,491 [INFO] Ep 003/100 | train_loss=1.3164 | val_loss=1.1590 | avg_f1=0.6919 | lr=8.00e-05 | 76s
+2026-03-22 03:07:04,491 [INFO]   [pathmnist] acc=0.6939 f1=0.6919
+2026-03-22 03:07:04,491 [INFO]   [sigma] pathmnist: 1.0033
+2026-03-22 03:07:04,491 [INFO]   >> New best avg_f1=0.6919
+2026-03-22 03:08:21,659 [INFO] Ep 004/100 | train_loss=1.2436 | val_loss=1.1187 | avg_f1=0.7001 | lr=1.00e-04 | 76s
+2026-03-22 03:08:21,659 [INFO]   [pathmnist] acc=0.7041 f1=0.7001
+2026-03-22 03:08:21,659 [INFO]   [sigma] pathmnist: 1.0050
+2026-03-22 03:08:21,660 [INFO]   >> New best avg_f1=0.7001
+2026-03-22 03:12:59,329 [INFO] Building VMamba-tiny | patch=16
+2026-03-22 03:13:00,010 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 03:13:00,013 [INFO] ================================================================
+2026-03-22 03:13:00,013 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda:0 | AMP=True
+2026-03-22 03:13:00,013 [INFO] ================================================================
+2026-03-22 03:14:18,215 [INFO] Ep 001/100 | train_loss=1.6131 | val_loss=1.3472 | avg_f1=0.5872 | lr=4.00e-05 | 78s
+2026-03-22 03:14:18,215 [INFO]   [pathmnist] acc=0.5930 f1=0.5872
+2026-03-22 03:14:18,216 [INFO]   [sigma] pathmnist: 1.0007
+2026-03-22 03:14:18,218 [INFO]   >> New best avg_f1=0.5872
+2026-03-22 03:15:14,361 [INFO] Building VMamba-tiny | patch=16
+2026-03-22 03:15:15,044 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 03:15:15,047 [INFO] ================================================================
+2026-03-22 03:15:15,047 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda:0 | AMP=True
+2026-03-22 03:15:15,047 [INFO] ================================================================
+2026-03-22 03:16:02,207 [INFO] Building VMamba-tiny | patch=16
+2026-03-22 03:16:02,915 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 03:16:02,917 [INFO] ================================================================
+2026-03-22 03:16:02,917 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda:0 | AMP=True
+2026-03-22 03:16:02,917 [INFO] ================================================================
+2026-03-22 03:17:08,413 [INFO] Building VMamba-tiny | patch=16
+2026-03-22 03:17:09,096 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 03:17:09,098 [INFO] ================================================================
+2026-03-22 03:17:09,098 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda:0 | AMP=True
+2026-03-22 03:17:09,098 [INFO] ================================================================
+2026-03-22 03:18:28,241 [INFO] Ep 001/100 | train_loss=1.6131 | val_loss=1.3472 | avg_f1=0.5872 | lr=4.00e-05 | 79s
+2026-03-22 03:18:28,241 [INFO]   [pathmnist] acc=0.5930 f1=0.5872
+2026-03-22 03:18:28,242 [INFO]   [sigma] pathmnist: 1.0007
+2026-03-22 03:18:28,244 [INFO]   >> New best avg_f1=0.5872
+2026-03-22 03:25:44,078 [INFO] Building VMamba-tiny | patch=16
+2026-03-22 03:25:44,771 [INFO] Parameters: 49.5M | Tasks: ['pathmnist']
+2026-03-22 03:25:44,774 [INFO] ================================================================
+2026-03-22 03:25:44,774 [INFO] MedicalVMamba-tiny | tasks=['pathmnist'] | device=cuda:0 | AMP=True
+2026-03-22 03:25:44,774 [INFO] ================================================================
+2026-03-22 03:27:02,841 [INFO] Ep 001/100 | train_loss=1.6131 | val_loss=1.3472 | avg_f1=0.5872 | lr=4.00e-05 | 78s
+2026-03-22 03:27:02,841 [INFO]   [pathmnist] acc=0.5930 f1=0.5872
+2026-03-22 03:27:02,841 [INFO]   [sigma] pathmnist: 1.0007
+2026-03-22 03:27:02,843 [INFO]   >> New best avg_f1=0.5872
+2026-03-22 03:28:19,339 [INFO] Ep 002/100 | train_loss=1.4263 | val_loss=1.2778 | avg_f1=0.6097 | lr=6.00e-05 | 75s
+2026-03-22 03:28:19,339 [INFO]   [pathmnist] acc=0.6156 f1=0.6097
+2026-03-22 03:28:19,340 [INFO]   [sigma] pathmnist: 1.0018
+2026-03-22 03:28:19,340 [INFO]   >> New best avg_f1=0.6097
+2026-03-22 03:29:35,760 [INFO] Ep 003/100 | train_loss=1.3164 | val_loss=1.1590 | avg_f1=0.6919 | lr=8.00e-05 | 75s
+2026-03-22 03:29:35,760 [INFO]   [pathmnist] acc=0.6939 f1=0.6919
+2026-03-22 03:29:35,760 [INFO]   [sigma] pathmnist: 1.0033
+2026-03-22 03:29:35,761 [INFO]   >> New best avg_f1=0.6919
+2026-03-22 03:30:53,063 [INFO] Ep 004/100 | train_loss=1.2436 | val_loss=1.1187 | avg_f1=0.7001 | lr=1.00e-04 | 76s
+2026-03-22 03:30:53,064 [INFO]   [pathmnist] acc=0.7041 f1=0.7001
+2026-03-22 03:30:53,064 [INFO]   [sigma] pathmnist: 1.0050
+2026-03-22 03:30:53,064 [INFO]   >> New best avg_f1=0.7001
+2026-03-22 03:32:10,266 [INFO] Ep 005/100 | train_loss=1.1569 | val_loss=1.0281 | avg_f1=0.7443 | lr=1.20e-04 | 76s
+2026-03-22 03:32:10,266 [INFO]   [pathmnist] acc=0.7494 f1=0.7443
+2026-03-22 03:32:10,267 [INFO]   [sigma] pathmnist: 1.0072
+2026-03-22 03:32:10,267 [INFO]   >> New best avg_f1=0.7443
+2026-03-22 03:33:27,673 [INFO] Ep 006/100 | train_loss=1.1000 | val_loss=0.9288 | avg_f1=0.7914 | lr=1.40e-04 | 76s
+2026-03-22 03:33:27,673 [INFO]   [pathmnist] acc=0.7975 f1=0.7914
+2026-03-22 03:33:27,673 [INFO]   [sigma] pathmnist: 1.0098
+2026-03-22 03:33:27,674 [INFO]   >> New best avg_f1=0.7914
+2026-03-22 03:34:44,895 [INFO] Ep 007/100 | train_loss=1.0323 | val_loss=0.9149 | avg_f1=0.7929 | lr=1.60e-04 | 76s
+2026-03-22 03:34:44,895 [INFO]   [pathmnist] acc=0.7965 f1=0.7929
+2026-03-22 03:34:44,895 [INFO]   [sigma] pathmnist: 1.0130
+2026-03-22 03:34:44,896 [INFO]   >> New best avg_f1=0.7929
+2026-03-22 03:36:01,285 [INFO] Ep 008/100 | train_loss=0.9733 | val_loss=0.8561 | avg_f1=0.8257 | lr=1.80e-04 | 75s
+2026-03-22 03:36:01,285 [INFO]   [pathmnist] acc=0.8273 f1=0.8257
+2026-03-22 03:36:01,285 [INFO]   [sigma] pathmnist: 1.0168
+2026-03-22 03:36:01,286 [INFO]   >> New best avg_f1=0.8257
+2026-03-22 03:37:18,283 [INFO] Ep 009/100 | train_loss=0.9405 | val_loss=0.8318 | avg_f1=0.8390 | lr=2.00e-04 | 76s
+2026-03-22 03:37:18,283 [INFO]   [pathmnist] acc=0.8413 f1=0.8390
+2026-03-22 03:37:18,283 [INFO]   [sigma] pathmnist: 1.0213
+2026-03-22 03:37:18,284 [INFO]   >> New best avg_f1=0.8390
+2026-03-22 03:38:35,489 [INFO] Ep 010/100 | train_loss=0.8957 | val_loss=0.8666 | avg_f1=0.8142 | lr=2.20e-04 | 76s
+2026-03-22 03:38:35,489 [INFO]   [pathmnist] acc=0.8138 f1=0.8142
+2026-03-22 03:38:35,489 [INFO]   [sigma] pathmnist: 1.0269
+2026-03-22 03:39:52,141 [INFO] Ep 011/100 | train_loss=0.8706 | val_loss=0.7710 | avg_f1=0.8667 | lr=2.40e-04 | 76s
+2026-03-22 03:39:52,141 [INFO]   [pathmnist] acc=0.8682 f1=0.8667
+2026-03-22 03:39:52,141 [INFO]   [sigma] pathmnist: 1.0333
+2026-03-22 03:39:52,142 [INFO]   >> New best avg_f1=0.8667
+2026-03-22 03:41:09,972 [INFO] Ep 012/100 | train_loss=0.8334 | val_loss=0.7281 | avg_f1=0.8836 | lr=2.60e-04 | 77s
+2026-03-22 03:41:09,972 [INFO]   [pathmnist] acc=0.8844 f1=0.8836
+2026-03-22 03:41:09,972 [INFO]   [sigma] pathmnist: 1.0410
+2026-03-22 03:41:09,972 [INFO]   >> New best avg_f1=0.8836
+2026-03-22 03:42:28,124 [INFO] Ep 013/100 | train_loss=0.8082 | val_loss=0.7165 | avg_f1=0.8872 | lr=2.80e-04 | 77s
+2026-03-22 03:42:28,125 [INFO]   [pathmnist] acc=0.8864 f1=0.8872
+2026-03-22 03:42:28,125 [INFO]   [sigma] pathmnist: 1.0490
+2026-03-22 03:42:28,125 [INFO]   >> New best avg_f1=0.8872
+2026-03-22 03:43:45,492 [INFO] Ep 014/100 | train_loss=0.7919 | val_loss=0.7238 | avg_f1=0.8719 | lr=3.00e-04 | 76s
+2026-03-22 03:43:45,492 [INFO]   [pathmnist] acc=0.8776 f1=0.8719
+2026-03-22 03:43:45,492 [INFO]   [sigma] pathmnist: 1.0586
+2026-03-22 03:45:01,991 [INFO] Ep 015/100 | train_loss=0.7657 | val_loss=0.6756 | avg_f1=0.9091 | lr=3.00e-04 | 76s
+2026-03-22 03:45:01,991 [INFO]   [pathmnist] acc=0.9097 f1=0.9091
+2026-03-22 03:45:01,991 [INFO]   [sigma] pathmnist: 1.0684
+2026-03-22 03:45:01,991 [INFO]   >> New best avg_f1=0.9091
+2026-03-22 03:46:19,592 [INFO] Ep 016/100 | train_loss=0.7415 | val_loss=0.6528 | avg_f1=0.9202 | lr=3.00e-04 | 76s
+2026-03-22 03:46:19,592 [INFO]   [pathmnist] acc=0.9197 f1=0.9202
+2026-03-22 03:46:19,592 [INFO]   [sigma] pathmnist: 1.0780
+2026-03-22 03:46:19,592 [INFO]   >> New best avg_f1=0.9202
+2026-03-22 03:47:36,503 [INFO] Ep 017/100 | train_loss=0.7212 | val_loss=0.6488 | avg_f1=0.9205 | lr=3.00e-04 | 76s
+2026-03-22 03:47:36,503 [INFO]   [pathmnist] acc=0.9206 f1=0.9205
+2026-03-22 03:47:36,503 [INFO]   [sigma] pathmnist: 1.0873
+2026-03-22 03:47:36,504 [INFO]   >> New best avg_f1=0.9205
+2026-03-22 03:48:54,414 [INFO] Ep 018/100 | train_loss=0.7045 | val_loss=0.6503 | avg_f1=0.9161 | lr=2.99e-04 | 77s
+2026-03-22 03:48:54,414 [INFO]   [pathmnist] acc=0.9164 f1=0.9161
+2026-03-22 03:48:54,414 [INFO]   [sigma] pathmnist: 1.0965
+2026-03-22 03:50:11,455 [INFO] Ep 019/100 | train_loss=0.6869 | val_loss=0.6551 | avg_f1=0.9158 | lr=2.98e-04 | 76s
+2026-03-22 03:50:11,455 [INFO]   [pathmnist] acc=0.9164 f1=0.9158
+2026-03-22 03:50:11,455 [INFO]   [sigma] pathmnist: 1.1047
+2026-03-22 03:51:28,276 [INFO] Ep 020/100 | train_loss=0.6701 | val_loss=0.6356 | avg_f1=0.9242 | lr=2.97e-04 | 76s
+2026-03-22 03:51:28,276 [INFO]   [pathmnist] acc=0.9249 f1=0.9242
+2026-03-22 03:51:28,276 [INFO]   [sigma] pathmnist: 1.1118
+2026-03-22 03:51:28,277 [INFO]   >> New best avg_f1=0.9242
+2026-03-22 03:52:46,403 [INFO] Ep 021/100 | train_loss=0.6621 | val_loss=0.6275 | avg_f1=0.9318 | lr=2.96e-04 | 77s
+2026-03-22 03:52:46,404 [INFO]   [pathmnist] acc=0.9321 f1=0.9318
+2026-03-22 03:52:46,404 [INFO]   [sigma] pathmnist: 1.1182
+2026-03-22 03:52:46,404 [INFO]   >> New best avg_f1=0.9318
+2026-03-22 03:54:04,027 [INFO] Ep 022/100 | train_loss=0.6527 | val_loss=0.6092 | avg_f1=0.9420 | lr=2.95e-04 | 76s
+2026-03-22 03:54:04,027 [INFO]   [pathmnist] acc=0.9428 f1=0.9420
+2026-03-22 03:54:04,027 [INFO]   [sigma] pathmnist: 1.1234
+2026-03-22 03:54:04,027 [INFO]   >> New best avg_f1=0.9420
+2026-03-22 03:55:21,834 [INFO] Ep 023/100 | train_loss=0.6415 | val_loss=0.5987 | avg_f1=0.9471 | lr=2.94e-04 | 77s
+2026-03-22 03:55:21,835 [INFO]   [pathmnist] acc=0.9475 f1=0.9471
+2026-03-22 03:55:21,835 [INFO]   [sigma] pathmnist: 1.1271
+2026-03-22 03:55:21,835 [INFO]   >> New best avg_f1=0.9471
+2026-03-22 03:56:39,822 [INFO] Ep 024/100 | train_loss=0.6341 | val_loss=0.5859 | avg_f1=0.9543 | lr=2.92e-04 | 77s
+2026-03-22 03:56:39,822 [INFO]   [pathmnist] acc=0.9538 f1=0.9543
+2026-03-22 03:56:39,823 [INFO]   [sigma] pathmnist: 1.1294
+2026-03-22 03:56:39,823 [INFO]   >> New best avg_f1=0.9543
+2026-03-22 03:57:57,497 [INFO] Ep 025/100 | train_loss=0.6259 | val_loss=0.5902 | avg_f1=0.9535 | lr=2.90e-04 | 76s
+2026-03-22 03:57:57,497 [INFO]   [pathmnist] acc=0.9535 f1=0.9535
+2026-03-22 03:57:57,497 [INFO]   [sigma] pathmnist: 1.1299
+2026-03-22 03:59:14,756 [INFO] Ep 026/100 | train_loss=0.6176 | val_loss=0.5720 | avg_f1=0.9635 | lr=2.88e-04 | 77s
+2026-03-22 03:59:14,756 [INFO]   [pathmnist] acc=0.9633 f1=0.9635
+2026-03-22 03:59:14,756 [INFO]   [sigma] pathmnist: 1.1282
+2026-03-22 03:59:14,756 [INFO]   >> New best avg_f1=0.9635
+2026-03-22 04:00:32,695 [INFO] Ep 027/100 | train_loss=0.6118 | val_loss=0.5725 | avg_f1=0.9646 | lr=2.86e-04 | 77s
+2026-03-22 04:00:32,695 [INFO]   [pathmnist] acc=0.9646 f1=0.9646
+2026-03-22 04:00:32,695 [INFO]   [sigma] pathmnist: 1.1249
+2026-03-22 04:00:32,696 [INFO]   >> New best avg_f1=0.9646
+2026-03-22 04:01:50,335 [INFO] Ep 028/100 | train_loss=0.6078 | val_loss=0.5830 | avg_f1=0.9566 | lr=2.83e-04 | 76s
+2026-03-22 04:01:50,336 [INFO]   [pathmnist] acc=0.9566 f1=0.9566
+2026-03-22 04:01:50,336 [INFO]   [sigma] pathmnist: 1.1211
+2026-03-22 04:03:08,074 [INFO] Ep 029/100 | train_loss=0.6050 | val_loss=0.5722 | avg_f1=0.9606 | lr=2.80e-04 | 77s
+2026-03-22 04:03:08,074 [INFO]   [pathmnist] acc=0.9611 f1=0.9606
+2026-03-22 04:03:08,074 [INFO]   [sigma] pathmnist: 1.1172
+2026-03-22 04:04:25,329 [INFO] Ep 030/100 | train_loss=0.5991 | val_loss=0.5670 | avg_f1=0.9614 | lr=2.78e-04 | 77s
+2026-03-22 04:04:25,329 [INFO]   [pathmnist] acc=0.9618 f1=0.9614
+2026-03-22 04:04:25,329 [INFO]   [sigma] pathmnist: 1.1127
+2026-03-22 04:05:42,839 [INFO] Ep 031/100 | train_loss=0.5933 | val_loss=0.5696 | avg_f1=0.9643 | lr=2.75e-04 | 77s
+2026-03-22 04:05:42,840 [INFO]   [pathmnist] acc=0.9645 f1=0.9643
+2026-03-22 04:05:42,840 [INFO]   [sigma] pathmnist: 1.1077
+2026-03-22 04:07:00,623 [INFO] Ep 032/100 | train_loss=0.5915 | val_loss=0.5550 | avg_f1=0.9688 | lr=2.71e-04 | 77s
+2026-03-22 04:07:00,623 [INFO]   [pathmnist] acc=0.9689 f1=0.9688
+2026-03-22 04:07:00,623 [INFO]   [sigma] pathmnist: 1.1035
+2026-03-22 04:07:00,624 [INFO]   >> New best avg_f1=0.9688
+2026-03-22 04:08:18,319 [INFO] Ep 033/100 | train_loss=0.5867 | val_loss=0.5980 | avg_f1=0.9451 | lr=2.68e-04 | 76s
+2026-03-22 04:08:18,319 [INFO]   [pathmnist] acc=0.9451 f1=0.9451
+2026-03-22 04:08:18,319 [INFO]   [sigma] pathmnist: 1.0990
+2026-03-22 04:09:35,383 [INFO] Ep 034/100 | train_loss=0.5831 | val_loss=0.5540 | avg_f1=0.9691 | lr=2.65e-04 | 76s
+2026-03-22 04:09:35,383 [INFO]   [pathmnist] acc=0.9689 f1=0.9691
+2026-03-22 04:09:35,383 [INFO]   [sigma] pathmnist: 1.0946
+2026-03-22 04:09:35,384 [INFO]   >> New best avg_f1=0.9691
+2026-03-22 04:10:53,568 [INFO] Ep 035/100 | train_loss=0.5796 | val_loss=0.5685 | avg_f1=0.9627 | lr=2.61e-04 | 77s
+2026-03-22 04:10:53,569 [INFO]   [pathmnist] acc=0.9630 f1=0.9627
+2026-03-22 04:10:53,569 [INFO]   [sigma] pathmnist: 1.0906
+2026-03-22 04:12:10,785 [INFO] Ep 036/100 | train_loss=0.5765 | val_loss=0.5569 | avg_f1=0.9680 | lr=2.57e-04 | 77s
+2026-03-22 04:12:10,785 [INFO]   [pathmnist] acc=0.9681 f1=0.9680
+2026-03-22 04:12:10,785 [INFO]   [sigma] pathmnist: 1.0865
+2026-03-22 04:13:27,901 [INFO] Ep 037/100 | train_loss=0.5741 | val_loss=0.5501 | avg_f1=0.9710 | lr=2.53e-04 | 76s
+2026-03-22 04:13:27,901 [INFO]   [pathmnist] acc=0.9712 f1=0.9710
+2026-03-22 04:13:27,901 [INFO]   [sigma] pathmnist: 1.0829
+2026-03-22 04:13:27,902 [INFO]   >> New best avg_f1=0.9710
+2026-03-22 04:14:46,109 [INFO] Ep 038/100 | train_loss=0.5739 | val_loss=0.5454 | avg_f1=0.9742 | lr=2.49e-04 | 77s
+2026-03-22 04:14:46,109 [INFO]   [pathmnist] acc=0.9745 f1=0.9742
+2026-03-22 04:14:46,109 [INFO]   [sigma] pathmnist: 1.0805
+2026-03-22 04:14:46,109 [INFO]   >> New best avg_f1=0.9742
+2026-03-22 04:16:04,108 [INFO] Ep 039/100 | train_loss=0.5677 | val_loss=0.5388 | avg_f1=0.9783 | lr=2.45e-04 | 77s
+2026-03-22 04:16:04,108 [INFO]   [pathmnist] acc=0.9785 f1=0.9783
+2026-03-22 04:16:04,108 [INFO]   [sigma] pathmnist: 1.0768
+2026-03-22 04:16:04,108 [INFO]   >> New best avg_f1=0.9783
+2026-03-22 04:17:22,277 [INFO] Ep 040/100 | train_loss=0.5667 | val_loss=0.5416 | avg_f1=0.9750 | lr=2.41e-04 | 77s
+2026-03-22 04:17:22,277 [INFO]   [pathmnist] acc=0.9751 f1=0.9750
+2026-03-22 04:17:22,278 [INFO]   [sigma] pathmnist: 1.0739
+2026-03-22 04:18:39,139 [INFO] Ep 041/100 | train_loss=0.5649 | val_loss=0.5405 | avg_f1=0.9760 | lr=2.36e-04 | 76s
+2026-03-22 04:18:39,139 [INFO]   [pathmnist] acc=0.9761 f1=0.9760
+2026-03-22 04:18:39,139 [INFO]   [sigma] pathmnist: 1.0712
+2026-03-22 04:19:56,580 [INFO] Ep 042/100 | train_loss=0.5604 | val_loss=0.5316 | avg_f1=0.9793 | lr=2.32e-04 | 77s
+2026-03-22 04:19:56,580 [INFO]   [pathmnist] acc=0.9794 f1=0.9793
+2026-03-22 04:19:56,580 [INFO]   [sigma] pathmnist: 1.0681
+2026-03-22 04:19:56,581 [INFO]   >> New best avg_f1=0.9793
+2026-03-22 04:21:14,610 [INFO] Ep 043/100 | train_loss=0.5588 | val_loss=0.5376 | avg_f1=0.9762 | lr=2.27e-04 | 77s
+2026-03-22 04:21:14,610 [INFO]   [pathmnist] acc=0.9761 f1=0.9762
+2026-03-22 04:21:14,610 [INFO]   [sigma] pathmnist: 1.0655
+2026-03-22 04:22:31,577 [INFO] Ep 044/100 | train_loss=0.5573 | val_loss=0.5401 | avg_f1=0.9769 | lr=2.22e-04 | 76s
+2026-03-22 04:22:31,577 [INFO]   [pathmnist] acc=0.9770 f1=0.9769
+2026-03-22 04:22:31,577 [INFO]   [sigma] pathmnist: 1.0631
+2026-03-22 04:23:48,644 [INFO] Ep 045/100 | train_loss=0.5556 | val_loss=0.5374 | avg_f1=0.9769 | lr=2.17e-04 | 76s
+2026-03-22 04:23:48,644 [INFO]   [pathmnist] acc=0.9771 f1=0.9769
+2026-03-22 04:23:48,644 [INFO]   [sigma] pathmnist: 1.0609
+2026-03-22 04:25:05,964 [INFO] Ep 046/100 | train_loss=0.5521 | val_loss=0.5557 | avg_f1=0.9698 | lr=2.12e-04 | 77s
+2026-03-22 04:25:05,964 [INFO]   [pathmnist] acc=0.9698 f1=0.9698
+2026-03-22 04:25:05,965 [INFO]   [sigma] pathmnist: 1.0583
+2026-03-22 04:26:23,020 [INFO] Ep 047/100 | train_loss=0.5495 | val_loss=0.5288 | avg_f1=0.9809 | lr=2.07e-04 | 76s
+2026-03-22 04:26:23,020 [INFO]   [pathmnist] acc=0.9810 f1=0.9809
+2026-03-22 04:26:23,020 [INFO]   [sigma] pathmnist: 1.0556
+2026-03-22 04:26:23,021 [INFO]   >> New best avg_f1=0.9809
+2026-03-22 04:27:40,977 [INFO] Ep 048/100 | train_loss=0.5489 | val_loss=0.5262 | avg_f1=0.9813 | lr=2.02e-04 | 77s
+2026-03-22 04:27:40,977 [INFO]   [pathmnist] acc=0.9813 f1=0.9813
+2026-03-22 04:27:40,977 [INFO]   [sigma] pathmnist: 1.0536
+2026-03-22 04:27:40,978 [INFO]   >> New best avg_f1=0.9813
+2026-03-22 04:28:59,340 [INFO] Ep 049/100 | train_loss=0.5474 | val_loss=0.5298 | avg_f1=0.9803 | lr=1.97e-04 | 77s
+2026-03-22 04:28:59,340 [INFO]   [pathmnist] acc=0.9803 f1=0.9803
+2026-03-22 04:28:59,340 [INFO]   [sigma] pathmnist: 1.0517
+2026-03-22 04:30:16,620 [INFO] Ep 050/100 | train_loss=0.5442 | val_loss=0.5296 | avg_f1=0.9785 | lr=1.91e-04 | 77s
+2026-03-22 04:30:16,620 [INFO]   [pathmnist] acc=0.9784 f1=0.9785
+2026-03-22 04:30:16,620 [INFO]   [sigma] pathmnist: 1.0496
+2026-03-22 04:31:33,560 [INFO] Ep 051/100 | train_loss=0.5428 | val_loss=0.5323 | avg_f1=0.9783 | lr=1.86e-04 | 76s
+2026-03-22 04:31:33,560 [INFO]   [pathmnist] acc=0.9784 f1=0.9783
+2026-03-22 04:31:33,560 [INFO]   [sigma] pathmnist: 1.0475
+2026-03-22 04:32:51,336 [INFO] Ep 052/100 | train_loss=0.5405 | val_loss=0.5230 | avg_f1=0.9857 | lr=1.81e-04 | 77s
+2026-03-22 04:32:51,336 [INFO]   [pathmnist] acc=0.9857 f1=0.9857
+2026-03-22 04:32:51,336 [INFO]   [sigma] pathmnist: 1.0455
+2026-03-22 04:32:51,336 [INFO]   >> New best avg_f1=0.9857
+2026-03-22 04:34:09,750 [INFO] Ep 053/100 | train_loss=0.5399 | val_loss=0.5190 | avg_f1=0.9857 | lr=1.75e-04 | 77s
+2026-03-22 04:34:09,751 [INFO]   [pathmnist] acc=0.9855 f1=0.9857
+2026-03-22 04:34:09,751 [INFO]   [sigma] pathmnist: 1.0439
+2026-03-22 04:35:27,024 [INFO] Ep 054/100 | train_loss=0.5392 | val_loss=0.5206 | avg_f1=0.9838 | lr=1.70e-04 | 77s
+2026-03-22 04:35:27,025 [INFO]   [pathmnist] acc=0.9838 f1=0.9838
+2026-03-22 04:35:27,025 [INFO]   [sigma] pathmnist: 1.0424
+2026-03-22 04:36:44,297 [INFO] Ep 055/100 | train_loss=0.5357 | val_loss=0.5192 | avg_f1=0.9842 | lr=1.64e-04 | 77s
+2026-03-22 04:36:44,297 [INFO]   [pathmnist] acc=0.9841 f1=0.9842
+2026-03-22 04:36:44,297 [INFO]   [sigma] pathmnist: 1.0406
+2026-03-22 04:38:01,704 [INFO] Ep 056/100 | train_loss=0.5354 | val_loss=0.5265 | avg_f1=0.9821 | lr=1.59e-04 | 77s
+2026-03-22 04:38:01,704 [INFO]   [pathmnist] acc=0.9823 f1=0.9821
+2026-03-22 04:38:01,704 [INFO]   [sigma] pathmnist: 1.0389
+2026-03-22 04:39:19,474 [INFO] Ep 057/100 | train_loss=0.5324 | val_loss=0.5212 | avg_f1=0.9843 | lr=1.53e-04 | 77s
+2026-03-22 04:39:19,474 [INFO]   [pathmnist] acc=0.9843 f1=0.9843
+2026-03-22 04:39:19,474 [INFO]   [sigma] pathmnist: 1.0370
+2026-03-22 04:40:37,709 [INFO] Ep 058/100 | train_loss=0.5312 | val_loss=0.5202 | avg_f1=0.9837 | lr=1.48e-04 | 78s
+2026-03-22 04:40:37,709 [INFO]   [pathmnist] acc=0.9838 f1=0.9837
+2026-03-22 04:40:37,709 [INFO]   [sigma] pathmnist: 1.0355
+2026-03-22 04:41:55,537 [INFO] Ep 059/100 | train_loss=0.5318 | val_loss=0.5246 | avg_f1=0.9829 | lr=1.42e-04 | 77s
+2026-03-22 04:41:55,537 [INFO]   [pathmnist] acc=0.9830 f1=0.9829
+2026-03-22 04:41:55,538 [INFO]   [sigma] pathmnist: 1.0345
+2026-03-22 04:43:12,423 [INFO] Ep 060/100 | train_loss=0.5312 | val_loss=0.5181 | avg_f1=0.9860 | lr=1.37e-04 | 76s
+2026-03-22 04:43:12,423 [INFO]   [pathmnist] acc=0.9860 f1=0.9860
+2026-03-22 04:43:12,423 [INFO]   [sigma] pathmnist: 1.0337
+2026-03-22 04:43:12,424 [INFO]   >> New best avg_f1=0.9860
+2026-03-22 04:44:30,179 [INFO] Ep 061/100 | train_loss=0.5277 | val_loss=0.5131 | avg_f1=0.9881 | lr=1.31e-04 | 76s
+2026-03-22 04:44:30,179 [INFO]   [pathmnist] acc=0.9881 f1=0.9881
+2026-03-22 04:44:30,179 [INFO]   [sigma] pathmnist: 1.0321
+2026-03-22 04:44:30,180 [INFO]   >> New best avg_f1=0.9881
+2026-03-22 04:45:47,850 [INFO] Ep 062/100 | train_loss=0.5260 | val_loss=0.5142 | avg_f1=0.9868 | lr=1.26e-04 | 76s
+2026-03-22 04:45:47,851 [INFO]   [pathmnist] acc=0.9868 f1=0.9868
+2026-03-22 04:45:47,851 [INFO]   [sigma] pathmnist: 1.0306
+2026-03-22 04:47:04,847 [INFO] Ep 063/100 | train_loss=0.5268 | val_loss=0.5154 | avg_f1=0.9865 | lr=1.20e-04 | 76s
+2026-03-22 04:47:04,847 [INFO]   [pathmnist] acc=0.9866 f1=0.9865
+2026-03-22 04:47:04,847 [INFO]   [sigma] pathmnist: 1.0296
+2026-03-22 04:48:21,717 [INFO] Ep 064/100 | train_loss=0.5233 | val_loss=0.5103 | avg_f1=0.9897 | lr=1.15e-04 | 76s
+2026-03-22 04:48:21,717 [INFO]   [pathmnist] acc=0.9896 f1=0.9897
+2026-03-22 04:48:21,717 [INFO]   [sigma] pathmnist: 1.0281
+2026-03-22 04:48:21,718 [INFO]   >> New best avg_f1=0.9897
+2026-03-22 04:49:39,226 [INFO] Ep 065/100 | train_loss=0.5229 | val_loss=0.5112 | avg_f1=0.9881 | lr=1.10e-04 | 76s
+2026-03-22 04:49:39,226 [INFO]   [pathmnist] acc=0.9882 f1=0.9881
+2026-03-22 04:49:39,226 [INFO]   [sigma] pathmnist: 1.0269
+2026-03-22 04:50:56,298 [INFO] Ep 066/100 | train_loss=0.5217 | val_loss=0.5174 | avg_f1=0.9843 | lr=1.04e-04 | 76s
+2026-03-22 04:50:56,298 [INFO]   [pathmnist] acc=0.9843 f1=0.9843
+2026-03-22 04:50:56,298 [INFO]   [sigma] pathmnist: 1.0256
+2026-03-22 04:52:13,808 [INFO] Ep 067/100 | train_loss=0.5197 | val_loss=0.5135 | avg_f1=0.9887 | lr=9.91e-05 | 77s
+2026-03-22 04:52:13,808 [INFO]   [pathmnist] acc=0.9886 f1=0.9887
+2026-03-22 04:52:13,808 [INFO]   [sigma] pathmnist: 1.0243
+2026-03-22 04:53:31,258 [INFO] Ep 068/100 | train_loss=0.5202 | val_loss=0.5153 | avg_f1=0.9877 | lr=9.39e-05 | 77s
+2026-03-22 04:53:31,258 [INFO]   [pathmnist] acc=0.9877 f1=0.9877
+2026-03-22 04:53:31,258 [INFO]   [sigma] pathmnist: 1.0233
+2026-03-22 04:54:48,742 [INFO] Ep 069/100 | train_loss=0.5194 | val_loss=0.5150 | avg_f1=0.9867 | lr=8.89e-05 | 77s
+2026-03-22 04:54:48,742 [INFO]   [pathmnist] acc=0.9867 f1=0.9867
+2026-03-22 04:54:48,742 [INFO]   [sigma] pathmnist: 1.0226
+2026-03-22 04:56:05,585 [INFO] Ep 070/100 | train_loss=0.5163 | val_loss=0.5085 | avg_f1=0.9898 | lr=8.39e-05 | 76s
+2026-03-22 04:56:05,585 [INFO]   [pathmnist] acc=0.9898 f1=0.9898
+2026-03-22 04:56:05,586 [INFO]   [sigma] pathmnist: 1.0214
+2026-03-22 04:56:05,586 [INFO]   >> New best avg_f1=0.9898
+2026-03-22 04:57:23,085 [INFO] Ep 071/100 | train_loss=0.5163 | val_loss=0.5087 | avg_f1=0.9894 | lr=7.90e-05 | 76s
+2026-03-22 04:57:23,085 [INFO]   [pathmnist] acc=0.9894 f1=0.9894
+2026-03-22 04:57:23,085 [INFO]   [sigma] pathmnist: 1.0204
+2026-03-22 04:58:40,861 [INFO] Ep 072/100 | train_loss=0.5136 | val_loss=0.5076 | avg_f1=0.9904 | lr=7.42e-05 | 77s
+2026-03-22 04:58:40,861 [INFO]   [pathmnist] acc=0.9904 f1=0.9904
+2026-03-22 04:58:40,861 [INFO]   [sigma] pathmnist: 1.0192
+2026-03-22 04:58:40,862 [INFO]   >> New best avg_f1=0.9904
+2026-03-22 04:59:59,421 [INFO] Ep 073/100 | train_loss=0.5141 | val_loss=0.5067 | avg_f1=0.9916 | lr=6.95e-05 | 77s
+2026-03-22 04:59:59,421 [INFO]   [pathmnist] acc=0.9916 f1=0.9916
+2026-03-22 04:59:59,421 [INFO]   [sigma] pathmnist: 1.0183
+2026-03-22 04:59:59,422 [INFO]   >> New best avg_f1=0.9916
+2026-03-22 05:01:17,075 [INFO] Ep 074/100 | train_loss=0.5121 | val_loss=0.5051 | avg_f1=0.9913 | lr=6.49e-05 | 76s
+2026-03-22 05:01:17,075 [INFO]   [pathmnist] acc=0.9913 f1=0.9913
+2026-03-22 05:01:17,075 [INFO]   [sigma] pathmnist: 1.0173
+2026-03-22 05:02:34,333 [INFO] Ep 075/100 | train_loss=0.5131 | val_loss=0.5036 | avg_f1=0.9923 | lr=6.04e-05 | 77s
+2026-03-22 05:02:34,333 [INFO]   [pathmnist] acc=0.9924 f1=0.9923
+2026-03-22 05:02:34,334 [INFO]   [sigma] pathmnist: 1.0166
+2026-03-22 05:02:34,334 [INFO]   >> New best avg_f1=0.9923
+2026-03-22 05:03:52,333 [INFO] Ep 076/100 | train_loss=0.5115 | val_loss=0.5034 | avg_f1=0.9923 | lr=5.61e-05 | 77s
+2026-03-22 05:03:52,333 [INFO]   [pathmnist] acc=0.9923 f1=0.9923
+2026-03-22 05:03:52,333 [INFO]   [sigma] pathmnist: 1.0159
+2026-03-22 05:03:52,334 [INFO]   >> New best avg_f1=0.9923
+2026-03-22 05:05:10,088 [INFO] Ep 077/100 | train_loss=0.5093 | val_loss=0.5044 | avg_f1=0.9916 | lr=5.18e-05 | 77s
+2026-03-22 05:05:10,089 [INFO]   [pathmnist] acc=0.9916 f1=0.9916
+2026-03-22 05:05:10,089 [INFO]   [sigma] pathmnist: 1.0150
+2026-03-22 05:06:26,901 [INFO] Ep 078/100 | train_loss=0.5093 | val_loss=0.5042 | avg_f1=0.9920 | lr=4.78e-05 | 76s
+2026-03-22 05:06:26,901 [INFO]   [pathmnist] acc=0.9920 f1=0.9920
+2026-03-22 05:06:26,901 [INFO]   [sigma] pathmnist: 1.0142
+2026-03-22 05:07:44,515 [INFO] Ep 079/100 | train_loss=0.5091 | val_loss=0.5031 | avg_f1=0.9921 | lr=4.38e-05 | 77s
+2026-03-22 05:07:44,515 [INFO]   [pathmnist] acc=0.9921 f1=0.9921
+2026-03-22 05:07:44,516 [INFO]   [sigma] pathmnist: 1.0136
+2026-03-22 05:09:01,877 [INFO] Ep 080/100 | train_loss=0.5079 | val_loss=0.5029 | avg_f1=0.9921 | lr=4.00e-05 | 77s
+2026-03-22 05:09:01,877 [INFO]   [pathmnist] acc=0.9921 f1=0.9921
+2026-03-22 05:09:01,878 [INFO]   [sigma] pathmnist: 1.0129
+2026-03-22 05:10:18,971 [INFO] Ep 081/100 | train_loss=0.5077 | val_loss=0.5063 | avg_f1=0.9910 | lr=3.64e-05 | 76s
+2026-03-22 05:10:18,971 [INFO]   [pathmnist] acc=0.9910 f1=0.9910
+2026-03-22 05:10:18,971 [INFO]   [sigma] pathmnist: 1.0124
+2026-03-22 05:11:36,419 [INFO] Ep 082/100 | train_loss=0.5060 | val_loss=0.5037 | avg_f1=0.9923 | lr=3.29e-05 | 77s
+2026-03-22 05:11:36,420 [INFO]   [pathmnist] acc=0.9923 f1=0.9923
+2026-03-22 05:11:36,420 [INFO]   [sigma] pathmnist: 1.0117
+2026-03-22 05:12:53,607 [INFO] Ep 083/100 | train_loss=0.5059 | val_loss=0.5034 | avg_f1=0.9920 | lr=2.96e-05 | 77s
+2026-03-22 05:12:53,607 [INFO]   [pathmnist] acc=0.9920 f1=0.9920
+2026-03-22 05:12:53,607 [INFO]   [sigma] pathmnist: 1.0112
+2026-03-22 05:14:10,788 [INFO] Ep 084/100 | train_loss=0.5052 | val_loss=0.5028 | avg_f1=0.9924 | lr=2.64e-05 | 77s
+2026-03-22 05:14:10,788 [INFO]   [pathmnist] acc=0.9925 f1=0.9924
+2026-03-22 05:14:10,788 [INFO]   [sigma] pathmnist: 1.0107
+2026-03-22 05:14:10,789 [INFO]   >> New best avg_f1=0.9924
+2026-03-22 05:15:28,934 [INFO] Ep 085/100 | train_loss=0.5051 | val_loss=0.5017 | avg_f1=0.9927 | lr=2.34e-05 | 77s
+2026-03-22 05:15:28,934 [INFO]   [pathmnist] acc=0.9927 f1=0.9927
+2026-03-22 05:15:28,934 [INFO]   [sigma] pathmnist: 1.0103
+2026-03-22 05:15:28,935 [INFO]   >> New best avg_f1=0.9927
+2026-03-22 05:16:46,963 [INFO] Ep 086/100 | train_loss=0.5049 | val_loss=0.5042 | avg_f1=0.9920 | lr=2.06e-05 | 77s
+2026-03-22 05:16:46,963 [INFO]   [pathmnist] acc=0.9920 f1=0.9920
+2026-03-22 05:16:46,963 [INFO]   [sigma] pathmnist: 1.0099
+2026-03-22 05:18:04,473 [INFO] Ep 087/100 | train_loss=0.5027 | val_loss=0.5007 | avg_f1=0.9929 | lr=1.79e-05 | 77s
+2026-03-22 05:18:04,473 [INFO]   [pathmnist] acc=0.9928 f1=0.9929
+2026-03-22 05:18:04,474 [INFO]   [sigma] pathmnist: 1.0095
+2026-03-22 05:18:04,474 [INFO]   >> New best avg_f1=0.9929
+2026-03-22 05:19:22,489 [INFO] Ep 088/100 | train_loss=0.5036 | val_loss=0.5001 | avg_f1=0.9935 | lr=1.55e-05 | 77s
+2026-03-22 05:19:22,489 [INFO]   [pathmnist] acc=0.9935 f1=0.9935
+2026-03-22 05:19:22,489 [INFO]   [sigma] pathmnist: 1.0092
+2026-03-22 05:19:22,490 [INFO]   >> New best avg_f1=0.9935
+2026-03-22 05:20:40,411 [INFO] Ep 089/100 | train_loss=0.5029 | val_loss=0.5006 | avg_f1=0.9934 | lr=1.32e-05 | 77s
+2026-03-22 05:20:40,411 [INFO]   [pathmnist] acc=0.9934 f1=0.9934
+2026-03-22 05:20:40,411 [INFO]   [sigma] pathmnist: 1.0089
+2026-03-22 05:21:57,942 [INFO] Ep 090/100 | train_loss=0.5010 | val_loss=0.5001 | avg_f1=0.9935 | lr=1.11e-05 | 77s
+2026-03-22 05:21:57,943 [INFO]   [pathmnist] acc=0.9935 f1=0.9935
+2026-03-22 05:21:57,943 [INFO]   [sigma] pathmnist: 1.0086
+2026-03-22 05:21:57,943 [INFO]   >> New best avg_f1=0.9935
+2026-03-22 05:23:15,884 [INFO] Ep 091/100 | train_loss=0.5019 | val_loss=0.5016 | avg_f1=0.9933 | lr=9.20e-06 | 77s
+2026-03-22 05:23:15,884 [INFO]   [pathmnist] acc=0.9932 f1=0.9933
+2026-03-22 05:23:15,884 [INFO]   [sigma] pathmnist: 1.0084
+2026-03-22 05:24:33,157 [INFO] Ep 092/100 | train_loss=0.5024 | val_loss=0.4989 | avg_f1=0.9940 | lr=7.49e-06 | 77s
+2026-03-22 05:24:33,157 [INFO]   [pathmnist] acc=0.9940 f1=0.9940
+2026-03-22 05:24:33,157 [INFO]   [sigma] pathmnist: 1.0082
+2026-03-22 05:24:33,158 [INFO]   >> New best avg_f1=0.9940
+2026-03-22 05:25:51,529 [INFO] Ep 093/100 | train_loss=0.5019 | val_loss=0.4999 | avg_f1=0.9939 | lr=5.98e-06 | 77s
+2026-03-22 05:25:51,529 [INFO]   [pathmnist] acc=0.9939 f1=0.9939
+2026-03-22 05:25:51,529 [INFO]   [sigma] pathmnist: 1.0081
+2026-03-22 05:27:08,752 [INFO] Ep 094/100 | train_loss=0.5007 | val_loss=0.4994 | avg_f1=0.9939 | lr=4.66e-06 | 77s
+2026-03-22 05:27:08,752 [INFO]   [pathmnist] acc=0.9939 f1=0.9939
+2026-03-22 05:27:08,752 [INFO]   [sigma] pathmnist: 1.0079
+2026-03-22 05:28:26,327 [INFO] Ep 095/100 | train_loss=0.5005 | val_loss=0.4991 | avg_f1=0.9938 | lr=3.55e-06 | 77s
+2026-03-22 05:28:26,327 [INFO]   [pathmnist] acc=0.9938 f1=0.9938
+2026-03-22 05:28:26,327 [INFO]   [sigma] pathmnist: 1.0078
+2026-03-22 05:29:44,302 [INFO] Ep 096/100 | train_loss=0.5010 | val_loss=0.4993 | avg_f1=0.9939 | lr=2.63e-06 | 77s
+2026-03-22 05:29:44,302 [INFO]   [pathmnist] acc=0.9939 f1=0.9939
+2026-03-22 05:29:44,303 [INFO]   [sigma] pathmnist: 1.0078
+2026-03-22 05:31:01,471 [INFO] Ep 097/100 | train_loss=0.5008 | val_loss=0.4995 | avg_f1=0.9935 | lr=1.92e-06 | 77s
+2026-03-22 05:31:01,471 [INFO]   [pathmnist] acc=0.9935 f1=0.9935
+2026-03-22 05:31:01,471 [INFO]   [sigma] pathmnist: 1.0077
+2026-03-22 05:32:18,048 [INFO] Ep 098/100 | train_loss=0.5006 | val_loss=0.4993 | avg_f1=0.9938 | lr=1.41e-06 | 76s
+2026-03-22 05:32:18,048 [INFO]   [pathmnist] acc=0.9938 f1=0.9938
+2026-03-22 05:32:18,048 [INFO]   [sigma] pathmnist: 1.0077
+2026-03-22 05:33:35,889 [INFO] Ep 099/100 | train_loss=0.5004 | val_loss=0.4990 | avg_f1=0.9939 | lr=1.10e-06 | 77s
+2026-03-22 05:33:35,890 [INFO]   [pathmnist] acc=0.9939 f1=0.9939
+2026-03-22 05:33:35,890 [INFO]   [sigma] pathmnist: 1.0076
+2026-03-22 05:34:52,844 [INFO] Ep 100/100 | train_loss=0.5006 | val_loss=0.4993 | avg_f1=0.9939 | lr=1.00e-06 | 76s
+2026-03-22 05:34:52,844 [INFO]   [pathmnist] acc=0.9938 f1=0.9939
+2026-03-22 05:34:52,845 [INFO]   [sigma] pathmnist: 1.0076
+2026-03-22 05:34:53,474 [INFO] Training complete.
+2026-03-22 05:34:53,474 [INFO] Loading checkpoint: runs/medical_mamba/checkpoint_best.pt
+2026-03-22 05:34:53,746 [INFO] Resumed from epoch 92
+2026-03-22 05:34:59,034 [INFO] 
+=== TEST RESULTS ===
+2026-03-22 05:34:59,034 [INFO]   [pathmnist] acc=0.9201 f1=0.8923

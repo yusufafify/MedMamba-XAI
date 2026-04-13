@@ -1,0 +1,962 @@
+2026-03-22 14:18:38,055 [INFO] Building VMamba-tiny | patch=16
+2026-03-22 14:18:38,738 [INFO] Parameters: 49.5M | Tasks: ['pathmnist', 'dermamnist', 'bloodmnist', 'octmnist']
+2026-03-22 14:18:38,741 [INFO] ================================================================
+2026-03-22 14:18:38,741 [INFO] MedicalVMamba-tiny | tasks=['pathmnist', 'dermamnist', 'bloodmnist', 'octmnist'] | device=cuda:0 | AMP=True
+2026-03-22 14:18:38,741 [INFO] ================================================================
+2026-03-22 14:21:34,865 [INFO] Ep 001/100 | train_loss=6.5078 | val_loss=1.4445 | avg_f1=0.4270 | lr=6.67e-06 | 176s
+2026-03-22 14:21:34,866 [INFO]   [pathmnist] acc=0.4946 f1=0.4793
+2026-03-22 14:21:34,866 [INFO]   [dermamnist] acc=0.4935 f1=0.3034
+2026-03-22 14:21:34,866 [INFO]   [bloodmnist] acc=0.6151 f1=0.5734
+2026-03-22 14:21:34,866 [INFO]   [octmnist] acc=0.4657 f1=0.3521
+2026-03-22 14:21:34,866 [INFO]   [sigma] pathmnist: 1.0003
+2026-03-22 14:21:34,866 [INFO]   [sigma] dermamnist: 1.0003
+2026-03-22 14:21:34,867 [INFO]   [sigma] bloodmnist: 1.0002
+2026-03-22 14:21:34,867 [INFO]   [sigma] octmnist: 1.0003
+2026-03-22 14:21:34,869 [INFO]   >> New best avg_f1=0.4270
+2026-03-22 14:24:28,614 [INFO] Ep 002/100 | train_loss=5.8765 | val_loss=1.3632 | avg_f1=0.5016 | lr=1.00e-05 | 173s
+2026-03-22 14:24:28,614 [INFO]   [pathmnist] acc=0.5263 f1=0.5097
+2026-03-22 14:24:28,614 [INFO]   [dermamnist] acc=0.5693 f1=0.3750
+2026-03-22 14:24:28,614 [INFO]   [bloodmnist] acc=0.7407 f1=0.7128
+2026-03-22 14:24:28,614 [INFO]   [octmnist] acc=0.4788 f1=0.4088
+2026-03-22 14:24:28,615 [INFO]   [sigma] pathmnist: 1.0007
+2026-03-22 14:24:28,615 [INFO]   [sigma] dermamnist: 1.0007
+2026-03-22 14:24:28,615 [INFO]   [sigma] bloodmnist: 1.0007
+2026-03-22 14:24:28,615 [INFO]   [sigma] octmnist: 1.0008
+2026-03-22 14:24:28,616 [INFO]   >> New best avg_f1=0.5016
+2026-03-22 14:27:24,011 [INFO] Ep 003/100 | train_loss=5.5428 | val_loss=1.2957 | avg_f1=0.5412 | lr=1.33e-05 | 174s
+2026-03-22 14:27:24,011 [INFO]   [pathmnist] acc=0.5533 f1=0.5356
+2026-03-22 14:27:24,011 [INFO]   [dermamnist] acc=0.6012 f1=0.3885
+2026-03-22 14:27:24,012 [INFO]   [bloodmnist] acc=0.8061 f1=0.7836
+2026-03-22 14:27:24,012 [INFO]   [octmnist] acc=0.5423 f1=0.4573
+2026-03-22 14:27:24,012 [INFO]   [sigma] pathmnist: 1.0014
+2026-03-22 14:27:24,012 [INFO]   [sigma] dermamnist: 1.0014
+2026-03-22 14:27:24,012 [INFO]   [sigma] bloodmnist: 1.0013
+2026-03-22 14:27:24,012 [INFO]   [sigma] octmnist: 1.0015
+2026-03-22 14:27:24,013 [INFO]   >> New best avg_f1=0.5412
+2026-03-22 14:30:21,303 [INFO] Ep 004/100 | train_loss=5.3121 | val_loss=1.2739 | avg_f1=0.5663 | lr=1.67e-05 | 176s
+2026-03-22 14:30:21,303 [INFO]   [pathmnist] acc=0.6034 f1=0.5934
+2026-03-22 14:30:21,303 [INFO]   [dermamnist] acc=0.6660 f1=0.4360
+2026-03-22 14:30:21,304 [INFO]   [bloodmnist] acc=0.8248 f1=0.8058
+2026-03-22 14:30:21,304 [INFO]   [octmnist] acc=0.4522 f1=0.4299
+2026-03-22 14:30:21,304 [INFO]   [sigma] pathmnist: 1.0024
+2026-03-22 14:30:21,304 [INFO]   [sigma] dermamnist: 1.0024
+2026-03-22 14:30:21,304 [INFO]   [sigma] bloodmnist: 1.0021
+2026-03-22 14:30:21,304 [INFO]   [sigma] octmnist: 1.0025
+2026-03-22 14:30:21,305 [INFO]   >> New best avg_f1=0.5663
+2026-03-22 14:33:18,446 [INFO] Ep 005/100 | train_loss=5.1112 | val_loss=1.1909 | avg_f1=0.5812 | lr=2.00e-05 | 176s
+2026-03-22 14:33:18,446 [INFO]   [pathmnist] acc=0.6154 f1=0.6096
+2026-03-22 14:33:18,446 [INFO]   [dermamnist] acc=0.6461 f1=0.3958
+2026-03-22 14:33:18,446 [INFO]   [bloodmnist] acc=0.8271 f1=0.8099
+2026-03-22 14:33:18,446 [INFO]   [octmnist] acc=0.6301 f1=0.5092
+2026-03-22 14:33:18,447 [INFO]   [sigma] pathmnist: 1.0036
+2026-03-22 14:33:18,447 [INFO]   [sigma] dermamnist: 1.0036
+2026-03-22 14:33:18,447 [INFO]   [sigma] bloodmnist: 1.0031
+2026-03-22 14:33:18,447 [INFO]   [sigma] octmnist: 1.0037
+2026-03-22 14:33:18,448 [INFO]   >> New best avg_f1=0.5812
+2026-03-22 14:36:15,596 [INFO] Ep 006/100 | train_loss=4.9294 | val_loss=1.1883 | avg_f1=0.5857 | lr=2.33e-05 | 176s
+2026-03-22 14:36:15,596 [INFO]   [pathmnist] acc=0.6200 f1=0.6124
+2026-03-22 14:36:15,596 [INFO]   [dermamnist] acc=0.5543 f1=0.3942
+2026-03-22 14:36:15,596 [INFO]   [bloodmnist] acc=0.8440 f1=0.8276
+2026-03-22 14:36:15,596 [INFO]   [octmnist] acc=0.5537 f1=0.5085
+2026-03-22 14:36:15,596 [INFO]   [sigma] pathmnist: 1.0051
+2026-03-22 14:36:15,596 [INFO]   [sigma] dermamnist: 1.0051
+2026-03-22 14:36:15,596 [INFO]   [sigma] bloodmnist: 1.0044
+2026-03-22 14:36:15,596 [INFO]   [sigma] octmnist: 1.0051
+2026-03-22 14:36:15,597 [INFO]   >> New best avg_f1=0.5857
+2026-03-22 14:39:13,168 [INFO] Ep 007/100 | train_loss=4.7492 | val_loss=1.1346 | avg_f1=0.6113 | lr=2.67e-05 | 176s
+2026-03-22 14:39:13,168 [INFO]   [pathmnist] acc=0.6398 f1=0.6295
+2026-03-22 14:39:13,168 [INFO]   [dermamnist] acc=0.6062 f1=0.4079
+2026-03-22 14:39:13,168 [INFO]   [bloodmnist] acc=0.8808 f1=0.8678
+2026-03-22 14:39:13,169 [INFO]   [octmnist] acc=0.6096 f1=0.5397
+2026-03-22 14:39:13,169 [INFO]   [sigma] pathmnist: 1.0067
+2026-03-22 14:39:13,169 [INFO]   [sigma] dermamnist: 1.0067
+2026-03-22 14:39:13,169 [INFO]   [sigma] bloodmnist: 1.0059
+2026-03-22 14:39:13,169 [INFO]   [sigma] octmnist: 1.0068
+2026-03-22 14:39:13,170 [INFO]   >> New best avg_f1=0.6113
+2026-03-22 14:42:10,852 [INFO] Ep 008/100 | train_loss=4.5915 | val_loss=1.0845 | avg_f1=0.6301 | lr=3.00e-05 | 176s
+2026-03-22 14:42:10,853 [INFO]   [pathmnist] acc=0.6865 f1=0.6793
+2026-03-22 14:42:10,853 [INFO]   [dermamnist] acc=0.6341 f1=0.4088
+2026-03-22 14:42:10,853 [INFO]   [bloodmnist] acc=0.8849 f1=0.8711
+2026-03-22 14:42:10,853 [INFO]   [octmnist] acc=0.6644 f1=0.5611
+2026-03-22 14:42:10,853 [INFO]   [sigma] pathmnist: 1.0085
+2026-03-22 14:42:10,853 [INFO]   [sigma] dermamnist: 1.0085
+2026-03-22 14:42:10,853 [INFO]   [sigma] bloodmnist: 1.0075
+2026-03-22 14:42:10,853 [INFO]   [sigma] octmnist: 1.0086
+2026-03-22 14:42:10,854 [INFO]   >> New best avg_f1=0.6301
+2026-03-22 14:45:08,146 [INFO] Ep 009/100 | train_loss=4.4555 | val_loss=1.0859 | avg_f1=0.6335 | lr=3.33e-05 | 176s
+2026-03-22 14:45:08,146 [INFO]   [pathmnist] acc=0.7079 f1=0.7030
+2026-03-22 14:45:08,146 [INFO]   [dermamnist] acc=0.5763 f1=0.3978
+2026-03-22 14:45:08,146 [INFO]   [bloodmnist] acc=0.9089 f1=0.8973
+2026-03-22 14:45:08,146 [INFO]   [octmnist] acc=0.5811 f1=0.5359
+2026-03-22 14:45:08,147 [INFO]   [sigma] pathmnist: 1.0105
+2026-03-22 14:45:08,147 [INFO]   [sigma] dermamnist: 1.0105
+2026-03-22 14:45:08,147 [INFO]   [sigma] bloodmnist: 1.0093
+2026-03-22 14:45:08,147 [INFO]   [sigma] octmnist: 1.0107
+2026-03-22 14:45:08,147 [INFO]   >> New best avg_f1=0.6335
+2026-03-22 14:48:05,692 [INFO] Ep 010/100 | train_loss=4.3270 | val_loss=1.0155 | avg_f1=0.6573 | lr=3.67e-05 | 176s
+2026-03-22 14:48:05,692 [INFO]   [pathmnist] acc=0.7087 f1=0.7015
+2026-03-22 14:48:05,692 [INFO]   [dermamnist] acc=0.6221 f1=0.4300
+2026-03-22 14:48:05,692 [INFO]   [bloodmnist] acc=0.9036 f1=0.8934
+2026-03-22 14:48:05,692 [INFO]   [octmnist] acc=0.6903 f1=0.6044
+2026-03-22 14:48:05,693 [INFO]   [sigma] pathmnist: 1.0128
+2026-03-22 14:48:05,693 [INFO]   [sigma] dermamnist: 1.0127
+2026-03-22 14:48:05,693 [INFO]   [sigma] bloodmnist: 1.0114
+2026-03-22 14:48:05,693 [INFO]   [sigma] octmnist: 1.0129
+2026-03-22 14:48:05,694 [INFO]   >> New best avg_f1=0.6573
+2026-03-22 14:51:04,257 [INFO] Ep 011/100 | train_loss=4.2124 | val_loss=0.9930 | avg_f1=0.6676 | lr=4.00e-05 | 177s
+2026-03-22 14:51:04,257 [INFO]   [pathmnist] acc=0.7308 f1=0.7282
+2026-03-22 14:51:04,257 [INFO]   [dermamnist] acc=0.6421 f1=0.4218
+2026-03-22 14:51:04,257 [INFO]   [bloodmnist] acc=0.9136 f1=0.9039
+2026-03-22 14:51:04,257 [INFO]   [octmnist] acc=0.6875 f1=0.6166
+2026-03-22 14:51:04,258 [INFO]   [sigma] pathmnist: 1.0153
+2026-03-22 14:51:04,258 [INFO]   [sigma] dermamnist: 1.0153
+2026-03-22 14:51:04,258 [INFO]   [sigma] bloodmnist: 1.0139
+2026-03-22 14:51:04,258 [INFO]   [sigma] octmnist: 1.0155
+2026-03-22 14:51:04,259 [INFO]   >> New best avg_f1=0.6676
+2026-03-22 14:54:03,142 [INFO] Ep 012/100 | train_loss=4.0936 | val_loss=0.9585 | avg_f1=0.6969 | lr=4.33e-05 | 178s
+2026-03-22 14:54:03,142 [INFO]   [pathmnist] acc=0.7437 f1=0.7447
+2026-03-22 14:54:03,142 [INFO]   [dermamnist] acc=0.6351 f1=0.4715
+2026-03-22 14:54:03,142 [INFO]   [bloodmnist] acc=0.9410 f1=0.9332
+2026-03-22 14:54:03,142 [INFO]   [octmnist] acc=0.7164 f1=0.6382
+2026-03-22 14:54:03,142 [INFO]   [sigma] pathmnist: 1.0182
+2026-03-22 14:54:03,142 [INFO]   [sigma] dermamnist: 1.0181
+2026-03-22 14:54:03,142 [INFO]   [sigma] bloodmnist: 1.0165
+2026-03-22 14:54:03,143 [INFO]   [sigma] octmnist: 1.0184
+2026-03-22 14:54:03,143 [INFO]   >> New best avg_f1=0.6969
+2026-03-22 14:57:01,386 [INFO] Ep 013/100 | train_loss=3.9747 | val_loss=0.9542 | avg_f1=0.6849 | lr=4.67e-05 | 177s
+2026-03-22 14:57:01,386 [INFO]   [pathmnist] acc=0.7416 f1=0.7434
+2026-03-22 14:57:01,386 [INFO]   [dermamnist] acc=0.5952 f1=0.4406
+2026-03-22 14:57:01,386 [INFO]   [bloodmnist] acc=0.9305 f1=0.9241
+2026-03-22 14:57:01,386 [INFO]   [octmnist] acc=0.7224 f1=0.6314
+2026-03-22 14:57:01,386 [INFO]   [sigma] pathmnist: 1.0213
+2026-03-22 14:57:01,386 [INFO]   [sigma] dermamnist: 1.0213
+2026-03-22 14:57:01,387 [INFO]   [sigma] bloodmnist: 1.0194
+2026-03-22 14:57:01,387 [INFO]   [sigma] octmnist: 1.0216
+2026-03-22 14:59:58,580 [INFO] Ep 014/100 | train_loss=3.8687 | val_loss=0.9511 | avg_f1=0.7037 | lr=5.00e-05 | 177s
+2026-03-22 14:59:58,580 [INFO]   [pathmnist] acc=0.7557 f1=0.7572
+2026-03-22 14:59:58,580 [INFO]   [dermamnist] acc=0.6919 f1=0.4997
+2026-03-22 14:59:58,580 [INFO]   [bloodmnist] acc=0.9416 f1=0.9355
+2026-03-22 14:59:58,581 [INFO]   [octmnist] acc=0.6644 f1=0.6224
+2026-03-22 14:59:58,581 [INFO]   [sigma] pathmnist: 1.0248
+2026-03-22 14:59:58,581 [INFO]   [sigma] dermamnist: 1.0247
+2026-03-22 14:59:58,581 [INFO]   [sigma] bloodmnist: 1.0226
+2026-03-22 14:59:58,581 [INFO]   [sigma] octmnist: 1.0250
+2026-03-22 14:59:58,582 [INFO]   >> New best avg_f1=0.7037
+2026-03-22 15:02:57,096 [INFO] Ep 015/100 | train_loss=3.7771 | val_loss=0.9432 | avg_f1=0.6970 | lr=5.00e-05 | 177s
+2026-03-22 15:02:57,096 [INFO]   [pathmnist] acc=0.7765 f1=0.7754
+2026-03-22 15:02:57,097 [INFO]   [dermamnist] acc=0.6481 f1=0.4961
+2026-03-22 15:02:57,097 [INFO]   [bloodmnist] acc=0.9200 f1=0.9118
+2026-03-22 15:02:57,097 [INFO]   [octmnist] acc=0.6477 f1=0.6049
+2026-03-22 15:02:57,097 [INFO]   [sigma] pathmnist: 1.0285
+2026-03-22 15:02:57,097 [INFO]   [sigma] dermamnist: 1.0284
+2026-03-22 15:02:57,097 [INFO]   [sigma] bloodmnist: 1.0260
+2026-03-22 15:02:57,097 [INFO]   [sigma] octmnist: 1.0288
+2026-03-22 15:05:54,685 [INFO] Ep 016/100 | train_loss=3.6604 | val_loss=0.8564 | avg_f1=0.7273 | lr=5.00e-05 | 177s
+2026-03-22 15:05:54,685 [INFO]   [pathmnist] acc=0.8088 f1=0.8050
+2026-03-22 15:05:54,685 [INFO]   [dermamnist] acc=0.6550 f1=0.5153
+2026-03-22 15:05:54,685 [INFO]   [bloodmnist] acc=0.9206 f1=0.9133
+2026-03-22 15:05:54,685 [INFO]   [octmnist] acc=0.7542 f1=0.6755
+2026-03-22 15:05:54,686 [INFO]   [sigma] pathmnist: 1.0322
+2026-03-22 15:05:54,686 [INFO]   [sigma] dermamnist: 1.0322
+2026-03-22 15:05:54,686 [INFO]   [sigma] bloodmnist: 1.0294
+2026-03-22 15:05:54,686 [INFO]   [sigma] octmnist: 1.0326
+2026-03-22 15:05:54,687 [INFO]   >> New best avg_f1=0.7273
+2026-03-22 15:08:53,104 [INFO] Ep 017/100 | train_loss=3.5593 | val_loss=0.8308 | avg_f1=0.7321 | lr=4.99e-05 | 177s
+2026-03-22 15:08:53,104 [INFO]   [pathmnist] acc=0.8240 f1=0.8180
+2026-03-22 15:08:53,105 [INFO]   [dermamnist] acc=0.6271 f1=0.4908
+2026-03-22 15:08:53,105 [INFO]   [bloodmnist] acc=0.9404 f1=0.9347
+2026-03-22 15:08:53,105 [INFO]   [octmnist] acc=0.7794 f1=0.6851
+2026-03-22 15:08:53,105 [INFO]   [sigma] pathmnist: 1.0359
+2026-03-22 15:08:53,105 [INFO]   [sigma] dermamnist: 1.0359
+2026-03-22 15:08:53,105 [INFO]   [sigma] bloodmnist: 1.0326
+2026-03-22 15:08:53,105 [INFO]   [sigma] octmnist: 1.0364
+2026-03-22 15:08:53,106 [INFO]   >> New best avg_f1=0.7321
+2026-03-22 15:11:51,850 [INFO] Ep 018/100 | train_loss=3.4589 | val_loss=0.8213 | avg_f1=0.7424 | lr=4.98e-05 | 178s
+2026-03-22 15:11:51,851 [INFO]   [pathmnist] acc=0.8261 f1=0.8239
+2026-03-22 15:11:51,851 [INFO]   [dermamnist] acc=0.6152 f1=0.5228
+2026-03-22 15:11:51,851 [INFO]   [bloodmnist] acc=0.9317 f1=0.9245
+2026-03-22 15:11:51,851 [INFO]   [octmnist] acc=0.7858 f1=0.6982
+2026-03-22 15:11:51,851 [INFO]   [sigma] pathmnist: 1.0396
+2026-03-22 15:11:51,851 [INFO]   [sigma] dermamnist: 1.0395
+2026-03-22 15:11:51,851 [INFO]   [sigma] bloodmnist: 1.0358
+2026-03-22 15:11:51,851 [INFO]   [sigma] octmnist: 1.0400
+2026-03-22 15:11:51,852 [INFO]   >> New best avg_f1=0.7424
+2026-03-22 15:14:49,994 [INFO] Ep 019/100 | train_loss=3.3792 | val_loss=0.8205 | avg_f1=0.7470 | lr=4.97e-05 | 177s
+2026-03-22 15:14:49,994 [INFO]   [pathmnist] acc=0.8402 f1=0.8381
+2026-03-22 15:14:49,994 [INFO]   [dermamnist] acc=0.6112 f1=0.4968
+2026-03-22 15:14:49,994 [INFO]   [bloodmnist] acc=0.9609 f1=0.9569
+2026-03-22 15:14:49,994 [INFO]   [octmnist] acc=0.7570 f1=0.6963
+2026-03-22 15:14:49,994 [INFO]   [sigma] pathmnist: 1.0432
+2026-03-22 15:14:49,994 [INFO]   [sigma] dermamnist: 1.0431
+2026-03-22 15:14:49,995 [INFO]   [sigma] bloodmnist: 1.0390
+2026-03-22 15:14:49,995 [INFO]   [sigma] octmnist: 1.0437
+2026-03-22 15:14:49,995 [INFO]   >> New best avg_f1=0.7470
+2026-03-22 15:17:48,149 [INFO] Ep 020/100 | train_loss=3.3042 | val_loss=0.8083 | avg_f1=0.7474 | lr=4.96e-05 | 177s
+2026-03-22 15:17:48,149 [INFO]   [pathmnist] acc=0.8311 f1=0.8307
+2026-03-22 15:17:48,149 [INFO]   [dermamnist] acc=0.6680 f1=0.5069
+2026-03-22 15:17:48,149 [INFO]   [bloodmnist] acc=0.9480 f1=0.9432
+2026-03-22 15:17:48,149 [INFO]   [octmnist] acc=0.7827 f1=0.7088
+2026-03-22 15:17:48,149 [INFO]   [sigma] pathmnist: 1.0469
+2026-03-22 15:17:48,149 [INFO]   [sigma] dermamnist: 1.0468
+2026-03-22 15:17:48,149 [INFO]   [sigma] bloodmnist: 1.0421
+2026-03-22 15:17:48,150 [INFO]   [sigma] octmnist: 1.0474
+2026-03-22 15:17:48,150 [INFO]   >> New best avg_f1=0.7474
+2026-03-22 15:20:46,578 [INFO] Ep 021/100 | train_loss=3.2297 | val_loss=0.8192 | avg_f1=0.7573 | lr=4.94e-05 | 177s
+2026-03-22 15:20:46,578 [INFO]   [pathmnist] acc=0.8445 f1=0.8456
+2026-03-22 15:20:46,578 [INFO]   [dermamnist] acc=0.7288 f1=0.5609
+2026-03-22 15:20:46,578 [INFO]   [bloodmnist] acc=0.9620 f1=0.9598
+2026-03-22 15:20:46,578 [INFO]   [octmnist] acc=0.7071 f1=0.6627
+2026-03-22 15:20:46,579 [INFO]   [sigma] pathmnist: 1.0506
+2026-03-22 15:20:46,579 [INFO]   [sigma] dermamnist: 1.0504
+2026-03-22 15:20:46,579 [INFO]   [sigma] bloodmnist: 1.0449
+2026-03-22 15:20:46,579 [INFO]   [sigma] octmnist: 1.0510
+2026-03-22 15:20:46,580 [INFO]   >> New best avg_f1=0.7573
+2026-03-22 15:23:46,247 [INFO] Ep 022/100 | train_loss=3.1652 | val_loss=0.7878 | avg_f1=0.7743 | lr=4.92e-05 | 178s
+2026-03-22 15:23:46,247 [INFO]   [pathmnist] acc=0.8619 f1=0.8605
+2026-03-22 15:23:46,247 [INFO]   [dermamnist] acc=0.7089 f1=0.5861
+2026-03-22 15:23:46,247 [INFO]   [bloodmnist] acc=0.9597 f1=0.9562
+2026-03-22 15:23:46,247 [INFO]   [octmnist] acc=0.7578 f1=0.6943
+2026-03-22 15:23:46,248 [INFO]   [sigma] pathmnist: 1.0542
+2026-03-22 15:23:46,248 [INFO]   [sigma] dermamnist: 1.0540
+2026-03-22 15:23:46,248 [INFO]   [sigma] bloodmnist: 1.0477
+2026-03-22 15:23:46,248 [INFO]   [sigma] octmnist: 1.0547
+2026-03-22 15:23:46,249 [INFO]   >> New best avg_f1=0.7743
+2026-03-22 15:26:45,078 [INFO] Ep 023/100 | train_loss=3.0948 | val_loss=0.7931 | avg_f1=0.7712 | lr=4.89e-05 | 178s
+2026-03-22 15:26:45,078 [INFO]   [pathmnist] acc=0.8436 f1=0.8410
+2026-03-22 15:26:45,078 [INFO]   [dermamnist] acc=0.6560 f1=0.5707
+2026-03-22 15:26:45,078 [INFO]   [bloodmnist] acc=0.9685 f1=0.9683
+2026-03-22 15:26:45,078 [INFO]   [octmnist] acc=0.7619 f1=0.7048
+2026-03-22 15:26:45,079 [INFO]   [sigma] pathmnist: 1.0579
+2026-03-22 15:26:45,079 [INFO]   [sigma] dermamnist: 1.0576
+2026-03-22 15:26:45,079 [INFO]   [sigma] bloodmnist: 1.0505
+2026-03-22 15:26:45,079 [INFO]   [sigma] octmnist: 1.0583
+2026-03-22 15:29:43,720 [INFO] Ep 024/100 | train_loss=3.0468 | val_loss=0.7484 | avg_f1=0.7840 | lr=4.86e-05 | 178s
+2026-03-22 15:29:43,720 [INFO]   [pathmnist] acc=0.8713 f1=0.8716
+2026-03-22 15:29:43,720 [INFO]   [dermamnist] acc=0.6820 f1=0.5644
+2026-03-22 15:29:43,720 [INFO]   [bloodmnist] acc=0.9638 f1=0.9612
+2026-03-22 15:29:43,720 [INFO]   [octmnist] acc=0.8042 f1=0.7388
+2026-03-22 15:29:43,720 [INFO]   [sigma] pathmnist: 1.0616
+2026-03-22 15:29:43,720 [INFO]   [sigma] dermamnist: 1.0611
+2026-03-22 15:29:43,720 [INFO]   [sigma] bloodmnist: 1.0531
+2026-03-22 15:29:43,720 [INFO]   [sigma] octmnist: 1.0619
+2026-03-22 15:29:43,721 [INFO]   >> New best avg_f1=0.7840
+2026-03-22 15:32:42,822 [INFO] Ep 025/100 | train_loss=2.9857 | val_loss=0.7494 | avg_f1=0.7897 | lr=4.83e-05 | 178s
+2026-03-22 15:32:42,822 [INFO]   [pathmnist] acc=0.8714 f1=0.8714
+2026-03-22 15:32:42,822 [INFO]   [dermamnist] acc=0.6999 f1=0.5915
+2026-03-22 15:32:42,822 [INFO]   [bloodmnist] acc=0.9679 f1=0.9655
+2026-03-22 15:32:42,823 [INFO]   [octmnist] acc=0.8180 f1=0.7305
+2026-03-22 15:32:42,823 [INFO]   [sigma] pathmnist: 1.0653
+2026-03-22 15:32:42,823 [INFO]   [sigma] dermamnist: 1.0647
+2026-03-22 15:32:42,823 [INFO]   [sigma] bloodmnist: 1.0552
+2026-03-22 15:32:42,823 [INFO]   [sigma] octmnist: 1.0655
+2026-03-22 15:32:42,824 [INFO]   >> New best avg_f1=0.7897
+2026-03-22 15:35:42,056 [INFO] Ep 026/100 | train_loss=2.9504 | val_loss=0.6999 | avg_f1=0.8040 | lr=4.80e-05 | 178s
+2026-03-22 15:35:42,056 [INFO]   [pathmnist] acc=0.8869 f1=0.8865
+2026-03-22 15:35:42,056 [INFO]   [dermamnist] acc=0.7248 f1=0.5917
+2026-03-22 15:35:42,056 [INFO]   [bloodmnist] acc=0.9679 f1=0.9659
+2026-03-22 15:35:42,056 [INFO]   [octmnist] acc=0.8464 f1=0.7721
+2026-03-22 15:35:42,056 [INFO]   [sigma] pathmnist: 1.0689
+2026-03-22 15:35:42,057 [INFO]   [sigma] dermamnist: 1.0683
+2026-03-22 15:35:42,057 [INFO]   [sigma] bloodmnist: 1.0573
+2026-03-22 15:35:42,057 [INFO]   [sigma] octmnist: 1.0691
+2026-03-22 15:35:42,058 [INFO]   >> New best avg_f1=0.8040
+2026-03-22 15:38:41,245 [INFO] Ep 027/100 | train_loss=2.8927 | val_loss=0.7114 | avg_f1=0.8049 | lr=4.76e-05 | 178s
+2026-03-22 15:38:41,245 [INFO]   [pathmnist] acc=0.8910 f1=0.8919
+2026-03-22 15:38:41,245 [INFO]   [dermamnist] acc=0.7019 f1=0.5999
+2026-03-22 15:38:41,245 [INFO]   [bloodmnist] acc=0.9655 f1=0.9630
+2026-03-22 15:38:41,245 [INFO]   [octmnist] acc=0.8390 f1=0.7648
+2026-03-22 15:38:41,246 [INFO]   [sigma] pathmnist: 1.0726
+2026-03-22 15:38:41,246 [INFO]   [sigma] dermamnist: 1.0717
+2026-03-22 15:38:41,246 [INFO]   [sigma] bloodmnist: 1.0590
+2026-03-22 15:38:41,246 [INFO]   [sigma] octmnist: 1.0727
+2026-03-22 15:38:41,247 [INFO]   >> New best avg_f1=0.8049
+2026-03-22 15:41:40,385 [INFO] Ep 028/100 | train_loss=2.8536 | val_loss=0.7055 | avg_f1=0.8124 | lr=4.72e-05 | 178s
+2026-03-22 15:41:40,385 [INFO]   [pathmnist] acc=0.8884 f1=0.8868
+2026-03-22 15:41:40,385 [INFO]   [dermamnist] acc=0.7029 f1=0.6346
+2026-03-22 15:41:40,385 [INFO]   [bloodmnist] acc=0.9609 f1=0.9599
+2026-03-22 15:41:40,385 [INFO]   [octmnist] acc=0.8385 f1=0.7682
+2026-03-22 15:41:40,385 [INFO]   [sigma] pathmnist: 1.0760
+2026-03-22 15:41:40,385 [INFO]   [sigma] dermamnist: 1.0751
+2026-03-22 15:41:40,386 [INFO]   [sigma] bloodmnist: 1.0602
+2026-03-22 15:41:40,386 [INFO]   [sigma] octmnist: 1.0761
+2026-03-22 15:41:40,386 [INFO]   >> New best avg_f1=0.8124
+2026-03-22 15:44:39,339 [INFO] Ep 029/100 | train_loss=2.8271 | val_loss=0.6856 | avg_f1=0.8065 | lr=4.67e-05 | 178s
+2026-03-22 15:44:39,339 [INFO]   [pathmnist] acc=0.8959 f1=0.8958
+2026-03-22 15:44:39,339 [INFO]   [dermamnist] acc=0.7079 f1=0.5820
+2026-03-22 15:44:39,339 [INFO]   [bloodmnist] acc=0.9568 f1=0.9550
+2026-03-22 15:44:39,339 [INFO]   [octmnist] acc=0.8626 f1=0.7933
+2026-03-22 15:44:39,339 [INFO]   [sigma] pathmnist: 1.0797
+2026-03-22 15:44:39,340 [INFO]   [sigma] dermamnist: 1.0786
+2026-03-22 15:44:39,340 [INFO]   [sigma] bloodmnist: 1.0610
+2026-03-22 15:44:39,340 [INFO]   [sigma] octmnist: 1.0796
+2026-03-22 15:47:37,419 [INFO] Ep 030/100 | train_loss=2.7817 | val_loss=0.6795 | avg_f1=0.8140 | lr=4.63e-05 | 177s
+2026-03-22 15:47:37,419 [INFO]   [pathmnist] acc=0.9036 f1=0.9032
+2026-03-22 15:47:37,419 [INFO]   [dermamnist] acc=0.7049 f1=0.5932
+2026-03-22 15:47:37,419 [INFO]   [bloodmnist] acc=0.9690 f1=0.9681
+2026-03-22 15:47:37,419 [INFO]   [octmnist] acc=0.8617 f1=0.7916
+2026-03-22 15:47:37,419 [INFO]   [sigma] pathmnist: 1.0832
+2026-03-22 15:47:37,419 [INFO]   [sigma] dermamnist: 1.0820
+2026-03-22 15:47:37,420 [INFO]   [sigma] bloodmnist: 1.0615
+2026-03-22 15:47:37,420 [INFO]   [sigma] octmnist: 1.0831
+2026-03-22 15:47:37,420 [INFO]   >> New best avg_f1=0.8140
+2026-03-22 15:50:35,958 [INFO] Ep 031/100 | train_loss=2.7517 | val_loss=0.6930 | avg_f1=0.8046 | lr=4.58e-05 | 177s
+2026-03-22 15:50:35,959 [INFO]   [pathmnist] acc=0.9044 f1=0.9042
+2026-03-22 15:50:35,959 [INFO]   [dermamnist] acc=0.6849 f1=0.5854
+2026-03-22 15:50:35,959 [INFO]   [bloodmnist] acc=0.9632 f1=0.9607
+2026-03-22 15:50:35,959 [INFO]   [octmnist] acc=0.8258 f1=0.7683
+2026-03-22 15:50:35,959 [INFO]   [sigma] pathmnist: 1.0867
+2026-03-22 15:50:35,959 [INFO]   [sigma] dermamnist: 1.0852
+2026-03-22 15:50:35,959 [INFO]   [sigma] bloodmnist: 1.0612
+2026-03-22 15:50:35,959 [INFO]   [sigma] octmnist: 1.0864
+2026-03-22 15:53:33,908 [INFO] Ep 032/100 | train_loss=2.7244 | val_loss=0.6808 | avg_f1=0.8115 | lr=4.52e-05 | 177s
+2026-03-22 15:53:33,909 [INFO]   [pathmnist] acc=0.9082 f1=0.9065
+2026-03-22 15:53:33,909 [INFO]   [dermamnist] acc=0.6760 f1=0.5905
+2026-03-22 15:53:33,909 [INFO]   [bloodmnist] acc=0.9708 f1=0.9682
+2026-03-22 15:53:33,909 [INFO]   [octmnist] acc=0.8432 f1=0.7809
+2026-03-22 15:53:33,909 [INFO]   [sigma] pathmnist: 1.0902
+2026-03-22 15:53:33,909 [INFO]   [sigma] dermamnist: 1.0885
+2026-03-22 15:53:33,909 [INFO]   [sigma] bloodmnist: 1.0611
+2026-03-22 15:53:33,909 [INFO]   [sigma] octmnist: 1.0897
+2026-03-22 15:56:33,792 [INFO] Ep 033/100 | train_loss=2.6869 | val_loss=0.6467 | avg_f1=0.8278 | lr=4.47e-05 | 179s
+2026-03-22 15:56:33,792 [INFO]   [pathmnist] acc=0.9085 f1=0.9086
+2026-03-22 15:56:33,792 [INFO]   [dermamnist] acc=0.7258 f1=0.6109
+2026-03-22 15:56:33,792 [INFO]   [bloodmnist] acc=0.9714 f1=0.9710
+2026-03-22 15:56:33,792 [INFO]   [octmnist] acc=0.8946 f1=0.8209
+2026-03-22 15:56:33,792 [INFO]   [sigma] pathmnist: 1.0936
+2026-03-22 15:56:33,792 [INFO]   [sigma] dermamnist: 1.0916
+2026-03-22 15:56:33,792 [INFO]   [sigma] bloodmnist: 1.0602
+2026-03-22 15:56:33,792 [INFO]   [sigma] octmnist: 1.0930
+2026-03-22 15:56:33,793 [INFO]   >> New best avg_f1=0.8278
+2026-03-22 15:59:33,583 [INFO] Ep 034/100 | train_loss=2.6640 | val_loss=0.6569 | avg_f1=0.8293 | lr=4.41e-05 | 179s
+2026-03-22 15:59:33,583 [INFO]   [pathmnist] acc=0.9128 f1=0.9119
+2026-03-22 15:59:33,583 [INFO]   [dermamnist] acc=0.7537 f1=0.6373
+2026-03-22 15:59:33,584 [INFO]   [bloodmnist] acc=0.9720 f1=0.9704
+2026-03-22 15:59:33,584 [INFO]   [octmnist] acc=0.8657 f1=0.7975
+2026-03-22 15:59:33,584 [INFO]   [sigma] pathmnist: 1.0968
+2026-03-22 15:59:33,584 [INFO]   [sigma] dermamnist: 1.0946
+2026-03-22 15:59:33,584 [INFO]   [sigma] bloodmnist: 1.0592
+2026-03-22 15:59:33,584 [INFO]   [sigma] octmnist: 1.0962
+2026-03-22 15:59:33,585 [INFO]   >> New best avg_f1=0.8293
+2026-03-22 16:02:32,531 [INFO] Ep 035/100 | train_loss=2.6286 | val_loss=0.6531 | avg_f1=0.8328 | lr=4.35e-05 | 178s
+2026-03-22 16:02:32,531 [INFO]   [pathmnist] acc=0.9117 f1=0.9100
+2026-03-22 16:02:32,531 [INFO]   [dermamnist] acc=0.7488 f1=0.6422
+2026-03-22 16:02:32,531 [INFO]   [bloodmnist] acc=0.9725 f1=0.9716
+2026-03-22 16:02:32,531 [INFO]   [octmnist] acc=0.8733 f1=0.8074
+2026-03-22 16:02:32,531 [INFO]   [sigma] pathmnist: 1.1000
+2026-03-22 16:02:32,531 [INFO]   [sigma] dermamnist: 1.0974
+2026-03-22 16:02:32,531 [INFO]   [sigma] bloodmnist: 1.0581
+2026-03-22 16:02:32,531 [INFO]   [sigma] octmnist: 1.0992
+2026-03-22 16:02:32,532 [INFO]   >> New best avg_f1=0.8328
+2026-03-22 16:05:31,373 [INFO] Ep 036/100 | train_loss=2.6168 | val_loss=0.6458 | avg_f1=0.8294 | lr=4.29e-05 | 178s
+2026-03-22 16:05:31,373 [INFO]   [pathmnist] acc=0.9180 f1=0.9172
+2026-03-22 16:05:31,373 [INFO]   [dermamnist] acc=0.7129 f1=0.6068
+2026-03-22 16:05:31,373 [INFO]   [bloodmnist] acc=0.9708 f1=0.9693
+2026-03-22 16:05:31,373 [INFO]   [octmnist] acc=0.8869 f1=0.8242
+2026-03-22 16:05:31,373 [INFO]   [sigma] pathmnist: 1.1032
+2026-03-22 16:05:31,374 [INFO]   [sigma] dermamnist: 1.1000
+2026-03-22 16:05:31,374 [INFO]   [sigma] bloodmnist: 1.0571
+2026-03-22 16:05:31,374 [INFO]   [sigma] octmnist: 1.1022
+2026-03-22 16:08:29,288 [INFO] Ep 037/100 | train_loss=2.5845 | val_loss=0.6480 | avg_f1=0.8348 | lr=4.22e-05 | 177s
+2026-03-22 16:08:29,288 [INFO]   [pathmnist] acc=0.9105 f1=0.9128
+2026-03-22 16:08:29,288 [INFO]   [dermamnist] acc=0.7438 f1=0.6354
+2026-03-22 16:08:29,288 [INFO]   [bloodmnist] acc=0.9766 f1=0.9749
+2026-03-22 16:08:29,288 [INFO]   [octmnist] acc=0.8822 f1=0.8159
+2026-03-22 16:08:29,288 [INFO]   [sigma] pathmnist: 1.1062
+2026-03-22 16:08:29,288 [INFO]   [sigma] dermamnist: 1.1026
+2026-03-22 16:08:29,288 [INFO]   [sigma] bloodmnist: 1.0557
+2026-03-22 16:08:29,288 [INFO]   [sigma] octmnist: 1.1050
+2026-03-22 16:08:29,289 [INFO]   >> New best avg_f1=0.8348
+2026-03-22 16:11:28,294 [INFO] Ep 038/100 | train_loss=2.5607 | val_loss=0.6287 | avg_f1=0.8326 | lr=4.15e-05 | 178s
+2026-03-22 16:11:28,294 [INFO]   [pathmnist] acc=0.9273 f1=0.9274
+2026-03-22 16:11:28,294 [INFO]   [dermamnist] acc=0.7039 f1=0.5974
+2026-03-22 16:11:28,294 [INFO]   [bloodmnist] acc=0.9761 f1=0.9748
+2026-03-22 16:11:28,294 [INFO]   [octmnist] acc=0.8960 f1=0.8308
+2026-03-22 16:11:28,294 [INFO]   [sigma] pathmnist: 1.1092
+2026-03-22 16:11:28,294 [INFO]   [sigma] dermamnist: 1.1048
+2026-03-22 16:11:28,294 [INFO]   [sigma] bloodmnist: 1.0543
+2026-03-22 16:11:28,294 [INFO]   [sigma] octmnist: 1.1076
+2026-03-22 16:14:27,687 [INFO] Ep 039/100 | train_loss=2.5415 | val_loss=0.6338 | avg_f1=0.8391 | lr=4.08e-05 | 179s
+2026-03-22 16:14:27,687 [INFO]   [pathmnist] acc=0.9229 f1=0.9233
+2026-03-22 16:14:27,687 [INFO]   [dermamnist] acc=0.7378 f1=0.6259
+2026-03-22 16:14:27,687 [INFO]   [bloodmnist] acc=0.9807 f1=0.9803
+2026-03-22 16:14:27,687 [INFO]   [octmnist] acc=0.8878 f1=0.8267
+2026-03-22 16:14:27,687 [INFO]   [sigma] pathmnist: 1.1120
+2026-03-22 16:14:27,687 [INFO]   [sigma] dermamnist: 1.1069
+2026-03-22 16:14:27,687 [INFO]   [sigma] bloodmnist: 1.0528
+2026-03-22 16:14:27,687 [INFO]   [sigma] octmnist: 1.1102
+2026-03-22 16:14:27,688 [INFO]   >> New best avg_f1=0.8391
+2026-03-22 16:17:26,302 [INFO] Ep 040/100 | train_loss=2.5207 | val_loss=0.6404 | avg_f1=0.8325 | lr=4.01e-05 | 177s
+2026-03-22 16:17:26,302 [INFO]   [pathmnist] acc=0.9245 f1=0.9249
+2026-03-22 16:17:26,302 [INFO]   [dermamnist] acc=0.7228 f1=0.6122
+2026-03-22 16:17:26,302 [INFO]   [bloodmnist] acc=0.9772 f1=0.9771
+2026-03-22 16:17:26,302 [INFO]   [octmnist] acc=0.8758 f1=0.8157
+2026-03-22 16:17:26,303 [INFO]   [sigma] pathmnist: 1.1148
+2026-03-22 16:17:26,303 [INFO]   [sigma] dermamnist: 1.1086
+2026-03-22 16:17:26,303 [INFO]   [sigma] bloodmnist: 1.0511
+2026-03-22 16:17:26,303 [INFO]   [sigma] octmnist: 1.1127
+2026-03-22 16:20:25,861 [INFO] Ep 041/100 | train_loss=2.5021 | val_loss=0.6520 | avg_f1=0.8340 | lr=3.93e-05 | 179s
+2026-03-22 16:20:25,861 [INFO]   [pathmnist] acc=0.9213 f1=0.9213
+2026-03-22 16:20:25,861 [INFO]   [dermamnist] acc=0.7527 f1=0.6370
+2026-03-22 16:20:25,862 [INFO]   [bloodmnist] acc=0.9784 f1=0.9791
+2026-03-22 16:20:25,862 [INFO]   [octmnist] acc=0.8596 f1=0.7985
+2026-03-22 16:20:25,862 [INFO]   [sigma] pathmnist: 1.1175
+2026-03-22 16:20:25,862 [INFO]   [sigma] dermamnist: 1.1098
+2026-03-22 16:20:25,862 [INFO]   [sigma] bloodmnist: 1.0495
+2026-03-22 16:20:25,862 [INFO]   [sigma] octmnist: 1.1148
+2026-03-22 16:23:24,432 [INFO] Ep 042/100 | train_loss=2.4881 | val_loss=0.6272 | avg_f1=0.8440 | lr=3.86e-05 | 178s
+2026-03-22 16:23:24,433 [INFO]   [pathmnist] acc=0.9278 f1=0.9278
+2026-03-22 16:23:24,433 [INFO]   [dermamnist] acc=0.7418 f1=0.6395
+2026-03-22 16:23:24,433 [INFO]   [bloodmnist] acc=0.9772 f1=0.9773
+2026-03-22 16:23:24,433 [INFO]   [octmnist] acc=0.8920 f1=0.8312
+2026-03-22 16:23:24,433 [INFO]   [sigma] pathmnist: 1.1200
+2026-03-22 16:23:24,433 [INFO]   [sigma] dermamnist: 1.1108
+2026-03-22 16:23:24,433 [INFO]   [sigma] bloodmnist: 1.0480
+2026-03-22 16:23:24,433 [INFO]   [sigma] octmnist: 1.1169
+2026-03-22 16:23:24,434 [INFO]   >> New best avg_f1=0.8440
+2026-03-22 16:26:22,815 [INFO] Ep 043/100 | train_loss=2.4771 | val_loss=0.6152 | avg_f1=0.8463 | lr=3.78e-05 | 177s
+2026-03-22 16:26:22,815 [INFO]   [pathmnist] acc=0.9298 f1=0.9299
+2026-03-22 16:26:22,815 [INFO]   [dermamnist] acc=0.7757 f1=0.6344
+2026-03-22 16:26:22,815 [INFO]   [bloodmnist] acc=0.9743 f1=0.9738
+2026-03-22 16:26:22,815 [INFO]   [octmnist] acc=0.9062 f1=0.8472
+2026-03-22 16:26:22,815 [INFO]   [sigma] pathmnist: 1.1224
+2026-03-22 16:26:22,815 [INFO]   [sigma] dermamnist: 1.1115
+2026-03-22 16:26:22,816 [INFO]   [sigma] bloodmnist: 1.0465
+2026-03-22 16:26:22,816 [INFO]   [sigma] octmnist: 1.1188
+2026-03-22 16:26:22,816 [INFO]   >> New best avg_f1=0.8463
+2026-03-22 16:29:22,362 [INFO] Ep 044/100 | train_loss=2.4589 | val_loss=0.6233 | avg_f1=0.8455 | lr=3.70e-05 | 178s
+2026-03-22 16:29:22,362 [INFO]   [pathmnist] acc=0.9301 f1=0.9307
+2026-03-22 16:29:22,362 [INFO]   [dermamnist] acc=0.7468 f1=0.6372
+2026-03-22 16:29:22,363 [INFO]   [bloodmnist] acc=0.9761 f1=0.9762
+2026-03-22 16:29:22,363 [INFO]   [octmnist] acc=0.8958 f1=0.8378
+2026-03-22 16:29:22,363 [INFO]   [sigma] pathmnist: 1.1247
+2026-03-22 16:29:22,363 [INFO]   [sigma] dermamnist: 1.1117
+2026-03-22 16:29:22,363 [INFO]   [sigma] bloodmnist: 1.0448
+2026-03-22 16:29:22,363 [INFO]   [sigma] octmnist: 1.1205
+2026-03-22 16:32:20,909 [INFO] Ep 045/100 | train_loss=2.4385 | val_loss=0.6070 | avg_f1=0.8498 | lr=3.62e-05 | 178s
+2026-03-22 16:32:20,909 [INFO]   [pathmnist] acc=0.9380 f1=0.9379
+2026-03-22 16:32:20,909 [INFO]   [dermamnist] acc=0.7677 f1=0.6364
+2026-03-22 16:32:20,909 [INFO]   [bloodmnist] acc=0.9807 f1=0.9812
+2026-03-22 16:32:20,909 [INFO]   [octmnist] acc=0.9049 f1=0.8436
+2026-03-22 16:32:20,909 [INFO]   [sigma] pathmnist: 1.1268
+2026-03-22 16:32:20,910 [INFO]   [sigma] dermamnist: 1.1113
+2026-03-22 16:32:20,910 [INFO]   [sigma] bloodmnist: 1.0431
+2026-03-22 16:32:20,910 [INFO]   [sigma] octmnist: 1.1218
+2026-03-22 16:32:20,910 [INFO]   >> New best avg_f1=0.8498
+2026-03-22 16:35:19,698 [INFO] Ep 046/100 | train_loss=2.4244 | val_loss=0.6160 | avg_f1=0.8532 | lr=3.53e-05 | 178s
+2026-03-22 16:35:19,698 [INFO]   [pathmnist] acc=0.9390 f1=0.9390
+2026-03-22 16:35:19,698 [INFO]   [dermamnist] acc=0.7727 f1=0.6467
+2026-03-22 16:35:19,698 [INFO]   [bloodmnist] acc=0.9842 f1=0.9852
+2026-03-22 16:35:19,698 [INFO]   [octmnist] acc=0.8969 f1=0.8418
+2026-03-22 16:35:19,699 [INFO]   [sigma] pathmnist: 1.1287
+2026-03-22 16:35:19,699 [INFO]   [sigma] dermamnist: 1.1109
+2026-03-22 16:35:19,699 [INFO]   [sigma] bloodmnist: 1.0415
+2026-03-22 16:35:19,699 [INFO]   [sigma] octmnist: 1.1229
+2026-03-22 16:35:19,700 [INFO]   >> New best avg_f1=0.8532
+2026-03-22 16:38:18,840 [INFO] Ep 047/100 | train_loss=2.4159 | val_loss=0.6121 | avg_f1=0.8484 | lr=3.45e-05 | 178s
+2026-03-22 16:38:18,840 [INFO]   [pathmnist] acc=0.9385 f1=0.9384
+2026-03-22 16:38:18,840 [INFO]   [dermamnist] acc=0.7597 f1=0.6377
+2026-03-22 16:38:18,840 [INFO]   [bloodmnist] acc=0.9790 f1=0.9787
+2026-03-22 16:38:18,841 [INFO]   [octmnist] acc=0.8950 f1=0.8388
+2026-03-22 16:38:18,841 [INFO]   [sigma] pathmnist: 1.1306
+2026-03-22 16:38:18,841 [INFO]   [sigma] dermamnist: 1.1099
+2026-03-22 16:38:18,841 [INFO]   [sigma] bloodmnist: 1.0399
+2026-03-22 16:38:18,841 [INFO]   [sigma] octmnist: 1.1238
+2026-03-22 16:41:18,388 [INFO] Ep 048/100 | train_loss=2.3994 | val_loss=0.6149 | avg_f1=0.8491 | lr=3.36e-05 | 179s
+2026-03-22 16:41:18,388 [INFO]   [pathmnist] acc=0.9371 f1=0.9366
+2026-03-22 16:41:18,388 [INFO]   [dermamnist] acc=0.7428 f1=0.6423
+2026-03-22 16:41:18,388 [INFO]   [bloodmnist] acc=0.9778 f1=0.9779
+2026-03-22 16:41:18,388 [INFO]   [octmnist] acc=0.8964 f1=0.8396
+2026-03-22 16:41:18,388 [INFO]   [sigma] pathmnist: 1.1322
+2026-03-22 16:41:18,388 [INFO]   [sigma] dermamnist: 1.1087
+2026-03-22 16:41:18,389 [INFO]   [sigma] bloodmnist: 1.0384
+2026-03-22 16:41:18,389 [INFO]   [sigma] octmnist: 1.1246
+2026-03-22 16:44:17,025 [INFO] Ep 049/100 | train_loss=2.3876 | val_loss=0.6218 | avg_f1=0.8468 | lr=3.28e-05 | 178s
+2026-03-22 16:44:17,025 [INFO]   [pathmnist] acc=0.9379 f1=0.9381
+2026-03-22 16:44:17,025 [INFO]   [dermamnist] acc=0.7418 f1=0.6442
+2026-03-22 16:44:17,025 [INFO]   [bloodmnist] acc=0.9761 f1=0.9752
+2026-03-22 16:44:17,026 [INFO]   [octmnist] acc=0.8845 f1=0.8297
+2026-03-22 16:44:17,026 [INFO]   [sigma] pathmnist: 1.1336
+2026-03-22 16:44:17,026 [INFO]   [sigma] dermamnist: 1.1073
+2026-03-22 16:44:17,026 [INFO]   [sigma] bloodmnist: 1.0370
+2026-03-22 16:44:17,026 [INFO]   [sigma] octmnist: 1.1251
+2026-03-22 16:47:15,166 [INFO] Ep 050/100 | train_loss=2.3775 | val_loss=0.6091 | avg_f1=0.8549 | lr=3.19e-05 | 178s
+2026-03-22 16:47:15,166 [INFO]   [pathmnist] acc=0.9438 f1=0.9441
+2026-03-22 16:47:15,166 [INFO]   [dermamnist] acc=0.7717 f1=0.6543
+2026-03-22 16:47:15,166 [INFO]   [bloodmnist] acc=0.9778 f1=0.9773
+2026-03-22 16:47:15,166 [INFO]   [octmnist] acc=0.8997 f1=0.8438
+2026-03-22 16:47:15,166 [INFO]   [sigma] pathmnist: 1.1347
+2026-03-22 16:47:15,166 [INFO]   [sigma] dermamnist: 1.1059
+2026-03-22 16:47:15,167 [INFO]   [sigma] bloodmnist: 1.0356
+2026-03-22 16:47:15,167 [INFO]   [sigma] octmnist: 1.1253
+2026-03-22 16:47:15,167 [INFO]   >> New best avg_f1=0.8549
+2026-03-22 16:50:14,290 [INFO] Ep 051/100 | train_loss=2.3660 | val_loss=0.5991 | avg_f1=0.8511 | lr=3.10e-05 | 178s
+2026-03-22 16:50:14,290 [INFO]   [pathmnist] acc=0.9446 f1=0.9448
+2026-03-22 16:50:14,290 [INFO]   [dermamnist] acc=0.7597 f1=0.6325
+2026-03-22 16:50:14,290 [INFO]   [bloodmnist] acc=0.9790 f1=0.9786
+2026-03-22 16:50:14,290 [INFO]   [octmnist] acc=0.9097 f1=0.8486
+2026-03-22 16:50:14,291 [INFO]   [sigma] pathmnist: 1.1359
+2026-03-22 16:50:14,291 [INFO]   [sigma] dermamnist: 1.1041
+2026-03-22 16:50:14,291 [INFO]   [sigma] bloodmnist: 1.0341
+2026-03-22 16:50:14,291 [INFO]   [sigma] octmnist: 1.1255
+2026-03-22 16:53:12,673 [INFO] Ep 052/100 | train_loss=2.3562 | val_loss=0.6050 | avg_f1=0.8574 | lr=3.01e-05 | 178s
+2026-03-22 16:53:12,673 [INFO]   [pathmnist] acc=0.9446 f1=0.9447
+2026-03-22 16:53:12,673 [INFO]   [dermamnist] acc=0.7597 f1=0.6571
+2026-03-22 16:53:12,673 [INFO]   [bloodmnist] acc=0.9848 f1=0.9856
+2026-03-22 16:53:12,673 [INFO]   [octmnist] acc=0.9007 f1=0.8421
+2026-03-22 16:53:12,673 [INFO]   [sigma] pathmnist: 1.1368
+2026-03-22 16:53:12,673 [INFO]   [sigma] dermamnist: 1.1026
+2026-03-22 16:53:12,673 [INFO]   [sigma] bloodmnist: 1.0326
+2026-03-22 16:53:12,673 [INFO]   [sigma] octmnist: 1.1254
+2026-03-22 16:53:12,674 [INFO]   >> New best avg_f1=0.8574
+2026-03-22 16:56:11,017 [INFO] Ep 053/100 | train_loss=2.3480 | val_loss=0.6021 | avg_f1=0.8605 | lr=2.92e-05 | 177s
+2026-03-22 16:56:11,017 [INFO]   [pathmnist] acc=0.9444 f1=0.9447
+2026-03-22 16:56:11,017 [INFO]   [dermamnist] acc=0.7817 f1=0.6627
+2026-03-22 16:56:11,018 [INFO]   [bloodmnist] acc=0.9796 f1=0.9799
+2026-03-22 16:56:11,018 [INFO]   [octmnist] acc=0.9083 f1=0.8549
+2026-03-22 16:56:11,018 [INFO]   [sigma] pathmnist: 1.1374
+2026-03-22 16:56:11,018 [INFO]   [sigma] dermamnist: 1.1010
+2026-03-22 16:56:11,018 [INFO]   [sigma] bloodmnist: 1.0314
+2026-03-22 16:56:11,018 [INFO]   [sigma] octmnist: 1.1254
+2026-03-22 16:56:11,019 [INFO]   >> New best avg_f1=0.8605
+2026-03-22 16:59:09,322 [INFO] Ep 054/100 | train_loss=2.3350 | val_loss=0.6006 | avg_f1=0.8596 | lr=2.83e-05 | 177s
+2026-03-22 16:59:09,322 [INFO]   [pathmnist] acc=0.9444 f1=0.9450
+2026-03-22 16:59:09,322 [INFO]   [dermamnist] acc=0.7767 f1=0.6584
+2026-03-22 16:59:09,322 [INFO]   [bloodmnist] acc=0.9831 f1=0.9827
+2026-03-22 16:59:09,322 [INFO]   [octmnist] acc=0.9085 f1=0.8524
+2026-03-22 16:59:09,322 [INFO]   [sigma] pathmnist: 1.1379
+2026-03-22 16:59:09,322 [INFO]   [sigma] dermamnist: 1.0993
+2026-03-22 16:59:09,322 [INFO]   [sigma] bloodmnist: 1.0300
+2026-03-22 16:59:09,323 [INFO]   [sigma] octmnist: 1.1251
+2026-03-22 17:02:08,333 [INFO] Ep 055/100 | train_loss=2.3235 | val_loss=0.6010 | avg_f1=0.8583 | lr=2.74e-05 | 178s
+2026-03-22 17:02:08,333 [INFO]   [pathmnist] acc=0.9508 f1=0.9509
+2026-03-22 17:02:08,333 [INFO]   [dermamnist] acc=0.7557 f1=0.6541
+2026-03-22 17:02:08,333 [INFO]   [bloodmnist] acc=0.9801 f1=0.9794
+2026-03-22 17:02:08,333 [INFO]   [octmnist] acc=0.9024 f1=0.8490
+2026-03-22 17:02:08,333 [INFO]   [sigma] pathmnist: 1.1381
+2026-03-22 17:02:08,334 [INFO]   [sigma] dermamnist: 1.0975
+2026-03-22 17:02:08,334 [INFO]   [sigma] bloodmnist: 1.0287
+2026-03-22 17:02:08,334 [INFO]   [sigma] octmnist: 1.1249
+2026-03-22 17:05:06,454 [INFO] Ep 056/100 | train_loss=2.3164 | val_loss=0.5850 | avg_f1=0.8600 | lr=2.64e-05 | 177s
+2026-03-22 17:05:06,454 [INFO]   [pathmnist] acc=0.9504 f1=0.9505
+2026-03-22 17:05:06,454 [INFO]   [dermamnist] acc=0.7777 f1=0.6406
+2026-03-22 17:05:06,454 [INFO]   [bloodmnist] acc=0.9790 f1=0.9786
+2026-03-22 17:05:06,454 [INFO]   [octmnist] acc=0.9218 f1=0.8705
+2026-03-22 17:05:06,454 [INFO]   [sigma] pathmnist: 1.1384
+2026-03-22 17:05:06,455 [INFO]   [sigma] dermamnist: 1.0957
+2026-03-22 17:05:06,455 [INFO]   [sigma] bloodmnist: 1.0273
+2026-03-22 17:05:06,455 [INFO]   [sigma] octmnist: 1.1244
+2026-03-22 17:08:05,175 [INFO] Ep 057/100 | train_loss=2.3013 | val_loss=0.6191 | avg_f1=0.8459 | lr=2.55e-05 | 178s
+2026-03-22 17:08:05,176 [INFO]   [pathmnist] acc=0.9445 f1=0.9449
+2026-03-22 17:08:05,176 [INFO]   [dermamnist] acc=0.7607 f1=0.6324
+2026-03-22 17:08:05,176 [INFO]   [bloodmnist] acc=0.9848 f1=0.9851
+2026-03-22 17:08:05,176 [INFO]   [octmnist] acc=0.8747 f1=0.8212
+2026-03-22 17:08:05,176 [INFO]   [sigma] pathmnist: 1.1383
+2026-03-22 17:08:05,176 [INFO]   [sigma] dermamnist: 1.0941
+2026-03-22 17:08:05,176 [INFO]   [sigma] bloodmnist: 1.0261
+2026-03-22 17:08:05,176 [INFO]   [sigma] octmnist: 1.1237
+2026-03-22 17:11:03,540 [INFO] Ep 058/100 | train_loss=2.3003 | val_loss=0.5914 | avg_f1=0.8612 | lr=2.46e-05 | 178s
+2026-03-22 17:11:03,540 [INFO]   [pathmnist] acc=0.9528 f1=0.9532
+2026-03-22 17:11:03,540 [INFO]   [dermamnist] acc=0.7866 f1=0.6547
+2026-03-22 17:11:03,540 [INFO]   [bloodmnist] acc=0.9819 f1=0.9816
+2026-03-22 17:11:03,540 [INFO]   [octmnist] acc=0.9085 f1=0.8554
+2026-03-22 17:11:03,541 [INFO]   [sigma] pathmnist: 1.1381
+2026-03-22 17:11:03,541 [INFO]   [sigma] dermamnist: 1.0925
+2026-03-22 17:11:03,541 [INFO]   [sigma] bloodmnist: 1.0249
+2026-03-22 17:11:03,541 [INFO]   [sigma] octmnist: 1.1232
+2026-03-22 17:11:03,542 [INFO]   >> New best avg_f1=0.8612
+2026-03-22 17:14:02,610 [INFO] Ep 059/100 | train_loss=2.2881 | val_loss=0.5865 | avg_f1=0.8734 | lr=2.37e-05 | 178s
+2026-03-22 17:14:02,610 [INFO]   [pathmnist] acc=0.9497 f1=0.9503
+2026-03-22 17:14:02,610 [INFO]   [dermamnist] acc=0.7966 f1=0.6978
+2026-03-22 17:14:02,610 [INFO]   [bloodmnist] acc=0.9796 f1=0.9792
+2026-03-22 17:14:02,610 [INFO]   [octmnist] acc=0.9182 f1=0.8664
+2026-03-22 17:14:02,610 [INFO]   [sigma] pathmnist: 1.1379
+2026-03-22 17:14:02,610 [INFO]   [sigma] dermamnist: 1.0908
+2026-03-22 17:14:02,611 [INFO]   [sigma] bloodmnist: 1.0237
+2026-03-22 17:14:02,611 [INFO]   [sigma] octmnist: 1.1226
+2026-03-22 17:14:02,611 [INFO]   >> New best avg_f1=0.8734
+2026-03-22 17:17:03,131 [INFO] Ep 060/100 | train_loss=2.2836 | val_loss=0.5839 | avg_f1=0.8674 | lr=2.27e-05 | 179s
+2026-03-22 17:17:03,131 [INFO]   [pathmnist] acc=0.9501 f1=0.9502
+2026-03-22 17:17:03,132 [INFO]   [dermamnist] acc=0.8016 f1=0.6666
+2026-03-22 17:17:03,132 [INFO]   [bloodmnist] acc=0.9842 f1=0.9850
+2026-03-22 17:17:03,132 [INFO]   [octmnist] acc=0.9202 f1=0.8680
+2026-03-22 17:17:03,132 [INFO]   [sigma] pathmnist: 1.1377
+2026-03-22 17:17:03,132 [INFO]   [sigma] dermamnist: 1.0893
+2026-03-22 17:17:03,132 [INFO]   [sigma] bloodmnist: 1.0226
+2026-03-22 17:17:03,132 [INFO]   [sigma] octmnist: 1.1219
+2026-03-22 17:20:01,019 [INFO] Ep 061/100 | train_loss=2.2723 | val_loss=0.5897 | avg_f1=0.8676 | lr=2.18e-05 | 177s
+2026-03-22 17:20:01,019 [INFO]   [pathmnist] acc=0.9528 f1=0.9534
+2026-03-22 17:20:01,019 [INFO]   [dermamnist] acc=0.7956 f1=0.6738
+2026-03-22 17:20:01,019 [INFO]   [bloodmnist] acc=0.9831 f1=0.9840
+2026-03-22 17:20:01,019 [INFO]   [octmnist] acc=0.9098 f1=0.8591
+2026-03-22 17:20:01,019 [INFO]   [sigma] pathmnist: 1.1372
+2026-03-22 17:20:01,019 [INFO]   [sigma] dermamnist: 1.0877
+2026-03-22 17:20:01,019 [INFO]   [sigma] bloodmnist: 1.0214
+2026-03-22 17:20:01,019 [INFO]   [sigma] octmnist: 1.1213
+2026-03-22 17:22:59,252 [INFO] Ep 062/100 | train_loss=2.2626 | val_loss=0.5799 | avg_f1=0.8665 | lr=2.09e-05 | 178s
+2026-03-22 17:22:59,252 [INFO]   [pathmnist] acc=0.9527 f1=0.9531
+2026-03-22 17:22:59,252 [INFO]   [dermamnist] acc=0.7747 f1=0.6537
+2026-03-22 17:22:59,252 [INFO]   [bloodmnist] acc=0.9860 f1=0.9872
+2026-03-22 17:22:59,252 [INFO]   [octmnist] acc=0.9226 f1=0.8723
+2026-03-22 17:22:59,252 [INFO]   [sigma] pathmnist: 1.1368
+2026-03-22 17:22:59,252 [INFO]   [sigma] dermamnist: 1.0862
+2026-03-22 17:22:59,252 [INFO]   [sigma] bloodmnist: 1.0204
+2026-03-22 17:22:59,252 [INFO]   [sigma] octmnist: 1.1205
+2026-03-22 17:25:57,916 [INFO] Ep 063/100 | train_loss=2.2561 | val_loss=0.5871 | avg_f1=0.8617 | lr=2.00e-05 | 178s
+2026-03-22 17:25:57,916 [INFO]   [pathmnist] acc=0.9553 f1=0.9557
+2026-03-22 17:25:57,916 [INFO]   [dermamnist] acc=0.7866 f1=0.6470
+2026-03-22 17:25:57,916 [INFO]   [bloodmnist] acc=0.9848 f1=0.9855
+2026-03-22 17:25:57,916 [INFO]   [octmnist] acc=0.9098 f1=0.8586
+2026-03-22 17:25:57,917 [INFO]   [sigma] pathmnist: 1.1363
+2026-03-22 17:25:57,917 [INFO]   [sigma] dermamnist: 1.0847
+2026-03-22 17:25:57,917 [INFO]   [sigma] bloodmnist: 1.0194
+2026-03-22 17:25:57,917 [INFO]   [sigma] octmnist: 1.1197
+2026-03-22 17:28:56,677 [INFO] Ep 064/100 | train_loss=2.2484 | val_loss=0.5916 | avg_f1=0.8704 | lr=1.91e-05 | 178s
+2026-03-22 17:28:56,677 [INFO]   [pathmnist] acc=0.9549 f1=0.9555
+2026-03-22 17:28:56,677 [INFO]   [dermamnist] acc=0.8056 f1=0.6880
+2026-03-22 17:28:56,677 [INFO]   [bloodmnist] acc=0.9831 f1=0.9841
+2026-03-22 17:28:56,677 [INFO]   [octmnist] acc=0.9044 f1=0.8540
+2026-03-22 17:28:56,677 [INFO]   [sigma] pathmnist: 1.1358
+2026-03-22 17:28:56,677 [INFO]   [sigma] dermamnist: 1.0832
+2026-03-22 17:28:56,678 [INFO]   [sigma] bloodmnist: 1.0184
+2026-03-22 17:28:56,678 [INFO]   [sigma] octmnist: 1.1189
+2026-03-22 17:31:55,380 [INFO] Ep 065/100 | train_loss=2.2442 | val_loss=0.5870 | avg_f1=0.8663 | lr=1.82e-05 | 178s
+2026-03-22 17:31:55,380 [INFO]   [pathmnist] acc=0.9497 f1=0.9494
+2026-03-22 17:31:55,380 [INFO]   [dermamnist] acc=0.8046 f1=0.6705
+2026-03-22 17:31:55,380 [INFO]   [bloodmnist] acc=0.9836 f1=0.9842
+2026-03-22 17:31:55,380 [INFO]   [octmnist] acc=0.9137 f1=0.8613
+2026-03-22 17:31:55,381 [INFO]   [sigma] pathmnist: 1.1353
+2026-03-22 17:31:55,381 [INFO]   [sigma] dermamnist: 1.0819
+2026-03-22 17:31:55,381 [INFO]   [sigma] bloodmnist: 1.0175
+2026-03-22 17:31:55,381 [INFO]   [sigma] octmnist: 1.1182
+2026-03-22 17:34:55,266 [INFO] Ep 066/100 | train_loss=2.2364 | val_loss=0.5810 | avg_f1=0.8704 | lr=1.73e-05 | 179s
+2026-03-22 17:34:55,266 [INFO]   [pathmnist] acc=0.9570 f1=0.9573
+2026-03-22 17:34:55,266 [INFO]   [dermamnist] acc=0.7956 f1=0.6782
+2026-03-22 17:34:55,266 [INFO]   [bloodmnist] acc=0.9813 f1=0.9805
+2026-03-22 17:34:55,266 [INFO]   [octmnist] acc=0.9159 f1=0.8657
+2026-03-22 17:34:55,266 [INFO]   [sigma] pathmnist: 1.1348
+2026-03-22 17:34:55,267 [INFO]   [sigma] dermamnist: 1.0805
+2026-03-22 17:34:55,267 [INFO]   [sigma] bloodmnist: 1.0167
+2026-03-22 17:34:55,267 [INFO]   [sigma] octmnist: 1.1175
+2026-03-22 17:37:53,655 [INFO] Ep 067/100 | train_loss=2.2301 | val_loss=0.5818 | avg_f1=0.8680 | lr=1.65e-05 | 178s
+2026-03-22 17:37:53,655 [INFO]   [pathmnist] acc=0.9568 f1=0.9572
+2026-03-22 17:37:53,655 [INFO]   [dermamnist] acc=0.7946 f1=0.6640
+2026-03-22 17:37:53,655 [INFO]   [bloodmnist] acc=0.9831 f1=0.9823
+2026-03-22 17:37:53,655 [INFO]   [octmnist] acc=0.9179 f1=0.8687
+2026-03-22 17:37:53,656 [INFO]   [sigma] pathmnist: 1.1342
+2026-03-22 17:37:53,656 [INFO]   [sigma] dermamnist: 1.0792
+2026-03-22 17:37:53,656 [INFO]   [sigma] bloodmnist: 1.0158
+2026-03-22 17:37:53,656 [INFO]   [sigma] octmnist: 1.1168
+2026-03-22 17:40:51,910 [INFO] Ep 068/100 | train_loss=2.2213 | val_loss=0.5738 | avg_f1=0.8724 | lr=1.56e-05 | 178s
+2026-03-22 17:40:51,910 [INFO]   [pathmnist] acc=0.9579 f1=0.9582
+2026-03-22 17:40:51,910 [INFO]   [dermamnist] acc=0.8076 f1=0.6748
+2026-03-22 17:40:51,910 [INFO]   [bloodmnist] acc=0.9784 f1=0.9785
+2026-03-22 17:40:51,910 [INFO]   [octmnist] acc=0.9261 f1=0.8782
+2026-03-22 17:40:51,910 [INFO]   [sigma] pathmnist: 1.1337
+2026-03-22 17:40:51,910 [INFO]   [sigma] dermamnist: 1.0780
+2026-03-22 17:40:51,911 [INFO]   [sigma] bloodmnist: 1.0150
+2026-03-22 17:40:51,911 [INFO]   [sigma] octmnist: 1.1160
+2026-03-22 17:43:50,370 [INFO] Ep 069/100 | train_loss=2.2144 | val_loss=0.5771 | avg_f1=0.8702 | lr=1.48e-05 | 178s
+2026-03-22 17:43:50,370 [INFO]   [pathmnist] acc=0.9572 f1=0.9576
+2026-03-22 17:43:50,370 [INFO]   [dermamnist] acc=0.7996 f1=0.6649
+2026-03-22 17:43:50,370 [INFO]   [bloodmnist] acc=0.9836 f1=0.9842
+2026-03-22 17:43:50,370 [INFO]   [octmnist] acc=0.9214 f1=0.8739
+2026-03-22 17:43:50,371 [INFO]   [sigma] pathmnist: 1.1332
+2026-03-22 17:43:50,371 [INFO]   [sigma] dermamnist: 1.0769
+2026-03-22 17:43:50,371 [INFO]   [sigma] bloodmnist: 1.0142
+2026-03-22 17:43:50,371 [INFO]   [sigma] octmnist: 1.1153
+2026-03-22 17:46:50,012 [INFO] Ep 070/100 | train_loss=2.2097 | val_loss=0.5812 | avg_f1=0.8711 | lr=1.39e-05 | 179s
+2026-03-22 17:46:50,012 [INFO]   [pathmnist] acc=0.9577 f1=0.9579
+2026-03-22 17:46:50,012 [INFO]   [dermamnist] acc=0.7936 f1=0.6715
+2026-03-22 17:46:50,012 [INFO]   [bloodmnist] acc=0.9848 f1=0.9849
+2026-03-22 17:46:50,012 [INFO]   [octmnist] acc=0.9180 f1=0.8700
+2026-03-22 17:46:50,012 [INFO]   [sigma] pathmnist: 1.1326
+2026-03-22 17:46:50,012 [INFO]   [sigma] dermamnist: 1.0757
+2026-03-22 17:46:50,013 [INFO]   [sigma] bloodmnist: 1.0135
+2026-03-22 17:46:50,013 [INFO]   [sigma] octmnist: 1.1146
+2026-03-22 17:49:49,532 [INFO] Ep 071/100 | train_loss=2.2029 | val_loss=0.5743 | avg_f1=0.8727 | lr=1.31e-05 | 179s
+2026-03-22 17:49:49,532 [INFO]   [pathmnist] acc=0.9586 f1=0.9592
+2026-03-22 17:49:49,532 [INFO]   [dermamnist] acc=0.7866 f1=0.6668
+2026-03-22 17:49:49,532 [INFO]   [bloodmnist] acc=0.9860 f1=0.9867
+2026-03-22 17:49:49,532 [INFO]   [octmnist] acc=0.9244 f1=0.8781
+2026-03-22 17:49:49,532 [INFO]   [sigma] pathmnist: 1.1320
+2026-03-22 17:49:49,532 [INFO]   [sigma] dermamnist: 1.0747
+2026-03-22 17:49:49,532 [INFO]   [sigma] bloodmnist: 1.0128
+2026-03-22 17:49:49,532 [INFO]   [sigma] octmnist: 1.1139
+2026-03-22 17:52:47,757 [INFO] Ep 072/100 | train_loss=2.1985 | val_loss=0.5692 | avg_f1=0.8764 | lr=1.23e-05 | 178s
+2026-03-22 17:52:47,757 [INFO]   [pathmnist] acc=0.9566 f1=0.9570
+2026-03-22 17:52:47,757 [INFO]   [dermamnist] acc=0.8016 f1=0.6780
+2026-03-22 17:52:47,757 [INFO]   [bloodmnist] acc=0.9848 f1=0.9847
+2026-03-22 17:52:47,758 [INFO]   [octmnist] acc=0.9315 f1=0.8858
+2026-03-22 17:52:47,758 [INFO]   [sigma] pathmnist: 1.1315
+2026-03-22 17:52:47,758 [INFO]   [sigma] dermamnist: 1.0737
+2026-03-22 17:52:47,758 [INFO]   [sigma] bloodmnist: 1.0121
+2026-03-22 17:52:47,758 [INFO]   [sigma] octmnist: 1.1133
+2026-03-22 17:52:47,759 [INFO]   >> New best avg_f1=0.8764
+2026-03-22 17:55:46,168 [INFO] Ep 073/100 | train_loss=2.1914 | val_loss=0.5731 | avg_f1=0.8762 | lr=1.15e-05 | 177s
+2026-03-22 17:55:46,168 [INFO]   [pathmnist] acc=0.9586 f1=0.9589
+2026-03-22 17:55:46,168 [INFO]   [dermamnist] acc=0.8026 f1=0.6817
+2026-03-22 17:55:46,169 [INFO]   [bloodmnist] acc=0.9842 f1=0.9844
+2026-03-22 17:55:46,169 [INFO]   [octmnist] acc=0.9259 f1=0.8800
+2026-03-22 17:55:46,169 [INFO]   [sigma] pathmnist: 1.1310
+2026-03-22 17:55:46,169 [INFO]   [sigma] dermamnist: 1.0728
+2026-03-22 17:55:46,169 [INFO]   [sigma] bloodmnist: 1.0114
+2026-03-22 17:55:46,169 [INFO]   [sigma] octmnist: 1.1127
+2026-03-22 17:58:43,719 [INFO] Ep 074/100 | train_loss=2.1868 | val_loss=0.5736 | avg_f1=0.8748 | lr=1.08e-05 | 177s
+2026-03-22 17:58:43,719 [INFO]   [pathmnist] acc=0.9595 f1=0.9599
+2026-03-22 17:58:43,719 [INFO]   [dermamnist] acc=0.8026 f1=0.6791
+2026-03-22 17:58:43,719 [INFO]   [bloodmnist] acc=0.9854 f1=0.9857
+2026-03-22 17:58:43,719 [INFO]   [octmnist] acc=0.9225 f1=0.8747
+2026-03-22 17:58:43,719 [INFO]   [sigma] pathmnist: 1.1305
+2026-03-22 17:58:43,719 [INFO]   [sigma] dermamnist: 1.0719
+2026-03-22 17:58:43,719 [INFO]   [sigma] bloodmnist: 1.0108
+2026-03-22 17:58:43,719 [INFO]   [sigma] octmnist: 1.1121
+2026-03-22 18:01:41,901 [INFO] Ep 075/100 | train_loss=2.1873 | val_loss=0.5826 | avg_f1=0.8700 | lr=1.00e-05 | 178s
+2026-03-22 18:01:41,901 [INFO]   [pathmnist] acc=0.9606 f1=0.9610
+2026-03-22 18:01:41,901 [INFO]   [dermamnist] acc=0.8006 f1=0.6744
+2026-03-22 18:01:41,901 [INFO]   [bloodmnist] acc=0.9819 f1=0.9819
+2026-03-22 18:01:41,901 [INFO]   [octmnist] acc=0.9121 f1=0.8629
+2026-03-22 18:01:41,901 [INFO]   [sigma] pathmnist: 1.1300
+2026-03-22 18:01:41,902 [INFO]   [sigma] dermamnist: 1.0711
+2026-03-22 18:01:41,902 [INFO]   [sigma] bloodmnist: 1.0103
+2026-03-22 18:01:41,902 [INFO]   [sigma] octmnist: 1.1116
+2026-03-22 18:04:40,094 [INFO] Ep 076/100 | train_loss=2.1778 | val_loss=0.5702 | avg_f1=0.8780 | lr=9.29e-06 | 178s
+2026-03-22 18:04:40,094 [INFO]   [pathmnist] acc=0.9611 f1=0.9617
+2026-03-22 18:04:40,094 [INFO]   [dermamnist] acc=0.7946 f1=0.6834
+2026-03-22 18:04:40,094 [INFO]   [bloodmnist] acc=0.9836 f1=0.9844
+2026-03-22 18:04:40,094 [INFO]   [octmnist] acc=0.9282 f1=0.8824
+2026-03-22 18:04:40,094 [INFO]   [sigma] pathmnist: 1.1295
+2026-03-22 18:04:40,094 [INFO]   [sigma] dermamnist: 1.0703
+2026-03-22 18:04:40,094 [INFO]   [sigma] bloodmnist: 1.0097
+2026-03-22 18:04:40,094 [INFO]   [sigma] octmnist: 1.1111
+2026-03-22 18:04:40,095 [INFO]   >> New best avg_f1=0.8780
+2026-03-22 18:07:39,369 [INFO] Ep 077/100 | train_loss=2.1786 | val_loss=0.5748 | avg_f1=0.8739 | lr=8.58e-06 | 178s
+2026-03-22 18:07:39,369 [INFO]   [pathmnist] acc=0.9607 f1=0.9609
+2026-03-22 18:07:39,369 [INFO]   [dermamnist] acc=0.7996 f1=0.6779
+2026-03-22 18:07:39,369 [INFO]   [bloodmnist] acc=0.9860 f1=0.9861
+2026-03-22 18:07:39,369 [INFO]   [octmnist] acc=0.9187 f1=0.8707
+2026-03-22 18:07:39,369 [INFO]   [sigma] pathmnist: 1.1291
+2026-03-22 18:07:39,369 [INFO]   [sigma] dermamnist: 1.0696
+2026-03-22 18:07:39,370 [INFO]   [sigma] bloodmnist: 1.0092
+2026-03-22 18:07:39,370 [INFO]   [sigma] octmnist: 1.1106
+2026-03-22 18:10:37,085 [INFO] Ep 078/100 | train_loss=2.1738 | val_loss=0.5688 | avg_f1=0.8751 | lr=7.90e-06 | 177s
+2026-03-22 18:10:37,085 [INFO]   [pathmnist] acc=0.9606 f1=0.9608
+2026-03-22 18:10:37,085 [INFO]   [dermamnist] acc=0.7946 f1=0.6700
+2026-03-22 18:10:37,085 [INFO]   [bloodmnist] acc=0.9854 f1=0.9860
+2026-03-22 18:10:37,085 [INFO]   [octmnist] acc=0.9287 f1=0.8836
+2026-03-22 18:10:37,086 [INFO]   [sigma] pathmnist: 1.1287
+2026-03-22 18:10:37,086 [INFO]   [sigma] dermamnist: 1.0689
+2026-03-22 18:10:37,086 [INFO]   [sigma] bloodmnist: 1.0087
+2026-03-22 18:10:37,086 [INFO]   [sigma] octmnist: 1.1102
+2026-03-22 18:13:35,631 [INFO] Ep 079/100 | train_loss=2.1665 | val_loss=0.5663 | avg_f1=0.8780 | lr=7.25e-06 | 178s
+2026-03-22 18:13:35,631 [INFO]   [pathmnist] acc=0.9619 f1=0.9622
+2026-03-22 18:13:35,631 [INFO]   [dermamnist] acc=0.8006 f1=0.6778
+2026-03-22 18:13:35,631 [INFO]   [bloodmnist] acc=0.9866 f1=0.9878
+2026-03-22 18:13:35,631 [INFO]   [octmnist] acc=0.9292 f1=0.8842
+2026-03-22 18:13:35,631 [INFO]   [sigma] pathmnist: 1.1283
+2026-03-22 18:13:35,632 [INFO]   [sigma] dermamnist: 1.0683
+2026-03-22 18:13:35,632 [INFO]   [sigma] bloodmnist: 1.0083
+2026-03-22 18:13:35,632 [INFO]   [sigma] octmnist: 1.1097
+2026-03-22 18:13:35,633 [INFO]   >> New best avg_f1=0.8780
+2026-03-22 18:16:35,086 [INFO] Ep 080/100 | train_loss=2.1576 | val_loss=0.5661 | avg_f1=0.8734 | lr=6.61e-06 | 178s
+2026-03-22 18:16:35,086 [INFO]   [pathmnist] acc=0.9620 f1=0.9624
+2026-03-22 18:16:35,086 [INFO]   [dermamnist] acc=0.7976 f1=0.6605
+2026-03-22 18:16:35,086 [INFO]   [bloodmnist] acc=0.9836 f1=0.9849
+2026-03-22 18:16:35,086 [INFO]   [octmnist] acc=0.9306 f1=0.8858
+2026-03-22 18:16:35,087 [INFO]   [sigma] pathmnist: 1.1279
+2026-03-22 18:16:35,087 [INFO]   [sigma] dermamnist: 1.0677
+2026-03-22 18:16:35,087 [INFO]   [sigma] bloodmnist: 1.0079
+2026-03-22 18:16:35,087 [INFO]   [sigma] octmnist: 1.1093
+2026-03-22 18:19:33,950 [INFO] Ep 081/100 | train_loss=2.1535 | val_loss=0.5670 | avg_f1=0.8773 | lr=6.00e-06 | 178s
+2026-03-22 18:19:33,950 [INFO]   [pathmnist] acc=0.9625 f1=0.9627
+2026-03-22 18:19:33,950 [INFO]   [dermamnist] acc=0.7956 f1=0.6783
+2026-03-22 18:19:33,950 [INFO]   [bloodmnist] acc=0.9831 f1=0.9836
+2026-03-22 18:19:33,950 [INFO]   [octmnist] acc=0.9288 f1=0.8845
+2026-03-22 18:19:33,951 [INFO]   [sigma] pathmnist: 1.1276
+2026-03-22 18:19:33,951 [INFO]   [sigma] dermamnist: 1.0672
+2026-03-22 18:19:33,951 [INFO]   [sigma] bloodmnist: 1.0075
+2026-03-22 18:19:33,951 [INFO]   [sigma] octmnist: 1.1090
+2026-03-22 18:22:32,718 [INFO] Ep 082/100 | train_loss=2.1511 | val_loss=0.5632 | avg_f1=0.8779 | lr=5.42e-06 | 178s
+2026-03-22 18:22:32,718 [INFO]   [pathmnist] acc=0.9654 f1=0.9655
+2026-03-22 18:22:32,718 [INFO]   [dermamnist] acc=0.7926 f1=0.6755
+2026-03-22 18:22:32,718 [INFO]   [bloodmnist] acc=0.9848 f1=0.9851
+2026-03-22 18:22:32,719 [INFO]   [octmnist] acc=0.9300 f1=0.8856
+2026-03-22 18:22:32,719 [INFO]   [sigma] pathmnist: 1.1272
+2026-03-22 18:22:32,719 [INFO]   [sigma] dermamnist: 1.0667
+2026-03-22 18:22:32,719 [INFO]   [sigma] bloodmnist: 1.0072
+2026-03-22 18:22:32,719 [INFO]   [sigma] octmnist: 1.1086
+2026-03-22 18:25:31,443 [INFO] Ep 083/100 | train_loss=2.1495 | val_loss=0.5610 | avg_f1=0.8776 | lr=4.87e-06 | 178s
+2026-03-22 18:25:31,443 [INFO]   [pathmnist] acc=0.9645 f1=0.9649
+2026-03-22 18:25:31,443 [INFO]   [dermamnist] acc=0.7946 f1=0.6701
+2026-03-22 18:25:31,443 [INFO]   [bloodmnist] acc=0.9836 f1=0.9843
+2026-03-22 18:25:31,443 [INFO]   [octmnist] acc=0.9342 f1=0.8911
+2026-03-22 18:25:31,443 [INFO]   [sigma] pathmnist: 1.1269
+2026-03-22 18:25:31,443 [INFO]   [sigma] dermamnist: 1.0663
+2026-03-22 18:25:31,444 [INFO]   [sigma] bloodmnist: 1.0069
+2026-03-22 18:25:31,444 [INFO]   [sigma] octmnist: 1.1083
+2026-03-22 18:28:29,277 [INFO] Ep 084/100 | train_loss=2.1468 | val_loss=0.5696 | avg_f1=0.8723 | lr=4.34e-06 | 177s
+2026-03-22 18:28:29,277 [INFO]   [pathmnist] acc=0.9631 f1=0.9636
+2026-03-22 18:28:29,277 [INFO]   [dermamnist] acc=0.7956 f1=0.6637
+2026-03-22 18:28:29,277 [INFO]   [bloodmnist] acc=0.9854 f1=0.9859
+2026-03-22 18:28:29,277 [INFO]   [octmnist] acc=0.9224 f1=0.8761
+2026-03-22 18:28:29,277 [INFO]   [sigma] pathmnist: 1.1267
+2026-03-22 18:28:29,277 [INFO]   [sigma] dermamnist: 1.0659
+2026-03-22 18:28:29,277 [INFO]   [sigma] bloodmnist: 1.0066
+2026-03-22 18:28:29,277 [INFO]   [sigma] octmnist: 1.1080
+2026-03-22 18:31:27,290 [INFO] Ep 085/100 | train_loss=2.1435 | val_loss=0.5662 | avg_f1=0.8770 | lr=3.84e-06 | 177s
+2026-03-22 18:31:27,290 [INFO]   [pathmnist] acc=0.9661 f1=0.9664
+2026-03-22 18:31:27,290 [INFO]   [dermamnist] acc=0.8056 f1=0.6773
+2026-03-22 18:31:27,290 [INFO]   [bloodmnist] acc=0.9842 f1=0.9847
+2026-03-22 18:31:27,290 [INFO]   [octmnist] acc=0.9249 f1=0.8795
+2026-03-22 18:31:27,290 [INFO]   [sigma] pathmnist: 1.1264
+2026-03-22 18:31:27,290 [INFO]   [sigma] dermamnist: 1.0656
+2026-03-22 18:31:27,291 [INFO]   [sigma] bloodmnist: 1.0064
+2026-03-22 18:31:27,291 [INFO]   [sigma] octmnist: 1.1078
+2026-03-22 18:34:25,657 [INFO] Ep 086/100 | train_loss=2.1397 | val_loss=0.5610 | avg_f1=0.8814 | lr=3.37e-06 | 178s
+2026-03-22 18:34:25,657 [INFO]   [pathmnist] acc=0.9644 f1=0.9646
+2026-03-22 18:34:25,657 [INFO]   [dermamnist] acc=0.8036 f1=0.6854
+2026-03-22 18:34:25,657 [INFO]   [bloodmnist] acc=0.9836 f1=0.9848
+2026-03-22 18:34:25,657 [INFO]   [octmnist] acc=0.9341 f1=0.8907
+2026-03-22 18:34:25,657 [INFO]   [sigma] pathmnist: 1.1262
+2026-03-22 18:34:25,657 [INFO]   [sigma] dermamnist: 1.0653
+2026-03-22 18:34:25,657 [INFO]   [sigma] bloodmnist: 1.0061
+2026-03-22 18:34:25,658 [INFO]   [sigma] octmnist: 1.1075
+2026-03-22 18:34:25,658 [INFO]   >> New best avg_f1=0.8814
+2026-03-22 18:37:25,121 [INFO] Ep 087/100 | train_loss=2.1367 | val_loss=0.5611 | avg_f1=0.8823 | lr=2.92e-06 | 178s
+2026-03-22 18:37:25,121 [INFO]   [pathmnist] acc=0.9666 f1=0.9670
+2026-03-22 18:37:25,121 [INFO]   [dermamnist] acc=0.8026 f1=0.6865
+2026-03-22 18:37:25,122 [INFO]   [bloodmnist] acc=0.9860 f1=0.9869
+2026-03-22 18:37:25,122 [INFO]   [octmnist] acc=0.9328 f1=0.8890
+2026-03-22 18:37:25,122 [INFO]   [sigma] pathmnist: 1.1260
+2026-03-22 18:37:25,122 [INFO]   [sigma] dermamnist: 1.0650
+2026-03-22 18:37:25,122 [INFO]   [sigma] bloodmnist: 1.0060
+2026-03-22 18:37:25,122 [INFO]   [sigma] octmnist: 1.1073
+2026-03-22 18:37:25,123 [INFO]   >> New best avg_f1=0.8823
+2026-03-22 18:40:23,872 [INFO] Ep 088/100 | train_loss=2.1361 | val_loss=0.5593 | avg_f1=0.8802 | lr=2.51e-06 | 177s
+2026-03-22 18:40:23,873 [INFO]   [pathmnist] acc=0.9672 f1=0.9675
+2026-03-22 18:40:23,873 [INFO]   [dermamnist] acc=0.7946 f1=0.6762
+2026-03-22 18:40:23,873 [INFO]   [bloodmnist] acc=0.9860 f1=0.9860
+2026-03-22 18:40:23,873 [INFO]   [octmnist] acc=0.9345 f1=0.8912
+2026-03-22 18:40:23,873 [INFO]   [sigma] pathmnist: 1.1258
+2026-03-22 18:40:23,873 [INFO]   [sigma] dermamnist: 1.0648
+2026-03-22 18:40:23,873 [INFO]   [sigma] bloodmnist: 1.0058
+2026-03-22 18:40:23,873 [INFO]   [sigma] octmnist: 1.1072
+2026-03-22 18:43:22,050 [INFO] Ep 089/100 | train_loss=2.1398 | val_loss=0.5604 | avg_f1=0.8819 | lr=2.13e-06 | 178s
+2026-03-22 18:43:22,050 [INFO]   [pathmnist] acc=0.9658 f1=0.9662
+2026-03-22 18:43:22,050 [INFO]   [dermamnist] acc=0.8106 f1=0.6853
+2026-03-22 18:43:22,050 [INFO]   [bloodmnist] acc=0.9860 f1=0.9873
+2026-03-22 18:43:22,050 [INFO]   [octmnist] acc=0.9324 f1=0.8890
+2026-03-22 18:43:22,050 [INFO]   [sigma] pathmnist: 1.1257
+2026-03-22 18:43:22,050 [INFO]   [sigma] dermamnist: 1.0646
+2026-03-22 18:43:22,051 [INFO]   [sigma] bloodmnist: 1.0056
+2026-03-22 18:43:22,051 [INFO]   [sigma] octmnist: 1.1070
+2026-03-22 18:46:20,423 [INFO] Ep 090/100 | train_loss=2.1371 | val_loss=0.5612 | avg_f1=0.8813 | lr=1.78e-06 | 178s
+2026-03-22 18:46:20,423 [INFO]   [pathmnist] acc=0.9680 f1=0.9684
+2026-03-22 18:46:20,423 [INFO]   [dermamnist] acc=0.7976 f1=0.6796
+2026-03-22 18:46:20,423 [INFO]   [bloodmnist] acc=0.9854 f1=0.9867
+2026-03-22 18:46:20,423 [INFO]   [octmnist] acc=0.9328 f1=0.8903
+2026-03-22 18:46:20,423 [INFO]   [sigma] pathmnist: 1.1255
+2026-03-22 18:46:20,423 [INFO]   [sigma] dermamnist: 1.0644
+2026-03-22 18:46:20,423 [INFO]   [sigma] bloodmnist: 1.0055
+2026-03-22 18:46:20,423 [INFO]   [sigma] octmnist: 1.1069
+2026-03-22 18:49:18,537 [INFO] Ep 091/100 | train_loss=2.1390 | val_loss=0.5627 | avg_f1=0.8802 | lr=1.47e-06 | 177s
+2026-03-22 18:49:18,537 [INFO]   [pathmnist] acc=0.9662 f1=0.9666
+2026-03-22 18:49:18,537 [INFO]   [dermamnist] acc=0.8036 f1=0.6801
+2026-03-22 18:49:18,537 [INFO]   [bloodmnist] acc=0.9854 f1=0.9862
+2026-03-22 18:49:18,537 [INFO]   [octmnist] acc=0.9311 f1=0.8877
+2026-03-22 18:49:18,537 [INFO]   [sigma] pathmnist: 1.1255
+2026-03-22 18:49:18,538 [INFO]   [sigma] dermamnist: 1.0643
+2026-03-22 18:49:18,538 [INFO]   [sigma] bloodmnist: 1.0054
+2026-03-22 18:49:18,538 [INFO]   [sigma] octmnist: 1.1068
+2026-03-22 18:52:16,659 [INFO] Ep 092/100 | train_loss=2.1297 | val_loss=0.5609 | avg_f1=0.8821 | lr=1.18e-06 | 177s
+2026-03-22 18:52:16,659 [INFO]   [pathmnist] acc=0.9672 f1=0.9677
+2026-03-22 18:52:16,659 [INFO]   [dermamnist] acc=0.8066 f1=0.6827
+2026-03-22 18:52:16,659 [INFO]   [bloodmnist] acc=0.9860 f1=0.9875
+2026-03-22 18:52:16,659 [INFO]   [octmnist] acc=0.9332 f1=0.8907
+2026-03-22 18:52:16,659 [INFO]   [sigma] pathmnist: 1.1254
+2026-03-22 18:52:16,659 [INFO]   [sigma] dermamnist: 1.0642
+2026-03-22 18:52:16,660 [INFO]   [sigma] bloodmnist: 1.0053
+2026-03-22 18:52:16,660 [INFO]   [sigma] octmnist: 1.1067
+2026-03-22 18:55:15,363 [INFO] Ep 093/100 | train_loss=2.1293 | val_loss=0.5590 | avg_f1=0.8825 | lr=9.30e-07 | 178s
+2026-03-22 18:55:15,363 [INFO]   [pathmnist] acc=0.9671 f1=0.9676
+2026-03-22 18:55:15,363 [INFO]   [dermamnist] acc=0.8036 f1=0.6814
+2026-03-22 18:55:15,363 [INFO]   [bloodmnist] acc=0.9854 f1=0.9868
+2026-03-22 18:55:15,363 [INFO]   [octmnist] acc=0.9358 f1=0.8942
+2026-03-22 18:55:15,364 [INFO]   [sigma] pathmnist: 1.1253
+2026-03-22 18:55:15,364 [INFO]   [sigma] dermamnist: 1.0641
+2026-03-22 18:55:15,364 [INFO]   [sigma] bloodmnist: 1.0053
+2026-03-22 18:55:15,364 [INFO]   [sigma] octmnist: 1.1066
+2026-03-22 18:55:15,365 [INFO]   >> New best avg_f1=0.8825
+2026-03-22 18:58:14,137 [INFO] Ep 094/100 | train_loss=2.1295 | val_loss=0.5595 | avg_f1=0.8824 | lr=7.11e-07 | 178s
+2026-03-22 18:58:14,138 [INFO]   [pathmnist] acc=0.9671 f1=0.9675
+2026-03-22 18:58:14,138 [INFO]   [dermamnist] acc=0.8056 f1=0.6833
+2026-03-22 18:58:14,138 [INFO]   [bloodmnist] acc=0.9842 f1=0.9852
+2026-03-22 18:58:14,138 [INFO]   [octmnist] acc=0.9351 f1=0.8934
+2026-03-22 18:58:14,138 [INFO]   [sigma] pathmnist: 1.1252
+2026-03-22 18:58:14,138 [INFO]   [sigma] dermamnist: 1.0640
+2026-03-22 18:58:14,138 [INFO]   [sigma] bloodmnist: 1.0052
+2026-03-22 18:58:14,139 [INFO]   [sigma] octmnist: 1.1066
+2026-03-22 19:01:12,648 [INFO] Ep 095/100 | train_loss=2.1303 | val_loss=0.5603 | avg_f1=0.8821 | lr=5.25e-07 | 178s
+2026-03-22 19:01:12,648 [INFO]   [pathmnist] acc=0.9661 f1=0.9666
+2026-03-22 19:01:12,648 [INFO]   [dermamnist] acc=0.8096 f1=0.6852
+2026-03-22 19:01:12,648 [INFO]   [bloodmnist] acc=0.9836 f1=0.9841
+2026-03-22 19:01:12,648 [INFO]   [octmnist] acc=0.9345 f1=0.8925
+2026-03-22 19:01:12,649 [INFO]   [sigma] pathmnist: 1.1252
+2026-03-22 19:01:12,649 [INFO]   [sigma] dermamnist: 1.0639
+2026-03-22 19:01:12,649 [INFO]   [sigma] bloodmnist: 1.0052
+2026-03-22 19:01:12,649 [INFO]   [sigma] octmnist: 1.1065
+2026-03-22 19:04:10,771 [INFO] Ep 096/100 | train_loss=2.1298 | val_loss=0.5585 | avg_f1=0.8828 | lr=3.72e-07 | 177s
+2026-03-22 19:04:10,771 [INFO]   [pathmnist] acc=0.9668 f1=0.9672
+2026-03-22 19:04:10,771 [INFO]   [dermamnist] acc=0.8056 f1=0.6834
+2026-03-22 19:04:10,771 [INFO]   [bloodmnist] acc=0.9842 f1=0.9848
+2026-03-22 19:04:10,771 [INFO]   [octmnist] acc=0.9370 f1=0.8957
+2026-03-22 19:04:10,771 [INFO]   [sigma] pathmnist: 1.1252
+2026-03-22 19:04:10,771 [INFO]   [sigma] dermamnist: 1.0639
+2026-03-22 19:04:10,772 [INFO]   [sigma] bloodmnist: 1.0051
+2026-03-22 19:04:10,772 [INFO]   [sigma] octmnist: 1.1065
+2026-03-22 19:04:10,772 [INFO]   >> New best avg_f1=0.8828
+2026-03-22 19:07:10,705 [INFO] Ep 097/100 | train_loss=2.1270 | val_loss=0.5593 | avg_f1=0.8824 | lr=2.53e-07 | 179s
+2026-03-22 19:07:10,705 [INFO]   [pathmnist] acc=0.9668 f1=0.9673
+2026-03-22 19:07:10,705 [INFO]   [dermamnist] acc=0.8076 f1=0.6837
+2026-03-22 19:07:10,705 [INFO]   [bloodmnist] acc=0.9836 f1=0.9848
+2026-03-22 19:07:10,705 [INFO]   [octmnist] acc=0.9356 f1=0.8938
+2026-03-22 19:07:10,705 [INFO]   [sigma] pathmnist: 1.1251
+2026-03-22 19:07:10,706 [INFO]   [sigma] dermamnist: 1.0639
+2026-03-22 19:07:10,706 [INFO]   [sigma] bloodmnist: 1.0051
+2026-03-22 19:07:10,706 [INFO]   [sigma] octmnist: 1.1065
+2026-03-22 19:10:09,691 [INFO] Ep 098/100 | train_loss=2.1264 | val_loss=0.5589 | avg_f1=0.8832 | lr=1.68e-07 | 178s
+2026-03-22 19:10:09,691 [INFO]   [pathmnist] acc=0.9674 f1=0.9678
+2026-03-22 19:10:09,691 [INFO]   [dermamnist] acc=0.8056 f1=0.6835
+2026-03-22 19:10:09,691 [INFO]   [bloodmnist] acc=0.9854 f1=0.9862
+2026-03-22 19:10:09,691 [INFO]   [octmnist] acc=0.9364 f1=0.8952
+2026-03-22 19:10:09,691 [INFO]   [sigma] pathmnist: 1.1251
+2026-03-22 19:10:09,691 [INFO]   [sigma] dermamnist: 1.0638
+2026-03-22 19:10:09,691 [INFO]   [sigma] bloodmnist: 1.0051
+2026-03-22 19:10:09,692 [INFO]   [sigma] octmnist: 1.1065
+2026-03-22 19:10:09,692 [INFO]   >> New best avg_f1=0.8832
+2026-03-22 19:13:08,755 [INFO] Ep 099/100 | train_loss=2.1290 | val_loss=0.5598 | avg_f1=0.8824 | lr=1.17e-07 | 178s
+2026-03-22 19:13:08,756 [INFO]   [pathmnist] acc=0.9670 f1=0.9675
+2026-03-22 19:13:08,756 [INFO]   [dermamnist] acc=0.8046 f1=0.6830
+2026-03-22 19:13:08,756 [INFO]   [bloodmnist] acc=0.9836 f1=0.9850
+2026-03-22 19:13:08,756 [INFO]   [octmnist] acc=0.9357 f1=0.8940
+2026-03-22 19:13:08,756 [INFO]   [sigma] pathmnist: 1.1251
+2026-03-22 19:13:08,756 [INFO]   [sigma] dermamnist: 1.0638
+2026-03-22 19:13:08,756 [INFO]   [sigma] bloodmnist: 1.0051
+2026-03-22 19:13:08,756 [INFO]   [sigma] octmnist: 1.1064
+2026-03-22 19:16:06,806 [INFO] Ep 100/100 | train_loss=2.1234 | val_loss=0.5594 | avg_f1=0.8827 | lr=1.00e-07 | 177s
+2026-03-22 19:16:06,806 [INFO]   [pathmnist] acc=0.9674 f1=0.9679
+2026-03-22 19:16:06,806 [INFO]   [dermamnist] acc=0.8066 f1=0.6829
+2026-03-22 19:16:06,806 [INFO]   [bloodmnist] acc=0.9848 f1=0.9858
+2026-03-22 19:16:06,806 [INFO]   [octmnist] acc=0.9358 f1=0.8941
+2026-03-22 19:16:06,806 [INFO]   [sigma] pathmnist: 1.1251
+2026-03-22 19:16:06,806 [INFO]   [sigma] dermamnist: 1.0638
+2026-03-22 19:16:06,806 [INFO]   [sigma] bloodmnist: 1.0051
+2026-03-22 19:16:06,807 [INFO]   [sigma] octmnist: 1.1064
+2026-03-22 19:16:07,446 [INFO] Training complete.
+2026-03-22 19:16:07,447 [INFO] Loading checkpoint: runs/medical_mamba/checkpoint_best.pt
+2026-03-22 19:16:07,727 [INFO] Resumed from epoch 98
+2026-03-22 19:16:16,108 [INFO] 
+=== TEST RESULTS ===
+2026-03-22 19:16:16,108 [INFO]   [pathmnist] acc=0.9276 f1=0.9012
+2026-03-22 19:16:16,108 [INFO]   [dermamnist] acc=0.8090 f1=0.6886
+2026-03-22 19:16:16,108 [INFO]   [bloodmnist] acc=0.9866 f1=0.9876
+2026-03-22 19:16:16,108 [INFO]   [octmnist] acc=0.8620 f1=0.8585
