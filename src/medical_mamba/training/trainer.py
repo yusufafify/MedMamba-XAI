@@ -133,7 +133,7 @@ class TrainConfig:
 # ─────────────────────────────────────────────────────────────────────────────
 
 class Trainer:
-    """Unified trainer for single-task and multi-task VMamba training.
+    """Unified trainer for single-task and multi-task model training.
 
     Parameters
     ----------
@@ -145,6 +145,11 @@ class Trainer:
         Validation data loader.
     test_loader : DataLoader
         Test data loader.
+    model : nn.Module, optional
+        A pre-built model to use directly.  When supplied, the Trainer skips
+        its internal ``build_model()`` call.  The model must implement the
+        same ``forward_single(x, task_name)`` / ``forward_multi(x, task_ids)``
+        interface as ``MedicalVMamba``.
     """
 
     def __init__(
@@ -153,6 +158,7 @@ class Trainer:
         train_loader,
         val_loader,
         test_loader,
+        model: Optional[nn.Module] = None,
     ) -> None:
         self.cfg    = cfg
         self.device = torch.device(cfg.device)
@@ -181,13 +187,17 @@ class Trainer:
         self.test_loader  = test_loader
 
         # ── Model ─────────────────────────────────────────────────────────
-        self.log(f"Building VMamba-{cfg.model_size} | patch={cfg.patch_size}")
-        self.model = build_model(
-            task_configs=self.task_configs,
-            model_size=cfg.model_size,
-            patch_size=cfg.patch_size,
-            head_dropout=cfg.head_dropout,
-        ).to(self.device)
+        if model is not None:
+            self.log("Using externally supplied model.")
+            self.model = model.to(self.device)
+        else:
+            self.log(f"Building VMamba-{cfg.model_size} | patch={cfg.patch_size}")
+            self.model = build_model(
+                task_configs=self.task_configs,
+                model_size=cfg.model_size,
+                patch_size=cfg.patch_size,
+                head_dropout=cfg.head_dropout,
+            ).to(self.device)
 
         n_params = sum(p.numel() for p in self.model.parameters()) / 1e6
         self.log(f"Parameters: {n_params:.1f}M | Tasks: {self.task_names}")
@@ -360,7 +370,8 @@ class Trainer:
     def fit(self) -> Dict:
         """Run full training + return best checkpoint info."""
         self.log("=" * 64)
-        self.log(f"MedicalVMamba-{self.cfg.model_size} | "
+        model_name = type(self.model).__name__
+        self.log(f"{model_name} | "
                  f"tasks={self.task_names} | device={self.device} | "
                  f"AMP={self.cfg.use_amp}")
         self.log("=" * 64)

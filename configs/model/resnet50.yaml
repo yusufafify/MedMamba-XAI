@@ -1,0 +1,4 @@
+model:
+  type: resnet50
+  pretrained: true
+  head_dropout: 0.1

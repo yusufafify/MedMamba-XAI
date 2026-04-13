@@ -18,11 +18,18 @@ No section duplicates keys from another section.
 
 Usage::
 
-    # Single dataset
+    # Single dataset — VMamba
     python scripts/train.py \\
         --config   configs/default.yaml \\
         --data     configs/data/pathmnist.yaml \\
         --model    configs/model/vmamba_tiny.yaml \\
+        --training configs/training/single_task.yaml
+
+    # Single dataset — ResNet50 baseline
+    python scripts/train.py \\
+        --config   configs/default.yaml \\
+        --data     configs/data/pathmnist.yaml \\
+        --model    configs/model/resnet50.yaml \\
         --training configs/training/single_task.yaml
 
     # Multi-task
@@ -57,6 +64,9 @@ import yaml
 
 from medical_mamba.data.dataset import build_dataloaders
 from medical_mamba.data.transforms import build_transforms_map
+from medical_mamba.models.medical_vmamba import build_model
+from medical_mamba.models.resnet_baseline import ResNetBaseline
+from medical_mamba.data.constants import DATASET_META
 from medical_mamba.training.trainer import Trainer, TrainConfig
 from medical_mamba.utils.seed import set_seed
 
@@ -210,12 +220,41 @@ def main() -> None:
         single_dataset = None,  # already resolved into active_roots
     )
 
+    # ── Resolve active task configs (needed for model head construction) ──────
+    if cfg_obj.single_dataset is not None:
+        active_task_keys = [cfg_obj.single_dataset]
+    else:
+        active_task_keys = list(active_roots.keys())
+    task_configs = [
+        (name, DATASET_META[name]["num_classes"])
+        for name in active_task_keys
+    ]
+
+    # ── Build model ────────────────────────────────────────────────────
+    model_type = model.get("type", "vmamba").lower()
+    if model_type == "resnet50":
+        print(f"[model] Building ResNet50 baseline (pretrained={model.get('pretrained', True)})")
+        built_model = ResNetBaseline(
+            task_configs=task_configs,
+            pretrained=model.get("pretrained", True),
+            head_dropout=model.get("head_dropout", 0.1),
+        )
+    else:
+        print(f"[model] Building VMamba-{cfg_obj.model_size} (patch={cfg_obj.patch_size})")
+        built_model = build_model(
+            task_configs=task_configs,
+            model_size=cfg_obj.model_size,
+            patch_size=cfg_obj.patch_size,
+            head_dropout=cfg_obj.head_dropout,
+        )
+
     # ── Train ─────────────────────────────────────────────────────────────
     trainer = Trainer(
         cfg          = cfg_obj,
         train_loader = loaders["train"],
         val_loader   = loaders["val"],
         test_loader  = loaders["test"],
+        model        = built_model,
     )
 
     if args.test:
