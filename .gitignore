@@ -38,12 +38,11 @@ desktop.ini
 *.swo
 
 # ─── TensorBoard ─────────────────────────────────────────────────
-# runs/
+runs/
 events.out.tfevents.*
-*.pt
 
 # ─── Misc ─────────────────────────────────────────────────────────
-# *.log
+*.log
 *.bak
 *.tmp
 logs/
