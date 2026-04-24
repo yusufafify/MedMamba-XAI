@@ -263,7 +263,7 @@ class TestMedicalVMamba:
         """Each sample must be routed to the correct head by task_id."""
         x = torch.randn(4, 3, 224, 224)
         task_ids = torch.tensor([0, 1, 0, 2])  # path, blood, path, oct
-        task_logits, _ = multi_task_model.forward_multi(x, task_ids)
+        task_logits, features, _ = multi_task_model.forward_multi(x, task_ids)
 
         assert "pathmnist"  in task_logits
         assert "bloodmnist" in task_logits
@@ -272,12 +272,13 @@ class TestMedicalVMamba:
         assert task_logits["pathmnist"].shape  == (2, 9)  # 2 path samples
         assert task_logits["bloodmnist"].shape == (1, 8)  # 1 blood sample
         assert task_logits["octmnist"].shape   == (1, 4)  # 1 oct sample
+        assert features.shape == (4, multi_task_model.backbone.out_dim)
 
     def test_multi_task_absent_task_not_in_output(self, multi_task_model) -> None:
         """Tasks with no samples in the batch must not appear in output dict."""
         x = torch.randn(2, 3, 224, 224)
         task_ids = torch.tensor([0, 0])   # only pathmnist
-        task_logits, _ = multi_task_model.forward_multi(x, task_ids)
+        task_logits, _features, _ = multi_task_model.forward_multi(x, task_ids)
         assert "bloodmnist" not in task_logits
         assert "octmnist"   not in task_logits
 
@@ -335,3 +336,147 @@ class TestBuildModel:
     def test_invalid_model_size_raises(self) -> None:
         with pytest.raises(ValueError):
             build_model([("pathmnist", 9)], model_size="xlarge")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Contrastive projector (SupCon domain discovery)
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestContrastiveProjector:
+
+    @pytest.fixture(scope="class")
+    def model(self) -> MedicalVMamba:
+        """Tiny multi-task model (reused across projector tests)."""
+        return build_model(
+            task_configs=[("pathmnist", 9), ("bloodmnist", 8), ("octmnist", 4)],
+            model_size="tiny",
+            patch_size=8,
+        )
+
+    def test_project_output_shape(self, model: MedicalVMamba) -> None:
+        """project() returns (B, 128) regardless of feat_dim."""
+        feat_dim = model.backbone.out_dim
+        features = torch.randn(4, feat_dim)
+        z = model.project(features)
+        assert z.shape == (4, 128), f"Expected (4, 128), got {z.shape}"
+
+    def test_project_output_normalized(self, model: MedicalVMamba) -> None:
+        """L2 norm of each projection vector must equal 1.0."""
+        model.eval()  # BN in eval mode for deterministic behaviour
+        feat_dim = model.backbone.out_dim
+        features = torch.randn(4, feat_dim)
+        with torch.no_grad():
+            z = model.project(features)
+        norms = z.norm(dim=1)
+        assert torch.allclose(norms, torch.ones(4), atol=1e-5), \
+            f"Projections not unit norm: {norms.tolist()}"
+
+    def test_project_grad_flows(self, model: MedicalVMamba) -> None:
+        """Gradients must flow through project() back to backbone params."""
+        model.train()
+        x = torch.randn(2, 3, 224, 224)
+        features, _ = model.backbone(x)
+        z = model.project(features)
+        loss = z.sum()
+        loss.backward()
+        # At least one backbone parameter should have a non-None gradient
+        got_grad = any(
+            p.grad is not None and p.grad.abs().sum() > 0
+            for p in model.backbone.parameters()
+            if p.requires_grad
+        )
+        assert got_grad, "No gradient reached backbone via project()"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Prototype routing (autonomous predict)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _fake_loader(n_tasks: int, batch_size: int = 4, n_batches: int = 2):
+    """Yield tiny batches in the {image, label, task_id} dict format."""
+    for i in range(n_batches):
+        # Even split of task_ids across the batch
+        tids = torch.tensor([j % n_tasks for j in range(batch_size)],
+                            dtype=torch.long)
+        yield {
+            "image":   torch.randn(batch_size, 3, 224, 224),
+            "label":   torch.zeros(batch_size, dtype=torch.long),
+            "task_id": tids,
+        }
+
+
+class TestPrototypeRouting:
+
+    @pytest.fixture(scope="class")
+    def model(self) -> MedicalVMamba:
+        """Tiny 3-task model, prototypes computed via fake loader."""
+        m = build_model(
+            task_configs=[("pathmnist", 9), ("bloodmnist", 8), ("octmnist", 4)],
+            model_size="tiny",
+            patch_size=8,
+        )
+        return m
+
+    def test_prototypes_shape(self, model: MedicalVMamba) -> None:
+        """domain_prototypes buffer has shape (n_tasks, feat_dim)."""
+        n_tasks  = len(model.task_names)
+        feat_dim = model.backbone.out_dim
+        assert model.domain_prototypes.shape == (n_tasks, feat_dim)
+
+    def test_predict_raises_before_prototypes(self) -> None:
+        """predict() must raise RuntimeError on a freshly-built model."""
+        m = build_model(
+            task_configs=[("pathmnist", 9), ("bloodmnist", 8)],
+            model_size="tiny",
+            patch_size=8,
+        )
+        assert not m.prototypes_computed
+        with pytest.raises(RuntimeError):
+            m.predict(torch.randn(1, 3, 224, 224))
+
+    def test_compute_prototypes_sets_flag(self) -> None:
+        """prototypes_computed must flip to True after compute_prototypes()."""
+        m = build_model(
+            task_configs=[("pathmnist", 9), ("bloodmnist", 8), ("octmnist", 4)],
+            model_size="tiny",
+            patch_size=8,
+        )
+        assert not m.prototypes_computed
+        m.compute_prototypes(_fake_loader(n_tasks=3), device=torch.device("cpu"))
+        assert m.prototypes_computed
+
+    def test_predict_returns_valid_task(self) -> None:
+        """predict() returns a task_name that is in model.task_names."""
+        m = build_model(
+            task_configs=[("pathmnist", 9), ("bloodmnist", 8), ("octmnist", 4)],
+            model_size="tiny",
+            patch_size=8,
+        )
+        m.compute_prototypes(_fake_loader(n_tasks=3), device=torch.device("cpu"))
+        task_name, class_idx, conf = m.predict(torch.randn(1, 3, 224, 224))
+        assert task_name in m.task_names
+        assert isinstance(class_idx, int)
+        assert isinstance(conf, float)
+
+    def test_predict_confidence_in_range(self) -> None:
+        """Confidence is a valid softmax probability in [0, 1]."""
+        m = build_model(
+            task_configs=[("pathmnist", 9), ("bloodmnist", 8), ("octmnist", 4)],
+            model_size="tiny",
+            patch_size=8,
+        )
+        m.compute_prototypes(_fake_loader(n_tasks=3), device=torch.device("cpu"))
+        _, _, conf = m.predict(torch.randn(1, 3, 224, 224))
+        assert 0.0 <= conf <= 1.0, f"Confidence out of range: {conf}"
+
+    def test_predict_auto_unsqueeze(self) -> None:
+        """predict() accepts (C, H, W) input without manual unsqueezing."""
+        m = build_model(
+            task_configs=[("pathmnist", 9), ("bloodmnist", 8), ("octmnist", 4)],
+            model_size="tiny",
+            patch_size=8,
+        )
+        m.compute_prototypes(_fake_loader(n_tasks=3), device=torch.device("cpu"))
+        # 3-D input — must be handled without crashing
+        task_name, class_idx, conf = m.predict(torch.randn(3, 224, 224))
+        assert task_name in m.task_names

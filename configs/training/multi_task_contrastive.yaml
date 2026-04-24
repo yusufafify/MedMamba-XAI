@@ -1,0 +1,32 @@
+# =============================================================================
+# Multi-task training with contrastive domain discovery (SupCon)
+# =============================================================================
+# Extends multi_task.yaml — use this to enable autonomous inference
+# (predict() routes to the correct head via nearest-prototype on backbone
+# features). After training the trainer computes per-dataset prototypes
+# and re-saves the best checkpoint with them baked in.
+#
+# Reference: Khosla et al. 2020 — Supervised Contrastive Learning.
+# =============================================================================
+training:
+  mode: multi_task
+  epochs: 100
+  lr: 5.0e-5
+  min_lr: 1.0e-7
+  weight_decay: 0.05
+  warmup_epochs: 15
+  grad_clip: 1.0
+  label_smoothing: 0.1
+  mixed_precision: true
+  scheduler: cosine_warmup
+  plateau_factor: 0.5
+  plateau_patience: 7
+  plateau_min_lr: 1.0e-7
+  early_stopping_patience: 20
+  save_best_metric: avg_f1_macro
+  # Contrastive domain discovery
+  use_contrastive: true
+  contrastive_lambda: 0.1
+  contrastive_temp: 0.07
+  contrastive_warmup: 10
+  compute_prototypes_after_training: true

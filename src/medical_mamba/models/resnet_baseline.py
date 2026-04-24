@@ -51,4 +51,4 @@ class ResNetBaseline(nn.Module):
             mask = task_ids == tid
             if mask.any():
                 task_logits[name] = self.heads[name](features[mask])
-        return task_logits, []
+        return task_logits, features, []

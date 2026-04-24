@@ -14,3 +14,5 @@ training:
   plateau_min_lr: 1.0e-6
   early_stopping_patience: 20
   save_best_metric: avg_f1_macro
+  # Contrastive loss is a multi-task-only feature — always off here.
+  use_contrastive: false

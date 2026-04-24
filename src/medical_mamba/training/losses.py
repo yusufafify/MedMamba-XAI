@@ -119,3 +119,108 @@ class KendallMultiTaskLoss(nn.Module):
             name: torch.exp(self.log_sigma[i]).item()
             for i, name in enumerate(self.task_names)
         }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Supervised Contrastive Domain Loss
+# ─────────────────────────────────────────────────────────────────────────────
+
+class ContrastiveDomainLoss(nn.Module):
+    """Supervised contrastive loss for domain (dataset) separation.
+
+    Uses ``task_id`` as the positive/negative label — all images from the
+    same dataset are positives to each other, all others are negatives.
+    Combined with Kendall multi-task CE, this yields a backbone that is
+    simultaneously class-discriminative (within each dataset) and
+    domain-discriminative (across the 4 medical imaging modalities),
+    enabling nearest-prototype autonomous inference.
+
+    Reference
+    ---------
+    Khosla et al. (2020). *Supervised Contrastive Learning.* arXiv:2004.11362.
+
+    Math
+    ----
+    For each anchor ``i``::
+
+        SupCon(i) = -1/|P(i)| · Σ_{p∈P(i)} log [
+            exp(z_i · z_p / τ) / Σ_{a∈A(i)} exp(z_i · z_a / τ)
+        ]
+
+    where ``z_i`` is the L2-normalised projection, ``P(i)`` is the set of
+    in-batch positives (same task_id, excluding ``i``), and ``A(i)`` is
+    all other samples in the batch (excluding ``i``).
+
+    Parameters
+    ----------
+    temperature : float
+        Logit scaling temperature. Lower → sharper separation.
+        Recommended range 0.05–0.2. Default 0.07 (matches the paper).
+    """
+
+    def __init__(self, temperature: float = 0.07) -> None:
+        super().__init__()
+        self.temperature = temperature
+
+    def forward(
+        self,
+        embeddings: torch.Tensor,
+        task_ids:   torch.Tensor,
+    ) -> torch.Tensor:
+        """Compute SupCon loss with log-sum-exp numerical stability.
+
+        Parameters
+        ----------
+        embeddings : torch.Tensor
+            L2-normalised projections ``(B, D)``. The caller is responsible
+            for the L2 normalisation — this loss does NOT re-normalise.
+        task_ids : torch.Tensor
+            Integer dataset index per sample ``(B,)``.
+
+        Returns
+        -------
+        torch.Tensor
+            Scalar loss. Returns ``0.0`` (no gradient) when the batch
+            contains only one unique task_id, or when no anchor in the
+            batch has at least one positive.
+        """
+        # Force float32 — AMP float16 causes NaN in the exp step below
+        z = embeddings.float()
+        device = z.device
+        B = z.size(0)
+
+        # Single-task batch → no negatives at all → loss is undefined.
+        # Return a zero scalar that's connected to nothing (no grad).
+        if task_ids.unique().numel() < 2:
+            return torch.zeros((), device=device, dtype=torch.float32)
+
+        # Similarity matrix with log-sum-exp trick: subtract per-row max
+        # before exp to avoid overflow with large logits.
+        logits = (z @ z.T) / self.temperature
+        logits_max = logits.detach().max(dim=1, keepdim=True).values
+        logits = logits - logits_max
+
+        # Masks
+        eye = torch.eye(B, device=device, dtype=torch.bool)
+        same_task  = task_ids.unsqueeze(0) == task_ids.unsqueeze(1)  # (B,B)
+        pos_mask   = same_task & ~eye                                # positives (exclude self)
+        valid_mask = ~eye                                            # denom: everything except self
+
+        exp_logits = torch.exp(logits) * valid_mask
+        log_prob = logits - torch.log(
+            exp_logits.sum(dim=1, keepdim=True).clamp_min(1e-12)
+        )
+
+        # Per-anchor mean log-prob over its positives.
+        # clamp_min(1) prevents /0 for anchors with no positives — those
+        # rows are masked out below anyway.
+        pos_counts = pos_mask.sum(dim=1).clamp_min(1)
+        mean_log_prob_pos = (log_prob * pos_mask).sum(dim=1) / pos_counts
+
+        # Anchors with no positives (single-sample-from-a-task) are skipped.
+        has_pos = pos_mask.any(dim=1)
+        if not has_pos.any():
+            return torch.zeros((), device=device, dtype=torch.float32)
+
+        loss = -mean_log_prob_pos[has_pos].mean()
+        return loss

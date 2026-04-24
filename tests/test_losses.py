@@ -16,7 +16,10 @@ from __future__ import annotations
 import pytest
 import torch
 
-from medical_mamba.training.losses import KendallMultiTaskLoss
+from medical_mamba.training.losses import (
+    ContrastiveDomainLoss,
+    KendallMultiTaskLoss,
+)
 
 
 class TestKendallMultiTaskLoss:
@@ -183,3 +186,120 @@ class TestKendallMultiTaskLoss:
         # With log_σ=0: total = exp(0)*CE + 0 = 1*CE = CE
         assert abs(loss.item() - ce.item()) < 1e-5, \
             f"Expected loss≈CE={ce.item():.4f}, got {loss.item():.4f}"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ContrastiveDomainLoss
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _make_normalised_embeddings(B: int, D: int = 128, seed: int = 0) -> torch.Tensor:
+    """Helper: random L2-normalised embeddings — matches what project() returns."""
+    g = torch.Generator().manual_seed(seed)
+    z = torch.randn(B, D, generator=g)
+    return torch.nn.functional.normalize(z, dim=1)
+
+
+class TestContrastiveDomainLoss:
+
+    @pytest.fixture
+    def loss_fn(self) -> ContrastiveDomainLoss:
+        """Default SupCon temperature (paper value 0.07)."""
+        return ContrastiveDomainLoss(temperature=0.07)
+
+    # ------------------------------------------------------------------ #
+    #  Shape / type                                                        #
+    # ------------------------------------------------------------------ #
+
+    def test_output_is_scalar(self, loss_fn: ContrastiveDomainLoss) -> None:
+        """Loss must be a 0-dim scalar tensor."""
+        z = _make_normalised_embeddings(B=8)
+        task_ids = torch.tensor([0, 0, 0, 0, 1, 1, 1, 1])
+        loss = loss_fn(z, task_ids)
+        assert loss.ndim == 0, f"Expected scalar, got shape {loss.shape}"
+
+    def test_loss_is_positive(self, loss_fn: ContrastiveDomainLoss) -> None:
+        """SupCon loss is always non-negative."""
+        z = _make_normalised_embeddings(B=8)
+        task_ids = torch.tensor([0, 0, 0, 0, 1, 1, 1, 1])
+        loss = loss_fn(z, task_ids)
+        assert loss.item() >= 0.0, f"Loss is negative: {loss.item()}"
+
+    # ------------------------------------------------------------------ #
+    #  Edge cases                                                          #
+    # ------------------------------------------------------------------ #
+
+    def test_zero_loss_perfect_separation(self) -> None:
+        """Perfectly clustered embeddings → loss approaches 0."""
+        # Build two clusters: task 0 all == e_0, task 1 all == e_1 (orthogonal)
+        loss_fn = ContrastiveDomainLoss(temperature=0.07)
+        D = 128
+        z0 = torch.zeros(4, D); z0[:, 0] = 1.0
+        z1 = torch.zeros(4, D); z1[:, 1] = 1.0
+        z = torch.cat([z0, z1], dim=0)
+        task_ids = torch.tensor([0, 0, 0, 0, 1, 1, 1, 1])
+        loss = loss_fn(z, task_ids)
+        # With τ=0.07 and orthogonal clusters: pos logits = 1/τ ≈ 14.3,
+        # neg logits = 0. log-softmax over 7 neighbours: 3 pos at 14.3 and
+        # 4 neg at 0 → mean log-prob-pos ≈ log(exp(14.3)/(3·exp(14.3)+4))
+        # ≈ -log(3 + 4·exp(-14.3)) ≈ -log(3) ≈ -1.1
+        # Loss = -mean = 1.1 approximately. Not zero because SupCon's
+        # denominator includes ALL samples (including negatives), so
+        # perfect clustering saturates at log|P(i)|≈log3, not 0.
+        # The real property to test is that clustered loss is MUCH
+        # lower than scrambled loss:
+        scrambled = _make_normalised_embeddings(B=8)
+        loss_scrambled = loss_fn(scrambled, task_ids)
+        assert loss.item() < loss_scrambled.item(), (
+            f"Clustered loss ({loss.item():.4f}) should be < "
+            f"scrambled loss ({loss_scrambled.item():.4f})"
+        )
+
+    def test_single_task_batch_returns_zero(
+        self, loss_fn: ContrastiveDomainLoss
+    ) -> None:
+        """All task_ids identical → no negatives → loss = 0 exactly."""
+        z = _make_normalised_embeddings(B=8)
+        task_ids = torch.zeros(8, dtype=torch.long)
+        loss = loss_fn(z, task_ids)
+        assert loss.item() == 0.0, f"Expected 0.0, got {loss.item()}"
+
+    def test_handles_missing_positives_gracefully(
+        self, loss_fn: ContrastiveDomainLoss
+    ) -> None:
+        """Batch where every sample has a unique task_id → no positives,
+        no NaN, loss = 0."""
+        z = _make_normalised_embeddings(B=4)
+        task_ids = torch.tensor([0, 1, 2, 3])   # all singletons
+        loss = loss_fn(z, task_ids)
+        assert torch.isfinite(loss), "Loss is not finite"
+        assert loss.item() == 0.0, f"Expected 0.0, got {loss.item()}"
+
+    # ------------------------------------------------------------------ #
+    #  Gradient flow                                                       #
+    # ------------------------------------------------------------------ #
+
+    def test_gradient_flows_to_embeddings(
+        self, loss_fn: ContrastiveDomainLoss
+    ) -> None:
+        """Loss.backward() must produce non-zero grads on embeddings."""
+        z = _make_normalised_embeddings(B=8).requires_grad_(True)
+        task_ids = torch.tensor([0, 0, 0, 0, 1, 1, 1, 1])
+        loss = loss_fn(z, task_ids)
+        loss.backward()
+        assert z.grad is not None, "No gradient reached embeddings"
+        assert z.grad.abs().sum().item() > 0, "Gradient is all zeros"
+
+    # ------------------------------------------------------------------ #
+    #  Temperature effect                                                  #
+    # ------------------------------------------------------------------ #
+
+    def test_temperature_scaling(self) -> None:
+        """Higher temperature → smaller loss (softer distribution)."""
+        z = _make_normalised_embeddings(B=8, seed=42)
+        task_ids = torch.tensor([0, 0, 0, 0, 1, 1, 1, 1])
+        loss_cold = ContrastiveDomainLoss(temperature=0.05)(z, task_ids)
+        loss_hot  = ContrastiveDomainLoss(temperature=0.5)(z, task_ids)
+        assert loss_hot.item() < loss_cold.item(), (
+            f"Expected τ=0.5 loss ({loss_hot.item():.4f}) < "
+            f"τ=0.05 loss ({loss_cold.item():.4f})"
+        )

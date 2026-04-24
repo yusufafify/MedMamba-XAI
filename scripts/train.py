@@ -184,6 +184,12 @@ def main() -> None:
         # training — stopping & saving
         patience       = training.get("early_stopping_patience", 15),
         save_best_metric=training.get("save_best_metric", "avg_f1_macro"),
+        # training — contrastive domain discovery (SupCon)
+        use_contrastive                   = training.get("use_contrastive", False),
+        contrastive_lambda                = training.get("contrastive_lambda", 0.1),
+        contrastive_temp                  = training.get("contrastive_temp", 0.07),
+        contrastive_warmup                = training.get("contrastive_warmup", 10),
+        compute_prototypes_after_training = training.get("compute_prototypes_after_training", True),
         # infrastructure
         output_dir     = project.get("output_dir", "runs/medical_mamba"),
         device         = device,

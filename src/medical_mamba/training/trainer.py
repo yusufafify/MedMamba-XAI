@@ -51,7 +51,7 @@ from tqdm import tqdm
 
 from medical_mamba.data.constants import DATASET_META
 from medical_mamba.models.medical_vmamba import MedicalVMamba, build_model
-from medical_mamba.training.losses import KendallMultiTaskLoss
+from medical_mamba.training.losses import ContrastiveDomainLoss, KendallMultiTaskLoss
 from medical_mamba.training.metrics import TaskMetricTracker
 from medical_mamba.training.schedulers import CosineWarmupScheduler
 
@@ -106,6 +106,16 @@ class TrainConfig:
     # ── Training — stopping & saving ──────────────────────────────────────
     patience:          int = 15             # early-stopping epochs without improvement
     save_best_metric:  str = "avg_f1_macro" # metric tracked for best checkpoint
+
+    # ── Contrastive domain loss (Khosla et al., 2020) ─────────────────────
+    # Adds a SupCon auxiliary loss on backbone features using task_id as
+    # domain label. After training, per-domain prototypes are computed so
+    # inference can route autonomously to the right head.
+    use_contrastive:                   bool  = False  # master switch (zero-overhead when False)
+    contrastive_lambda:                float = 0.1    # L_total = L_kendall + λ·L_contrast
+    contrastive_temp:                  float = 0.07   # SupCon temperature τ
+    contrastive_warmup:                int   = 10     # epochs before contrastive loss activates
+    compute_prototypes_after_training: bool  = True   # run prototype computation post-fit
 
     # ── Output ────────────────────────────────────────────────────────────
     output_dir: str          = "./runs/medical_mamba"
@@ -208,6 +218,25 @@ class Trainer:
             label_smoothing=cfg.label_smoothing,
         ).to(self.device)
 
+        # ── Contrastive domain loss (optional, multi-task only) ───────────
+        # Only instantiated when explicitly enabled AND we actually have
+        # ≥2 tasks — with a single task there are no negatives so SupCon
+        # is undefined. When disabled, the contrastive path is a no-op:
+        # no projection, no loss, no log. domain_projector exists in the
+        # model graph but receives no gradient.
+        if cfg.use_contrastive and len(self.task_names) > 1:
+            self.contrastive_criterion: Optional[ContrastiveDomainLoss] = (
+                ContrastiveDomainLoss(temperature=cfg.contrastive_temp).to(self.device)
+            )
+            self.log(
+                f"Contrastive domain loss enabled | "
+                f"lambda={cfg.contrastive_lambda} | "
+                f"temp={cfg.contrastive_temp} | "
+                f"warmup={cfg.contrastive_warmup} epochs"
+            )
+        else:
+            self.contrastive_criterion = None
+
         # ── Optimizer: 3 param groups ─────────────────────────────────────
         # Backbone: standard lr + weight decay
         # Heads:    5× lr  (need to adapt faster to task-specific features)
@@ -287,13 +316,21 @@ class Trainer:
     #  Core epoch                                                          #
     # ------------------------------------------------------------------ #
 
-    def _run_epoch(self, split: str) -> Dict:
+    def _run_epoch(self, split: str, epoch: int = 0) -> Dict:
         """Run one full pass over ``split`` ∈ {train, val, test}.
+
+        Parameters
+        ----------
+        split : str
+            ``"train"``, ``"val"``, or ``"test"``.
+        epoch : int
+            Current epoch index. Used to gate contrastive loss behind
+            ``contrastive_warmup`` — only matters on training passes.
 
         Returns
         -------
         Dict
-            ``{total_loss, task_losses, metrics}``
+            ``{total_loss, task_losses, metrics, contrast_loss}``
         """
         loader   = {"train": self.train_loader,
                     "val":   self.val_loader,
@@ -303,9 +340,17 @@ class Trainer:
         self.model.train(is_train)
         self.metric_tracker.reset()
 
-        total_loss   = 0.0
+        total_loss    = 0.0
+        contrast_sum  = 0.0
+        contrast_n    = 0
         all_task_losses: Dict[str, List[float]] = {t: [] for t in self.task_names}
         n_batches    = 0
+
+        contrastive_active = (
+            is_train
+            and self.contrastive_criterion is not None
+            and epoch >= self.cfg.contrastive_warmup
+        )
 
         ctx = torch.enable_grad() if is_train else torch.no_grad()
         with ctx:
@@ -319,13 +364,24 @@ class Trainer:
                 with autocast(device_type=self.amp_device,
                               enabled=(self.cfg.use_amp and "cuda" in self.cfg.device)):
                     if len(self.task_names) == 1:
-                        # Single-task: cleaner forward path
+                        # Single-task: cleaner forward path (no features needed —
+                        # contrastive is gated off for single-task anyway).
                         logits, _ = self.model.forward_single(images, self.task_names[0])
                         task_logits = {self.task_names[0]: logits}
+                        features = None
                     else:
-                        task_logits, _ = self.model.forward_multi(images, task_ids)
+                        task_logits, features, _ = self.model.forward_multi(images, task_ids)
 
                     loss, task_loss_dict = self.criterion(task_logits, labels, task_ids)
+
+                    if contrastive_active and features is not None:
+                        # Cast to float32 before the projector — SupCon's
+                        # exp operations are numerically fragile under AMP fp16.
+                        projections = self.model.project(features.float())
+                        contrast_loss = self.contrastive_criterion(projections, task_ids)
+                        loss = loss + self.cfg.contrastive_lambda * contrast_loss
+                        contrast_sum += float(contrast_loss.detach().item())
+                        contrast_n   += 1
 
                 if is_train:
                     self.optimizer.zero_grad(set_to_none=True)
@@ -358,9 +414,10 @@ class Trainer:
             for name, vs in all_task_losses.items()
         }
         return {
-            "total_loss": total_loss / max(n_batches, 1),
-            "task_losses": avg_task_losses,
-            "metrics": metrics,
+            "total_loss":   total_loss / max(n_batches, 1),
+            "task_losses":  avg_task_losses,
+            "metrics":      metrics,
+            "contrast_loss": contrast_sum / contrast_n if contrast_n > 0 else 0.0,
         }
 
     # ------------------------------------------------------------------ #
@@ -379,8 +436,8 @@ class Trainer:
         for epoch in range(self.start_epoch, self.cfg.epochs):
             t0 = time.time()
 
-            train_out = self._run_epoch("train")
-            val_out   = self._run_epoch("val")
+            train_out = self._run_epoch("train", epoch=epoch)
+            val_out   = self._run_epoch("val",   epoch=epoch)
 
             elapsed   = time.time() - t0
             val_m     = val_out["metrics"]
@@ -393,9 +450,11 @@ class Trainer:
                 self.scheduler.step()        # CosineWarmup steps by epoch count
 
             # ── Console ───────────────────────────────────────────────────
+            contrast_v = train_out.get("contrast_loss", 0.0)
             self.log(
                 f"Ep {epoch+1:03d}/{self.cfg.epochs} | "
                 f"train_loss={train_out['total_loss']:.4f} | "
+                f"contrastive={contrast_v:.4f} | "
                 f"val_loss={val_out['total_loss']:.4f} | "
                 f"avg_f1={avg_f1:.4f} | "
                 f"lr={self.optimizer.param_groups[0]['lr']:.2e} | "
@@ -417,6 +476,8 @@ class Trainer:
                 {"train": train_out["total_loss"], "val": val_out["total_loss"]},
                 epoch,
             )
+            if self.contrastive_criterion is not None:
+                self.writer.add_scalar("loss/contrastive", contrast_v, epoch)
             for name in self.task_names:
                 self.writer.add_scalar(
                     f"val/{name}_f1",
@@ -445,6 +506,19 @@ class Trainer:
                          f"(no improvement for {self.cfg.patience} epochs)")
                 break
 
+        # ── Post-training: compute domain prototypes ──────────────────────
+        # Produces the buffer used by autonomous predict(). Re-saves the
+        # best checkpoint so prototypes are baked into the artifact
+        # distributed for inference.
+        if (
+            self.cfg.compute_prototypes_after_training
+            and self.contrastive_criterion is not None
+        ):
+            self.log("Computing domain prototypes from training set...")
+            self.model.compute_prototypes(self.train_loader, self.device)
+            self.log("Prototypes computed. Model ready for autonomous inference.")
+            self._save_checkpoint(self.cfg.epochs - 1, is_best=True)
+
         self.log("Training complete.")
         self.writer.close()
         return {
@@ -463,7 +537,7 @@ class Trainer:
         elif (self.out_dir / "checkpoint_best.pt").exists():
             self._load_checkpoint(str(self.out_dir / "checkpoint_best.pt"))
 
-        test_out = self._run_epoch("test")
+        test_out = self._run_epoch("test", epoch=self.cfg.epochs)
         self.log("\n=== TEST RESULTS ===")
         for name in self.task_names:
             acc = test_out["metrics"].get(f"{name}_accuracy", test_out["metrics"].get("accuracy", 0))
@@ -485,6 +559,10 @@ class Trainer:
             "best_avg_f1":         self.best_avg_f1,
             "task_names":          self.task_names,
             "config":              asdict(self.cfg),
+            # Flag so inference code can refuse to autonomously route when
+            # prototypes haven't been computed. The prototype values
+            # themselves are inside model_state_dict (registered buffer).
+            "prototypes_computed": getattr(self.model, "prototypes_computed", False),
         }
         torch.save(state, self.out_dir / "checkpoint_latest.pt")
         if is_best:
@@ -493,12 +571,22 @@ class Trainer:
     def _load_checkpoint(self, path: str) -> None:
         self.log(f"Loading checkpoint: {path}")
         state = torch.load(path, map_location=self.device, weights_only=False)
-        self.model.load_state_dict(state["model_state_dict"])
+        # strict=False so old checkpoints (pre-contrastive) still load —
+        # the new domain_projector and domain_prototypes will keep their
+        # freshly-initialised values in that case.
+        missing, unexpected = self.model.load_state_dict(
+            state["model_state_dict"], strict=False
+        )
+        if missing:
+            self.log(f"  checkpoint missing keys (initialised fresh): {missing}")
+        if unexpected:
+            self.log(f"  checkpoint unexpected keys (ignored): {unexpected}")
         self.optimizer.load_state_dict(state["optimizer_state_dict"])
         self.scheduler.load_state_dict(state["scheduler_state_dict"])
         self.criterion.load_state_dict(state["criterion_state_dict"])
         self.best_avg_f1  = state.get("best_avg_f1", 0.0)
         self.start_epoch  = state.get("epoch", 0) + 1
+        self.model.prototypes_computed = state.get("prototypes_computed", False)
         self.log(f"Resumed from epoch {self.start_epoch}")
 
     # ------------------------------------------------------------------ #

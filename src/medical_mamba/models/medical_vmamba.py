@@ -32,6 +32,7 @@ from typing import Dict, List, Optional, Tuple
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from tqdm import tqdm
 
 from medical_mamba.models.backbone import VMambaBackbone
 from medical_mamba.models.blocks import VSSBlock
@@ -73,7 +74,7 @@ class MedicalVMamba(nn.Module):
                 ("octmnist",   4),
             ]
         )
-        task_logits = model.forward_multi(images, task_ids)
+        task_logits, features, _ = model.forward_multi(images, task_ids)
     """
 
     def __init__(
@@ -97,6 +98,28 @@ class MedicalVMamba(nn.Module):
             name: ClassificationHead(feat_dim, n_cls, head_dropout)
             for name, n_cls in task_configs
         })
+
+        # ── Contrastive domain projector (training only) ──────────────────
+        # MLP 768→512→128 used with SupCon for domain-discriminative
+        # representations. L2-normalisation is applied in project().
+        # Params fall into the "head" optimizer group via the trainer's
+        # naming filter; no separate group needed.
+        self.domain_projector = nn.Sequential(
+            nn.Linear(feat_dim, 512),
+            nn.BatchNorm1d(512),
+            nn.ReLU(inplace=True),
+            nn.Linear(512, 128),
+        )
+
+        # ── Domain prototypes (inference routing) ─────────────────────────
+        # Mean backbone features per task_id, computed post-training by
+        # compute_prototypes(). Registered as buffer so they are saved
+        # inside state_dict and moved with .to(device).
+        self.register_buffer(
+            "domain_prototypes",
+            torch.zeros(len(task_configs), feat_dim),
+        )
+        self.prototypes_computed: bool = False
 
         # ── XAI state ────────────────────────────────────────────────────
         self._xai_enabled: bool = False
@@ -152,11 +175,13 @@ class MedicalVMamba(nn.Module):
         self,
         x: torch.Tensor,
         task_ids: torch.Tensor,
-    ) -> Tuple[Dict[str, torch.Tensor], List[torch.Tensor]]:
+    ) -> Tuple[Dict[str, torch.Tensor], torch.Tensor, List[torch.Tensor]]:
         """Route each sample in the batch to its task-specific head.
 
         All samples share one backbone forward pass (efficient), then logits
-        are split by ``task_id`` mask.
+        are split by ``task_id`` mask. Pooled backbone features are also
+        returned so downstream contrastive projection heads can consume them
+        without a second backbone pass.
 
         Parameters
         ----------
@@ -170,6 +195,10 @@ class MedicalVMamba(nn.Module):
         task_logits : Dict[str, torch.Tensor]
             Maps task name → logits for the samples belonging to that task.
             Tasks absent from the batch are not included in the dict.
+        features : torch.Tensor
+            Pooled backbone features ``(B, feat_dim)`` — the full batch
+            (not masked), so the caller can feed them straight to
+            ``project()`` / contrastive loss.
         intermediates : List[torch.Tensor]
             Per-stage feature maps from the backbone.
         """
@@ -181,7 +210,126 @@ class MedicalVMamba(nn.Module):
             if mask.any():
                 task_logits[name] = self.heads[name](features[mask])
 
-        return task_logits, intermediates
+        return task_logits, features, intermediates
+
+    # ------------------------------------------------------------------ #
+    #  Contrastive projection + prototype routing                         #
+    # ------------------------------------------------------------------ #
+
+    def project(self, features: torch.Tensor) -> torch.Tensor:
+        """L2-normalised ``(B, 128)`` projections for SupCon loss.
+
+        Used during training only — the contrastive head is a throwaway
+        auxiliary branch. At inference, features go straight to prototype
+        matching without passing through this projector.
+
+        Parameters
+        ----------
+        features : torch.Tensor
+            Pooled backbone features ``(B, feat_dim)``.
+
+        Returns
+        -------
+        torch.Tensor
+            ``(B, 128)`` L2-normalised projections (unit norm along dim=1).
+        """
+        z = self.domain_projector(features)
+        return F.normalize(z, dim=1, p=2)
+
+    @torch.no_grad()
+    def compute_prototypes(self, dataloader, device) -> None:
+        """Compute per-task mean backbone features and store them.
+
+        Iterates the dataloader in eval mode (no grad), accumulates
+        running sums of backbone features bucketed by ``task_id``, then
+        divides by counts to obtain mean prototypes. Sets
+        ``self.prototypes_computed = True`` on completion.
+
+        Must be called after training for autonomous ``predict()`` to work.
+
+        Parameters
+        ----------
+        dataloader : Iterable[Dict]
+            Yields batches of ``{"image", "label", "task_id"}`` — typically
+            the training dataloader used during ``Trainer.fit()``.
+        device : torch.device or str
+            Device to run the backbone on.
+        """
+        was_training = self.training
+        self.eval()
+        n_tasks = len(self.task_names)
+        feat_dim = self.domain_prototypes.size(1)
+        sums   = torch.zeros(n_tasks, feat_dim, device=device)
+        counts = torch.zeros(n_tasks, device=device)
+
+        for batch in tqdm(dataloader, desc="Computing prototypes", leave=False):
+            images   = batch["image"].to(device, non_blocking=True)
+            task_ids = batch["task_id"].to(device, non_blocking=True)
+            features, _ = self.backbone(images)     # (B, feat_dim)
+            for tid in range(n_tasks):
+                mask = task_ids == tid
+                if mask.any():
+                    sums[tid]   += features[mask].sum(dim=0)
+                    counts[tid] += mask.sum()
+
+        counts = counts.clamp_min(1.0)               # avoid /0 for empty tasks
+        self.domain_prototypes.copy_(sums / counts.unsqueeze(1))
+        self.prototypes_computed = True
+        self.train(was_training)
+
+    @torch.no_grad()
+    def predict(self, image: torch.Tensor) -> Tuple[str, int, float]:
+        """Fully autonomous prediction — no ``task_id`` required.
+
+        Runs the backbone, routes to the best-matching domain by cosine
+        similarity against the learned prototypes, then runs that task's
+        classification head. This is the 1-NN classifier in representation
+        space (Snell et al. 2017, Prototypical Networks) paired with the
+        per-task heads.
+
+        Parameters
+        ----------
+        image : torch.Tensor
+            ``(1, C, H, W)`` or ``(C, H, W)`` — auto-unsqueezed to 4-D.
+
+        Returns
+        -------
+        task_name : str
+            Predicted dataset name (e.g. ``"dermamnist"``).
+        class_idx : int
+            Predicted class within that dataset.
+        confidence : float
+            Softmax confidence of the class prediction in ``[0, 1]``.
+
+        Raises
+        ------
+        RuntimeError
+            If ``compute_prototypes()`` has not been called yet.
+        """
+        if not self.prototypes_computed:
+            raise RuntimeError(
+                "Domain prototypes have not been computed. "
+                "Call compute_prototypes(dataloader, device) after training "
+                "before using predict()."
+            )
+
+        if image.dim() == 3:
+            image = image.unsqueeze(0)
+
+        was_training = self.training
+        self.eval()
+        features, _ = self.backbone(image)                            # (1, feat_dim)
+        sim = F.cosine_similarity(features, self.domain_prototypes)   # (n_tasks,)
+        domain_idx = int(sim.argmax().item())
+        task_name  = self.task_names[domain_idx]
+
+        logits = self.heads[task_name](features)
+        probs  = logits.softmax(dim=-1)
+        class_idx  = int(logits.argmax(dim=-1).item())
+        confidence = float(probs.max().item())
+        self.train(was_training)
+
+        return task_name, class_idx, confidence
 
     # ------------------------------------------------------------------ #
     #  XAI                                                                #

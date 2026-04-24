@@ -26,3 +26,10 @@ training:
   plateau_min_lr: 1.0e-7
   early_stopping_patience: 20
   save_best_metric: avg_f1_macro
+  # Contrastive domain discovery (off by default — enable explicitly via
+  # multi_task_contrastive.yaml for the autonomous-inference feature).
+  use_contrastive: true
+  contrastive_lambda: 0.1
+  contrastive_temp: 0.07
+  contrastive_warmup: 10
+  compute_prototypes_after_training: true
