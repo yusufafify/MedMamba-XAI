@@ -29,7 +29,15 @@ training:
   # Contrastive domain discovery (off by default — enable explicitly via
   # multi_task_contrastive.yaml for the autonomous-inference feature).
   use_contrastive: true
-  contrastive_lambda: 0.1
-  contrastive_temp: 0.07
-  contrastive_warmup: 10
+  # lambda=0.5: was 0.1 — backbone received only ~17% of total loss from
+  # SupCon; at 0.5 the domain-separation signal is ~50% of total, giving
+  # the backbone enough gradient to actually separate modality features.
+  contrastive_lambda: 0.5
+  # temp=0.15: was 0.07 — very low temperature causes near-zero gradients
+  # in the SupCon softmax denominator when all negatives are far apart.
+  # 0.15 keeps the gradient live throughout training.
+  contrastive_temp: 0.15
+  # warmup=5: was 10 — start domain separation earlier so the backbone
+  # doesn't lock into a purely class-discriminative representation first.
+  contrastive_warmup: 5
   compute_prototypes_after_training: true

@@ -237,21 +237,29 @@ class Trainer:
         else:
             self.contrastive_criterion = None
 
-        # ── Optimizer: 3 param groups ─────────────────────────────────────
-        # Backbone: standard lr + weight decay
-        # Heads:    5× lr  (need to adapt faster to task-specific features)
-        # Kendall:  0.1× lr (σ params should move slowly)
-        backbone_params = list(self.model.backbone.parameters())
-        head_params     = [
+        # ── Optimizer: 4 param groups ─────────────────────────────────────
+        # Backbone:          standard lr + weight decay
+        # domain_projector:  2× lr — needs to adapt faster than the backbone
+        #                    so the SupCon gradient reaches the backbone quickly
+        # Heads (cls + bn):  5× lr (adapt faster to task-specific features)
+        # Kendall log_σ:     1× lr (was 0.1×; σ barely moved 1.000→1.069 over
+        #                    100 epochs at 0.1× — raised so weighting adapts)
+        backbone_params    = list(self.model.backbone.parameters())
+        projector_params   = list(self.model.domain_projector.parameters())
+        projector_param_ids = {id(p) for p in projector_params}
+        head_params        = [
             p for n, p in self.model.named_parameters()
-            if "backbone" not in n and "criterion" not in n
+            if "backbone" not in n
+            and "domain_projector" not in n
+            and "criterion" not in n
         ]
-        kendall_params  = list(self.criterion.parameters())
+        kendall_params     = list(self.criterion.parameters())
 
         self.optimizer = optim.AdamW([
-            {"params": backbone_params, "lr": cfg.lr,         "weight_decay": cfg.weight_decay},
-            {"params": head_params,     "lr": cfg.lr * 5.0,   "weight_decay": 0.0},
-            {"params": kendall_params,  "lr": cfg.lr * 0.1,   "weight_decay": 0.0},
+            {"params": backbone_params,  "lr": cfg.lr,         "weight_decay": cfg.weight_decay},
+            {"params": projector_params, "lr": cfg.lr * 2.0,   "weight_decay": 0.0},
+            {"params": head_params,      "lr": cfg.lr * 5.0,   "weight_decay": 0.0},
+            {"params": kendall_params,   "lr": cfg.lr * 1.0,   "weight_decay": 0.0},
         ])
 
         # ── Scheduler ─────────────────────────────────────────────────────

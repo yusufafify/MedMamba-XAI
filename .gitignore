@@ -52,3 +52,5 @@ bloodmnist_dataset
 dermamnist_dataset
 octmnist_dataset
 pathmnist_dataset
+
+.kaggle*
