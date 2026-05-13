@@ -65,6 +65,24 @@ from medical_mamba.models.medical_vmamba import build_model
 # Datasets
 # ─────────────────────────────────────────────────────────────────────────────
 
+class SyntheticNoiseDataset(Dataset):
+    """Gaussian noise images as a simple OOD proxy (no real OOD data needed)."""
+
+    def __init__(self, n: int = 500, img_size: int = 224, seed: int = 42):
+        self.n = n
+        self.img_size = img_size
+        self.rng = np.random.default_rng(seed)
+
+    def __len__(self): return self.n
+
+    def __getitem__(self, idx):
+        img = torch.from_numpy(
+            self.rng.normal(0.5, 0.3, (3, self.img_size, self.img_size))
+            .clip(0, 1).astype(np.float32)
+        )
+        return {"image": img}
+
+
 class FlatOODFolder(Dataset):
     """Loads any folder of images (recursive) with a fixed transform."""
 
@@ -175,8 +193,12 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--checkpoint", required=True)
     p.add_argument("--in_data",    required=True,
                    help="Root containing the 4 known dataset folders (in-distribution)")
-    p.add_argument("--ood_dir",    required=True,
-                   help="Folder of OOD images (any modality the model wasn't trained on)")
+    p.add_argument("--ood_dir",    default=None,
+                   help="Folder of OOD images. Omit to use synthetic Gaussian noise.")
+    p.add_argument("--synthetic",  action="store_true",
+                   help="Use synthetic Gaussian noise as OOD instead of real images.")
+    p.add_argument("--n_synthetic", type=int, default=500,
+                   help="Number of synthetic noise images when --synthetic is set.")
     p.add_argument("--output_dir", default=None)
     p.add_argument("--max_ood",    type=int, default=2000)
     p.add_argument("--batch_size", type=int, default=64)
@@ -231,12 +253,20 @@ def main() -> None:
     print(f"ID samples : {sum(len(d) for d in in_sets):,}")
 
     # ── OOD loader: averaged normalisation (modality unknown by definition) ──
+    use_synthetic = args.synthetic or args.ood_dir is None
+    if use_synthetic:
+        ood_dataset = SyntheticNoiseDataset(n=args.n_synthetic)
+        ood_source  = f"synthetic Gaussian noise (n={args.n_synthetic})"
+    else:
+        ood_dataset = FlatOODFolder(Path(args.ood_dir), averaged_val_transform(), args.max_ood)
+        ood_source  = str(args.ood_dir)
+
     ood_loader = DataLoader(
-        FlatOODFolder(Path(args.ood_dir), averaged_val_transform(), args.max_ood),
-        batch_size=args.batch_size, num_workers=args.num_workers, shuffle=False,
-        pin_memory=(device.type == "cuda"),
+        ood_dataset,
+        batch_size=args.batch_size, num_workers=0 if use_synthetic else args.num_workers,
+        shuffle=False, pin_memory=(device.type == "cuda"),
     )
-    print(f"OOD samples: {len(ood_loader.dataset):,}  (from {args.ood_dir})")
+    print(f"OOD samples: {len(ood_loader.dataset):,}  ({ood_source})")
 
     if len(ood_loader.dataset) == 0:
         print("ERROR: no OOD images found.")
@@ -306,7 +336,7 @@ def main() -> None:
 
     # ── Save results ─────────────────────────────────────────────────────
     full_results = {
-        "ood_source": str(args.ood_dir),
+        "ood_source": ood_source,
         "n_id":  int(len(in_loader.dataset)),
         "n_ood": int(len(ood_loader.dataset)),
         "task_names": task_names,
