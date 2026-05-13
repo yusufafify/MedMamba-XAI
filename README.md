@@ -25,61 +25,87 @@
 
 ## Motivation
 
-Vision Transformers (ViTs) have set the state-of-the-art in many medical imaging tasks, but their **O(n²)** self-attention cost becomes prohibitive at high resolutions. Selective State-Space Models (SSMs), exemplified by **Mamba**, offer **linear-time** sequence modelling with strong long-range dependency capture. This project adapts the **VMamba** architecture—originally designed for natural images—to the medical imaging domain and pairs it with a novel **SSM-GradCAM** explainability pipeline so clinicians can inspect *why* a model makes a particular prediction.
+Vision Transformers (ViTs) have set the state-of-the-art in many medical imaging tasks, but their **O(n²)** self-attention cost becomes prohibitive at high resolutions. Selective State-Space Models (SSMs), exemplified by **Mamba**, offer **linear-time** sequence modelling with strong long-range dependency capture. This project adapts the **VMamba** architecture—originally designed for natural images—to the medical imaging domain and pairs it with a novel **SSM-GradCAM** explainability pipeline so clinicians can inspect _why_ a model makes a particular prediction.
 
 Key advantages over ViT baselines:
 
-| Property | ViT | VMamba (ours) |
-|---|---|---|
-| Sequence complexity | O(n²) | **O(n)** |
-| Global receptive field | ✓ (via attention) | ✓ (via state-space) |
-| Interpretable gradients | Attention rollout | **SSM-GradCAM** |
-| Multi-task friendly | ✓ | ✓ |
+| Property                | ViT               | VMamba (ours)       |
+| ----------------------- | ----------------- | ------------------- |
+| Sequence complexity     | O(n²)             | **O(n)**            |
+| Global receptive field  | ✓ (via attention) | ✓ (via state-space) |
+| Interpretable gradients | Attention rollout | **SSM-GradCAM**     |
+| Multi-task friendly     | ✓                 | ✓                   |
 
 ---
 
 ## Architecture Overview
 
-```
+````
 ┌────────────────────────────────────────────────────────────────────┐
-│                   MedicalVMamba  Pipeline                          │
-│                                                                    │
-│   Input (3×224×224)                                                │
-│       │                                                            │
-│       ▼                                                            │
-│   ┌──────────────┐                                                 │
-│   │  PatchEmbed   │  → (B, C₀, H/4, W/4)                          │
-│   └──────┬───────┘                                                 │
-│          ▼                                                         │
-│   ┌──────────────────┐                                             │
-│   │ Stage 1: VSSBlock │  × N₁   → (B, C₁, H/8, W/8)              │
-│   │  + PatchMerging   │                                            │
-│   └──────┬───────────┘                                             │
-│          ▼                                                         │
-│   ┌──────────────────┐                                             │
-│   │ Stage 2: VSSBlock │  × N₂   → (B, C₂, H/16, W/16)            │
-│   │  + PatchMerging   │                                            │
-│   └──────┬───────────┘                                             │
-│          ▼                                                         │
-│   ┌──────────────────┐                                             │
-│   │ Stage 3: VSSBlock │  × N₃   → (B, C₃, H/32, W/32)            │
-│   │  + PatchMerging   │                                            │
-│   └──────┬───────────┘                                             │
-│          ▼                                                         │
-│   ┌──────────────────┐                                             │
-│   │ Stage 4: VSSBlock │  × N₄   → (B, C₄, H/32, W/32)            │
-│   └──────┬───────────┘                                             │
-│          ▼                                                         │
-│   ┌──────────────┐                                                 │
-│   │     GAP       │  → (B, C₄)                                     │
-│   └──────┬───────┘                                                 │
-│          ▼                                                         │
-│   ┌──────────────────────────────────┐                             │
-│   │  Task Heads (one per dataset)     │                            │
-│   │  PathMNIST │ Derma │ Blood │ OCT  │                            │
-│   └──────────────────────────────────┘                             │
-└────────────────────────────────────────────────────────────────────┘
-```
+│    Multi-Domain MedicalVMamba Architecture Overview              │
+│                                                                    │
+│   Input Image (Any Modality) (B, 3, 224, 224)                      │
+│        │                                                           │
+│        ▼                                                           │
+│  ┌─────────────┐                                                  │
+│  │ PatchEmbed  ├─→ (B, C₀, H/4, W/4)                                │
+│  └──────┬──────┘                                                  │
+│          ▼                                                         │
+│  ┌─────────────────────┐                                          │
+│  │ Stage 1: VSSBlock   ├ × N₁ → (B, C₁, H/8, W/8)                 │
+│  │   + PatchMerging    │                                          │
+│  └──────┬──────────────┘                                          │
+│          ▼                                                         │
+│  ┌─────────────────────┐                                          │
+│  │ Stage 2: VSSBlock   ├ × N₂ → (B, C₂, H/16, W/16)               │
+│  │   + PatchMerging    │                                          │
+│  └──────┬──────────────┘                                          │
+│          ▼                                                         │
+│  ┌─────────────────────┐                                          │
+│  │ Stage 3: VSSBlock   ├ × N₃ → (B, C₃, H/32, W/32)               │
+│  │   + PatchMerging    │                                          │
+│  └──────┬──────────────┘                                          │
+│          ▼                                                         │
+│  ┌─────────────────────┐                                          │
+│  │ Stage 4: VSSBlock   ├ × N₄ → (B, C₄, H/32, W/32)               │
+│  └──────┬──────────────┘                                          │
+│          ▼                                                         │
+│  ┌─────────────┐                                                  │
+│  │    GAP      │  → (B, C₄)                                      │
+│  └──────┬──────┘  (Vector for Routing)                             │
+│          ├──────────────┐                                         │
+│          ▼              │                                         │
+│  ┌──────┴──────────────▼──────┐                                   │
+│  │  Cosine Similarity Router  │                                    │
+│  │ Auto-modality detection   │                                    │
+│  │ via prototype matching    │                                    │
+│  └──────┬─────────────────────┘                                    │
+│          │ (Similarity Vector)                                    │
+│          ▼                                                         │
+│  ┌──────┴─────────────────────┐                                    │
+│  │    Domain Selection       │                                    │
+│  │     (Routing Signal)       │                                    │
+│  └───────┬────────────────────┘                                    │
+│          │                                                         │
+│          ▼  Routing Signal (i)                                    │
+│    ┌─────┴─────┐                                                  │
+│    │ Multiplexer │  <── Vector from GAP                         │
+│    └─┬─┬─┬─┬─┬──┘                                                 │
+│     │ │ │ │ │ │                                                   │
+│     └>┘ └>┘ └>┘ (Only one path is active)                         │
+│      |   |   |                                                    │
+│  ┌───▼───▼───▼───┐                                                │
+│  │ Task Heads   │                                                 │
+│  │  (one selected)│                                                │
+│  │     Pathology   │  <── i=0                                     │
+│  │  Dermatology  │  <── i=1                                     │
+│  │   Radiology   │  <── i=2                                     │
+│  │     OCT       │  <── i=3                                     │
+│  └───────────────┘                                               │
+│                                                                    │
+│   Baselines (ResNet, ViT) are single-task only &               │
+│   do not use the contrastive routing.                              │
+└────────────────────────────────────────────────────────────────────┘```
 
 ---
 
@@ -123,7 +149,7 @@ pip install mamba-ssm --no-build-isolation
 
 # Copy and fill in the environment variables
 cp .env.example .env
-```
+````
 
 > **Note:** `mamba-ssm` requires a CUDA-capable GPU and may need to be compiled from source on some systems. See the [mamba-ssm repository](https://github.com/state-spaces/mamba) for details.
 
@@ -192,23 +218,6 @@ To switch model sizes, simply change the `--model` flag:
 # Base (≈ 89M params)
 --model configs/model/vmamba_base.yaml
 ```
-
----
-
-## Expected Results
-
-Reported on MedMNIST+ v2 test splits (224×224, single-task, VMamba-Tiny):
-
-| Dataset | Accuracy (%) | F1-Macro (%) | AUC (%) |
-|---|---|---|---|
-| PathMNIST | 88 – 92 | 85 – 90 | 96 – 98 |
-| DermaMNIST | 74 – 78 | 70 – 75 | 90 – 93 |
-| BloodMNIST | 95 – 97 | 94 – 96 | 99+ |
-| OCTMNIST | 76 – 80 | 73 – 78 | 95 – 97 |
-
-> These ranges are indicative targets based on comparable architectures. Exact numbers depend on hyperparameter tuning.
-
----
 
 ## Project Structure
 
