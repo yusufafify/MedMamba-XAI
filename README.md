@@ -24,7 +24,7 @@
 
 ## Motivation
 
-Vision Transformers (ViTs) have set the state-of-the-art in many medical imaging tasks, but their **O(n²)** self-attention cost becomes prohibitive at high resolutions. Selective State-Space Models (SSMs), exemplified by **Mamba**, offer **linear-time** sequence modelling with strong long-range dependency capture. This project adapts the **VMamba** architecture—originally designed for natural images—to the medical imaging domain and pairs it with a novel **SSM-GradCAM** explainability pipeline so clinicians can inspect *why* a model makes a particular prediction.
+Vision Transformers (ViTs) have set the state-of-the-art in many medical imaging tasks, but their **O(n²)** self-attention cost becomes prohibitive at high resolutions. Selective State-Space Models (SSMs), exemplified by **Mamba**, offer **linear-time** sequence modelling with strong long-range dependency capture. This project adapts the **VMamba** architecture—originally designed for natural images—to the medical imaging domain and pairs it with a novel **SSM-GradCAM** explainability pipeline so clinicians can inspect _why_ a model makes a particular prediction.
 
 Key advantages over ViT baselines:
 
@@ -41,96 +41,107 @@ Key advantages over ViT baselines:
 
 ## Architecture Overview
 
-### Backbone + Classification
+### Forward Pass + Contrastive Training Loop
 
-```
-┌────────────────────────────────────────────────────────────────────┐
-│                   MedicalVMamba  Pipeline                          │
-│          (Tiny config: patch_size=8, embed_dim=96)                 │
-│                                                                    │
-│   Input (B, 3, 224, 224)                                           │
-│       │                                                            │
-│       ▼                                                            │
-│   ┌────────────────────────┐                                       │
-│   │  PatchEmbed            │  Conv2d(stride=patch_size)            │
-│   │  + LayerNorm           │  → (B, 784, 96)  [28×28 tokens]      │
-│   └──────────┬─────────────┘                                       │
-│              ▼                                                     │
-│   ┌──────────────────────────────────┐                             │
-│   │ Stage 0: 2 × VSSBlock  [B,N,D]   │  (B, 784, 96)  [28×28]    │
-│   └──────────┬───────────────────────┘                             │
-│              ▼  PatchMerging  (÷2 spatial, ×2 channels)           │
-│   ┌──────────────────────────────────┐                             │
-│   │ Stage 1: 2 × VSSBlock            │  (B, 196, 192) [14×14]    │
-│   └──────────┬───────────────────────┘                             │
-│              ▼  PatchMerging                                       │
-│   ┌──────────────────────────────────┐                             │
-│   │ Stage 2: 6 × VSSBlock            │  (B,  49, 384) [ 7× 7]    │
-│   └──────────┬───────────────────────┘                             │
-│              ▼  PatchMerging  (7 padded → 8 before strided slice)  │
-│   ┌──────────────────────────────────┐                             │
-│   │ Stage 3: 2 × VSSBlock            │  (B,  16, 768) [ 4× 4]    │
-│   │          (no PatchMerging)        │                            │
-│   └──────────┬───────────────────────┘                             │
-│              ▼                                                     │
-│   ┌────────────────────────┐                                       │
-│   │  LayerNorm             │  (B, 16, 768)                         │
-│   │  → mean(dim=1)  [GAP]  │  → (B, 768)  ← backbone features     │
-│   └──────────┬─────────────┘                                       │
-│              │                                                     │
-│      ┌───────┴───────────────────────────┐                         │
-│      ▼                                   ▼                         │
-│   ┌──────────────────────────────┐  ┌──────────────────────────┐  │
-│   │  Task Heads (per dataset)     │  │  Domain Projector        │  │
-│   │  LayerNorm → Dropout → Linear │  │  Linear(768→512)         │  │
-│   │                               │  │  → BN1d → ReLU           │  │
-│   │  PathMNIST  → (B,  9)         │  │  → Linear(512→128)       │  │
-│   │  DermaMNIST → (B,  7)         │  │  → L2-norm               │  │
-│   │  BloodMNIST → (B,  8)         │  │  → z  (B, 128)           │  │
-│   │  OCTMNIST   → (B,  4)         │  │  (training only)         │  │
-│   └──────────────────────────────┘  └──────────────────────────┘  │
-└────────────────────────────────────────────────────────────────────┘
-```
+````
+  ┌──────────────────────────── TRAINING  (one batch) ──────────────────────────────────┐
+  │                                                                                       │
+  │  Mixed batch  {images (B,3,224,224), labels (B,), task_ids (B,)}                    │
+  │  ── samples from all 4 datasets are interleaved in each batch ──                     │
+  │          │                                                                            │
+  │          ▼                                                                            │
+  │  ┌──────────────────────── SHARED VMamba BACKBONE ───────────────────────────────┐   │
+  │  │                                                                                │   │
+  │  │  PatchEmbed + LayerNorm                                                        │   │
+  │  │    Conv2d(stride=8)  →  (B, 784, 96)   [28×28 tokens]                         │   │
+  │  │         │                                                                      │   │
+  │  │         ▼  2 × VSSBlock                                                        │   │
+  │  │    Stage 0  ──────────────────────────  (B, 784,  96)  [28×28]                │   │
+  │  │         │  PatchMerging (÷2 spatial, ×2 channels)                              │   │
+  │  │         ▼  2 × VSSBlock                                                        │   │
+  │  │    Stage 1  ──────────────────────────  (B, 196, 192)  [14×14]                │   │
+  │  │         │  PatchMerging                                                         │   │
+  │  │         ▼  6 × VSSBlock                                                        │   │
+  │  │    Stage 2  ──────────────────────────  (B,  49, 384)  [ 7× 7]                │   │
+  │  │         │  PatchMerging  (odd H/W padded before strided slice)                  │   │
+  │  │         ▼  2 × VSSBlock                                                        │   │
+  │  │    Stage 3  ──────────────────────────  (B,  16, 768)  [ 4× 4]                │   │
+  │  │         │                                                                      │   │
+  │  │         ▼  LayerNorm  →  mean(dim=1)  [GAP]                                   │   │
+  │  │    features  ─────────────────────────  (B, 768)                               │   │
+  │  └──────────────────────────────────┬─────────────────────────────────────────────┘  │
+  │                                     │                                                 │
+  │           ┌─────────────────────────┴──────────────────────────┐                     │
+  │           │                                                      │                    │
+  │           ▼  task_id mask routes each sample                     ▼  (all samples)    │
+  │  ┌─────────────────────────────────┐      ┌───────────────────────────────────────┐  │
+  │  │    TASK HEADS (classification)   │      │  DOMAIN PROJECTOR  (SupCon branch)    │  │
+  │  │                                  │      │                                        │  │
+  │  │  PathMNIST : LN→Drop→Linear→(B,9)│      │  Linear(768→512) → BN1d → ReLU       │  │
+  │  │  DermaMNIST: LN→Drop→Linear→(B,7)│      │  → Linear(512→128) → L2-norm         │  │
+  │  │  BloodMNIST: LN→Drop→Linear→(B,8)│      │  → z  (B, 128)                       │  │
+  │  │  OCTMNIST  : LN→Drop→Linear→(B,4)│      │                                        │  │
+  │  │                                  │      │  ⚠  active only after warmup (ep ≥ 10) │  │
+  │  └────────────────┬─────────────────┘      └──────────────────────┬─────────────────┘  │
+  │                   │                                                 │                   │
+  │                   ▼                                                 ▼                   │
+  │  ┌────────────────────────────────┐      ┌──────────────────────────────────────────┐  │
+  │  │  KENDALL MULTI-TASK LOSS        │      │  SUPCON DOMAIN LOSS  (Khosla 2020)       │  │
+  │  │                                 │      │                                           │  │
+  │  │  L_i = CE(logits_i, labels_i)  │      │  Positives = same task_id in the batch   │  │
+  │  │                                 │      │  Negatives = different task_id           │  │
+  │  │  L_K = Σ_i  (1/σ²_i)·L_i       │      │                                           │  │
+  │  │           + log(σ_i)            │      │  L_SC(i) = -1/|P(i)| ·                  │  │
+  │  │                                 │      │    Σ_{p∈P(i)} log[                       │  │
+  │  │  σ_i is learnable per task —    │      │      exp(z_i·z_p / τ) /                  │  │
+  │  │  high uncertainty → low weight  │      │      Σ_{a≠i} exp(z_i·z_a / τ) ]         │  │
+  │  │  (Kendall et al., CVPR 2018)    │      │                                           │  │
+  │  │                                 │      │  τ = 0.07,  cast to float32 (AMP-safe)   │  │
+  │  └──────────────┬──────────────────┘      └─────────────────────┬─────────────────────┘  │
+  │                 │                                                 │                   │
+  │                 │       L_total = L_K  +  λ · L_SC               │                   │
+  │                 └─────────────────────┬───────────────────────────┘                   │
+  │                                       │  λ = 0.1 (contrastive_lambda)                │
+  │                                       │  L_SC gated off for epoch < 10 (warmup)      │
+  │                                       ▼                                               │
+  │                                  .backward()                                          │
+  │                                       │                                               │
+  │                    ┌──────────────────┼──────────────────┐                           │
+  │                    ▼                  ▼                   ▼                           │
+  │            backbone (lr=1×)   projector (lr=2×)   heads + σ (lr=5× / 1×)            │
+  └───────────────────────────────────────────────────────────────────────────────────────┘
 
-### Multi-Task Contrastive Training
+  ── AFTER TRAINING ──────────────────────────────────────────────────────────────────────
 
-Training combines two loss functions:
+  compute_prototypes(train_loader):
+    for each task_id  →  mean backbone features  →  domain_prototypes (4, 768) [saved in ckpt]
 
-**1. Kendall Multi-Task Loss (cross-entropy with learned uncertainty weighting)**
+  ── INFERENCE  (no task_id required) ────────────────────────────────────────────────────
 
-$$\mathcal{L}_\text{total} = \sum_{i} \frac{1}{\sigma_i^2} \mathcal{L}_i^{CE} + \log \sigma_i$$
+    image  →  backbone  →  features (1, 768)
+                                │
+                                ▼  cosine_similarity(features, domain_prototypes)
+                           argmax  →  task_name
+                                │
+                                ▼
+                           task_head  →  class_idx,  confidence
+````
 
-Each task's cross-entropy is weighted by a learnable $\log \sigma_i$ parameter. Tasks with higher uncertainty (larger $\sigma_i$) receive lower effective weight automatically — the model learns *how hard* each task is.
+### Loss Functions
 
-**2. Supervised Contrastive Domain Loss (SupCon, Khosla et al. 2020)**
+**Kendall Multi-Task Loss** — each task's cross-entropy is weighted by a learnable $\sigma_i$. Tasks the model finds harder get larger $\sigma_i$ and lower effective weight automatically:
 
-$$\mathcal{L}_\text{SupCon}(i) = -\frac{1}{|P(i)|} \sum_{p \in P(i)} \log \frac{\exp(\mathbf{z}_i \cdot \mathbf{z}_p / \tau)}{\sum_{a \in A(i)} \exp(\mathbf{z}_i \cdot \mathbf{z}_a / \tau)}$$
+$$\mathcal{L}_\text{Kendall} = \sum_{i} \frac{1}{\sigma_i^2} \mathcal{L}_i^{CE} + \log \sigma_i$$
 
-Applied to L2-normalised projections $\mathbf{z} \in \mathbb{R}^{128}$ with temperature $\tau = 0.07$. All samples from the same dataset are treated as positives — this forces the backbone to produce modality-discriminative representations in addition to class-discriminative ones.
+**Supervised Contrastive Domain Loss** — applied to L2-normalised projections $\mathbf{z} \in \mathbb{R}^{128}$ with temperature $\tau = 0.07$. All images from the same dataset are positives; images from other datasets are negatives. This forces the backbone to produce modality-discriminative representations alongside class-discriminative ones:
+
+$$\mathcal{L}_\text{SupCon}(i) = -\frac{1}{|P(i)|} \sum_{p \in P(i)} \log \frac{\exp(\mathbf{z}_i \cdot \mathbf{z}_p / \tau)}{\sum_{a \neq i} \exp(\mathbf{z}_i \cdot \mathbf{z}_a / \tau)}$$
 
 **Combined objective:**
 
 $$\mathcal{L} = \mathcal{L}_\text{Kendall} + \lambda \cdot \mathcal{L}_\text{SupCon}, \quad \lambda = 0.1$$
 
-The contrastive term is phased in after a configurable warmup (default 10 epochs) to let the classification heads stabilise first.
-
-### Autonomous Inference via Domain Prototypes
-
-After training, per-task mean backbone features are computed and stored as **domain prototypes**. At inference time, no `task_id` is needed — the model routes each image automatically:
-
-```
-Image → Backbone → features (B, C₄)
-                       │
-                       ▼ cosine similarity
-              domain_prototypes  (n_tasks, C₄)
-                       │
-                  argmax → task_name
-                       │
-                       ▼
-              task head → class prediction
-```
-
-This is a 1-NN classifier in representation space (Prototypical Networks, Snell et al. 2017) combined with per-task classification heads.
+The SupCon term is gated off for the first 10 epochs (configurable via `contrastive_warmup`) so the classification heads can stabilise before the contrastive gradient reaches the backbone.
 
 ### Dual-Pathway XAI (SSM-GradCAM)
 
@@ -185,7 +196,7 @@ pip install mamba-ssm --no-build-isolation
 
 # Copy and fill in the environment variables
 cp .env.example .env
-```
+````
 
 > **Note:** `mamba-ssm` requires a CUDA-capable GPU and may need to be compiled from source on some systems. See the [mamba-ssm repository](https://github.com/state-spaces/mamba) for details.
 
@@ -348,8 +359,3 @@ MedMamba-XAI/
 └── docs/                (architecture.md, xai_methodology.md)
 ```
 
----
-
-## License
-
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
