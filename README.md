@@ -180,7 +180,7 @@ All datasets are sourced from **MedMNIST+ v2** at 224×224 resolution.
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/MedMamba-XAI.git
+git clone https://github.com/yusufafify/MedMamba-XAI.git
 cd MedMamba-XAI
 
 # Create a virtual environment
