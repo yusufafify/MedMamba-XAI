@@ -16,10 +16,9 @@
 4. [Installation](#installation)
 5. [Usage](#usage)
 6. [Configuration System](#configuration-system)
-7. [Expected Results](#expected-results)
-8. [Project Structure](#project-structure)
-9. [Citation](#citation)
-10. [License](#license)
+7. [Project Structure](#project-structure)
+8. [Citation](#citation)
+9. [License](#license)
 
 ---
 
@@ -33,53 +32,116 @@ Key advantages over ViT baselines:
 |---|---|---|
 | Sequence complexity | O(n²) | **O(n)** |
 | Global receptive field | ✓ (via attention) | ✓ (via state-space) |
-| Interpretable gradients | Attention rollout | **SSM-GradCAM** |
-| Multi-task friendly | ✓ | ✓ |
+| Multi-task loss | Fixed weights | **Kendall uncertainty weighting** |
+| Domain separation | None | **SupCon domain projector** |
+| Task routing at inference | Requires task label | **Autonomous (prototype 1-NN)** |
+| Interpretable gradients | Attention rollout | **Dual-pathway SSM-GradCAM** |
 
 ---
 
 ## Architecture Overview
 
+### Backbone + Classification
+
 ```
 ┌────────────────────────────────────────────────────────────────────┐
 │                   MedicalVMamba  Pipeline                          │
+│          (Tiny config: patch_size=8, embed_dim=96)                 │
 │                                                                    │
-│   Input (3×224×224)                                                │
+│   Input (B, 3, 224, 224)                                           │
 │       │                                                            │
 │       ▼                                                            │
-│   ┌──────────────┐                                                 │
-│   │  PatchEmbed   │  → (B, C₀, H/4, W/4)                          │
-│   └──────┬───────┘                                                 │
-│          ▼                                                         │
-│   ┌──────────────────┐                                             │
-│   │ Stage 1: VSSBlock │  × N₁   → (B, C₁, H/8, W/8)              │
-│   │  + PatchMerging   │                                            │
-│   └──────┬───────────┘                                             │
-│          ▼                                                         │
-│   ┌──────────────────┐                                             │
-│   │ Stage 2: VSSBlock │  × N₂   → (B, C₂, H/16, W/16)            │
-│   │  + PatchMerging   │                                            │
-│   └──────┬───────────┘                                             │
-│          ▼                                                         │
-│   ┌──────────────────┐                                             │
-│   │ Stage 3: VSSBlock │  × N₃   → (B, C₃, H/32, W/32)            │
-│   │  + PatchMerging   │                                            │
-│   └──────┬───────────┘                                             │
-│          ▼                                                         │
-│   ┌──────────────────┐                                             │
-│   │ Stage 4: VSSBlock │  × N₄   → (B, C₄, H/32, W/32)            │
-│   └──────┬───────────┘                                             │
-│          ▼                                                         │
-│   ┌──────────────┐                                                 │
-│   │     GAP       │  → (B, C₄)                                     │
-│   └──────┬───────┘                                                 │
-│          ▼                                                         │
+│   ┌────────────────────────┐                                       │
+│   │  PatchEmbed            │  Conv2d(stride=patch_size)            │
+│   │  + LayerNorm           │  → (B, 784, 96)  [28×28 tokens]      │
+│   └──────────┬─────────────┘                                       │
+│              ▼                                                     │
 │   ┌──────────────────────────────────┐                             │
-│   │  Task Heads (one per dataset)     │                            │
-│   │  PathMNIST │ Derma │ Blood │ OCT  │                            │
-│   └──────────────────────────────────┘                             │
+│   │ Stage 0: 2 × VSSBlock  [B,N,D]   │  (B, 784, 96)  [28×28]    │
+│   └──────────┬───────────────────────┘                             │
+│              ▼  PatchMerging  (÷2 spatial, ×2 channels)           │
+│   ┌──────────────────────────────────┐                             │
+│   │ Stage 1: 2 × VSSBlock            │  (B, 196, 192) [14×14]    │
+│   └──────────┬───────────────────────┘                             │
+│              ▼  PatchMerging                                       │
+│   ┌──────────────────────────────────┐                             │
+│   │ Stage 2: 6 × VSSBlock            │  (B,  49, 384) [ 7× 7]    │
+│   └──────────┬───────────────────────┘                             │
+│              ▼  PatchMerging  (7 padded → 8 before strided slice)  │
+│   ┌──────────────────────────────────┐                             │
+│   │ Stage 3: 2 × VSSBlock            │  (B,  16, 768) [ 4× 4]    │
+│   │          (no PatchMerging)        │                            │
+│   └──────────┬───────────────────────┘                             │
+│              ▼                                                     │
+│   ┌────────────────────────┐                                       │
+│   │  LayerNorm             │  (B, 16, 768)                         │
+│   │  → mean(dim=1)  [GAP]  │  → (B, 768)  ← backbone features     │
+│   └──────────┬─────────────┘                                       │
+│              │                                                     │
+│      ┌───────┴───────────────────────────┐                         │
+│      ▼                                   ▼                         │
+│   ┌──────────────────────────────┐  ┌──────────────────────────┐  │
+│   │  Task Heads (per dataset)     │  │  Domain Projector        │  │
+│   │  LayerNorm → Dropout → Linear │  │  Linear(768→512)         │  │
+│   │                               │  │  → BN1d → ReLU           │  │
+│   │  PathMNIST  → (B,  9)         │  │  → Linear(512→128)       │  │
+│   │  DermaMNIST → (B,  7)         │  │  → L2-norm               │  │
+│   │  BloodMNIST → (B,  8)         │  │  → z  (B, 128)           │  │
+│   │  OCTMNIST   → (B,  4)         │  │  (training only)         │  │
+│   └──────────────────────────────┘  └──────────────────────────┘  │
 └────────────────────────────────────────────────────────────────────┘
 ```
+
+### Multi-Task Contrastive Training
+
+Training combines two loss functions:
+
+**1. Kendall Multi-Task Loss (cross-entropy with learned uncertainty weighting)**
+
+$$\mathcal{L}_\text{total} = \sum_{i} \frac{1}{\sigma_i^2} \mathcal{L}_i^{CE} + \log \sigma_i$$
+
+Each task's cross-entropy is weighted by a learnable $\log \sigma_i$ parameter. Tasks with higher uncertainty (larger $\sigma_i$) receive lower effective weight automatically — the model learns *how hard* each task is.
+
+**2. Supervised Contrastive Domain Loss (SupCon, Khosla et al. 2020)**
+
+$$\mathcal{L}_\text{SupCon}(i) = -\frac{1}{|P(i)|} \sum_{p \in P(i)} \log \frac{\exp(\mathbf{z}_i \cdot \mathbf{z}_p / \tau)}{\sum_{a \in A(i)} \exp(\mathbf{z}_i \cdot \mathbf{z}_a / \tau)}$$
+
+Applied to L2-normalised projections $\mathbf{z} \in \mathbb{R}^{128}$ with temperature $\tau = 0.07$. All samples from the same dataset are treated as positives — this forces the backbone to produce modality-discriminative representations in addition to class-discriminative ones.
+
+**Combined objective:**
+
+$$\mathcal{L} = \mathcal{L}_\text{Kendall} + \lambda \cdot \mathcal{L}_\text{SupCon}, \quad \lambda = 0.1$$
+
+The contrastive term is phased in after a configurable warmup (default 10 epochs) to let the classification heads stabilise first.
+
+### Autonomous Inference via Domain Prototypes
+
+After training, per-task mean backbone features are computed and stored as **domain prototypes**. At inference time, no `task_id` is needed — the model routes each image automatically:
+
+```
+Image → Backbone → features (B, C₄)
+                       │
+                       ▼ cosine similarity
+              domain_prototypes  (n_tasks, C₄)
+                       │
+                  argmax → task_name
+                       │
+                       ▼
+              task head → class prediction
+```
+
+This is a 1-NN classifier in representation space (Prototypical Networks, Snell et al. 2017) combined with per-task classification heads.
+
+### Dual-Pathway XAI (SSM-GradCAM)
+
+Beyond standard GradCAM, the model produces **two complementary saliency maps** per image using the `[B, N, D]` SSM activations of the last VSSBlock:
+
+| Map | Gradient target | What it highlights |
+|---|---|---|
+| **Class saliency** | `logits[predicted_class]` | Local lesion / class-specific structure |
+| **Domain saliency** | `cos(features, prototype[domain])` | Global texture / acquisition signatures |
+
+When class and domain disentanglement is effective, these two maps highlight *different* spatial regions — the empirical divergence between them is the scientific finding.
 
 ---
 
@@ -141,7 +203,7 @@ python scripts/train.py \
     --training configs/training/single_task.yaml
 ```
 
-### (b) Multi-Task Training
+### (b) Multi-Task Training (standard)
 
 ```bash
 python scripts/train.py \
@@ -151,7 +213,49 @@ python scripts/train.py \
     --training configs/training/multi_task.yaml
 ```
 
-### (c) Test-Set Evaluation
+### (c) Multi-Task Contrastive Training
+
+Adds the Supervised Contrastive Domain Loss (SupCon) on top of the Kendall multi-task loss. After training, domain prototypes are computed automatically and baked into the checkpoint, enabling autonomous inference without a `task_id`.
+
+```bash
+python scripts/train.py \
+    --config configs/default.yaml \
+    --data configs/data/multitask.yaml \
+    --model configs/model/vmamba_small.yaml \
+    --training configs/training/multi_task_contrastive.yaml
+```
+
+Key config knobs in `configs/training/multi_task_contrastive.yaml`:
+
+| Parameter | Default | Description |
+|---|---|---|
+| `use_contrastive` | `true` | Enable SupCon domain loss |
+| `contrastive_lambda` | `0.1` | Weight of contrastive term relative to Kendall loss |
+| `contrastive_temp` | `0.07` | SupCon temperature $\tau$ |
+| `contrastive_warmup` | `10` | Epochs before contrastive term is activated |
+| `compute_prototypes_after_training` | `true` | Auto-compute and save domain prototypes post-training |
+
+### (d) Recompute Domain Prototypes (optional)
+
+If you need to recompute prototypes for an existing checkpoint (e.g. after fine-tuning):
+
+```bash
+python scripts/recompute_prototypes.py \
+    --checkpoint outputs/best_model.pt \
+    --data configs/data/multitask.yaml
+```
+
+### (e) Autonomous Prediction (no task_id required)
+
+```bash
+python scripts/predict.py \
+    --checkpoint outputs/best_model.pt \
+    --image path/to/sample.png
+```
+
+The model routes the image to the correct task head via cosine similarity against the stored domain prototypes, then outputs the task name, predicted class, and softmax confidence.
+
+### (f) Test-Set Evaluation
 
 ```bash
 python scripts/evaluate.py \
@@ -160,10 +264,19 @@ python scripts/evaluate.py \
     --data configs/data/pathmnist.yaml
 ```
 
-### (d) XAI Visualization
+### (g) XAI — Dual-Pathway Saliency
 
 ```bash
 python scripts/explainability.py \
+    --checkpoint outputs/best_model.pt \
+    --image path/to/sample.png \
+    --output outputs/xai/
+```
+
+Produces both the **class saliency map** (what drives the class prediction) and the **domain saliency map** (what drives the modality assignment) side-by-side. For a combined overlay visualisation:
+
+```bash
+python scripts/visualize_dual_saliency.py \
     --checkpoint outputs/best_model.pt \
     --image path/to/sample.png \
     --output outputs/xai/
@@ -195,65 +308,44 @@ To switch model sizes, simply change the `--model` flag:
 
 ---
 
-## Expected Results
-
-Reported on MedMNIST+ v2 test splits (224×224, single-task, VMamba-Tiny):
-
-| Dataset | Accuracy (%) | F1-Macro (%) | AUC (%) |
-|---|---|---|---|
-| PathMNIST | 88 – 92 | 85 – 90 | 96 – 98 |
-| DermaMNIST | 74 – 78 | 70 – 75 | 90 – 93 |
-| BloodMNIST | 95 – 97 | 94 – 96 | 99+ |
-| OCTMNIST | 76 – 80 | 73 – 78 | 95 – 97 |
-
-> These ranges are indicative targets based on comparable architectures. Exact numbers depend on hyperparameter tuning.
-
----
-
 ## Project Structure
 
 ```
 MedMamba-XAI/
 ├── README.md
 ├── LICENSE
-├── .gitignore
-├── .env.example
 ├── pyproject.toml
 ├── requirements.txt
 ├── requirements-dev.txt
 ├── setup.py
 ├── configs/
 │   ├── default.yaml
-│   ├── model/           (vmamba_tiny, vmamba_small, vmamba_base)
+│   ├── model/           (vmamba_tiny, vmamba_small, vmamba_base, resnet50, vit)
 │   ├── data/            (pathmnist, dermamnist, bloodmnist, octmnist, multitask)
-│   └── training/        (single_task, multi_task)
+│   └── training/        (single_task, multi_task, multi_task_contrastive)
 ├── src/medical_mamba/
 │   ├── data/            (dataset, transforms, samplers, constants)
-│   ├── models/          (backbone, blocks, heads, medical_vmamba)
+│   ├── models/          (backbone, blocks, heads, medical_vmamba,
+│   │                     resnet_baseline, vit_baseline)
 │   ├── training/        (trainer, losses, metrics, schedulers)
-│   ├── xai/             (gradcam, visualize)
+│   │                     — KendallMultiTaskLoss + ContrastiveDomainLoss
+│   ├── xai/             (gradcam, dual_saliency, visualize)
 │   └── utils/           (checkpoint, logging, seed)
-├── scripts/             (train, evaluate, explainability, explode_npz)
-├── notebooks/           (00_eda, 01_data_pipeline, 02_architecture, 03_xai)
+├── scripts/
+│   ├── train.py
+│   ├── evaluate.py
+│   ├── predict.py                  ← autonomous inference (no task_id)
+│   ├── recompute_prototypes.py     ← re-compute domain prototypes
+│   ├── explainability.py
+│   ├── visualize_dual_saliency.py  ← side-by-side class + domain maps
+│   ├── finetune_contrastive.py
+│   ├── eval_ood.py
+│   └── explode_npz.py
+├── notebooks/           (00_eda … 07_xai_analysis, kaggle_finetune)
 ├── tests/               (test_dataset, test_model, test_losses, test_xai)
-├── outputs/             (gitignored — run artifacts)
+├── runs/                (gitignored — TensorBoard / metric CSVs)
+├── outputs/             (gitignored — checkpoints)
 └── docs/                (architecture.md, xai_methodology.md)
-```
-
----
-
-## Citation
-
-If you use this code in your research, please cite:
-
-```bibtex
-@misc{medmamba_xai_2025,
-    title   = {Interpretable Mamba Models for High-Fidelity Medical Image Classification},
-    author  = {<Your Name>},
-    year    = {2025},
-    note    = {Graduate Research Project},
-    url     = {https://github.com/<your-username>/MedMamba-XAI}
-}
 ```
 
 ---
