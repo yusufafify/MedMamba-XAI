@@ -84,6 +84,8 @@ class TrainConfig:
     model_size:   str   = "tiny"             # "tiny" | "small" | "base"
     patch_size:   int   = 4                  # 4 = high-res, 8 = fast/low-VRAM
     head_dropout: float = 0.1
+    pretrained:   bool  = False
+    pretrained_ckpt: str = ""
 
     # ── Training — optimiser ─────────────────────────────────────────────
     epochs:          int   = 100
@@ -120,6 +122,7 @@ class TrainConfig:
     # ── Output ────────────────────────────────────────────────────────────
     output_dir: str          = "./runs/medical_mamba"
     resume:     Optional[str] = None        # path to checkpoint to resume from
+    mode:       str          = "multi_task" # training mode string
 
     # ── Hardware ──────────────────────────────────────────────────────────
     device: str = "cuda" if torch.cuda.is_available() else "cpu"
@@ -135,6 +138,11 @@ class TrainConfig:
             # top-level scalar keys
         flat.update({k: v for k, v in d.items() if not isinstance(v, dict)})
         valid = {f.name for f in cls.__dataclass_fields__.values()}  # type: ignore[attr-defined]
+        
+        invalid_keys = [k for k in flat.keys() if k not in valid]
+        if invalid_keys:
+            raise ValueError(f"Unrecognized fields in YAML config mapping to TrainConfig: {invalid_keys}")
+            
         return cls(**{k: v for k, v in flat.items() if k in valid})
 
 
@@ -207,6 +215,8 @@ class Trainer:
                 model_size=cfg.model_size,
                 patch_size=cfg.patch_size,
                 head_dropout=cfg.head_dropout,
+                pretrained=cfg.pretrained,
+                pretrained_ckpt=cfg.pretrained_ckpt,
             ).to(self.device)
 
         n_params = sum(p.numel() for p in self.model.parameters()) / 1e6
@@ -472,6 +482,12 @@ class Trainer:
                 acc = val_m.get(f"{name}_accuracy", val_m.get("accuracy", 0))
                 f1  = val_m.get(f"{name}_f1_macro", val_m.get("f1_macro", 0))
                 self.log(f"  [{name}] acc={acc:.4f} f1={f1:.4f}")
+                self.writer.add_scalar(f"val/{name}_accuracy", acc, epoch)
+
+            if "dermamnist" in self.task_names:
+                derma_acc = val_m.get("dermamnist_accuracy", 0.0)
+                derma_f1  = val_m.get("dermamnist_f1_macro", 0.0)
+                self.log(f"  [*** DERMAMNIST FOCUS ***] acc={derma_acc:.4f} f1={derma_f1:.4f}")
 
             # ── Kendall σ diagnostic ──────────────────────────────────────
             for name, sigma in self.criterion.sigma_values().items():

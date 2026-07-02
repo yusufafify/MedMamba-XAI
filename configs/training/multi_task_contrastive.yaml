@@ -17,13 +17,17 @@ training:
   warmup_epochs: 15
   grad_clip: 1.0
   label_smoothing: 0.1
-  mixed_precision: true
+  use_amp: true
   scheduler: cosine_warmup
   plateau_factor: 0.5
   plateau_patience: 7
   plateau_min_lr: 1.0e-7
-  early_stopping_patience: 20
+  patience: 20
   save_best_metric: avg_f1_macro
+  patch_size: 8
+  # Pretraining
+  pretrained: true
+  pretrained_ckpt: "https://github.com/MzeroMiko/VMamba/releases/download/%23v0cls/vssmtiny_dp01_ckpt_epoch_292.pth"
   # Contrastive domain discovery
   use_contrastive: true
   contrastive_lambda: 0.1

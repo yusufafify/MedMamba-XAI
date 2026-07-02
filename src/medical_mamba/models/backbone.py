@@ -281,6 +281,57 @@ class VMambaBackbone(nn.Module):
                 nn.init.zeros_(m.bias)
 
     # ------------------------------------------------------------------ #
+    #  Pretrained Loading                                                  #
+    # ------------------------------------------------------------------ #
+
+    def load_pretrained(self, ckpt_path: str) -> None:
+        """Load pretrained weights, skipping the patch embedding layer."""
+        import logging
+        import urllib.request
+        import os
+        logger = logging.getLogger(__name__)
+
+        if ckpt_path.startswith('http'):
+            # Download if not present locally
+            local_name = ckpt_path.split('/')[-1]
+            if not os.path.exists(local_name):
+                print(f"Downloading {ckpt_path} to {local_name}...")
+                urllib.request.urlretrieve(ckpt_path, local_name)
+            ckpt_path = local_name
+
+        state_dict = torch.load(ckpt_path, map_location='cpu')
+        if 'model' in state_dict:
+            state_dict = state_dict['model']
+
+        model_state = self.state_dict()
+        load_dict = {}
+        excluded_keys = []
+        loaded_keys = []
+        shape_mismatches = []
+
+        for k, v in state_dict.items():
+            if k.startswith('patch_embed.proj.'):
+                # Exclude patch embedding projection (kernel size / stride mismatch)
+                excluded_keys.append(k)
+            elif k in model_state:
+                if v.shape != model_state[k].shape:
+                    shape_mismatches.append(f"{k}: ckpt={v.shape}, model={model_state[k].shape}")
+                else:
+                    load_dict[k] = v
+                    loaded_keys.append(k)
+
+        missing_keys, unexpected_keys = self.load_state_dict(load_dict, strict=False)
+
+        print("\n=== Pretrained Load Report ===")
+        print(f"Successfully loaded {len(loaded_keys)} keys.")
+        print(f"Excluded keys (by design): {excluded_keys}")
+        if shape_mismatches:
+            print(f"Shape mismatches (failed to load): {shape_mismatches}")
+        print("==============================\n")
+
+        logger.info(f"Loaded pretrained weights from {ckpt_path}. Excluded {len(excluded_keys)} keys.")
+
+    # ------------------------------------------------------------------ #
     #  Forward                                                             #
     # ------------------------------------------------------------------ #
 

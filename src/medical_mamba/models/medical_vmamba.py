@@ -438,6 +438,8 @@ def build_model(
     model_size:   str   = "tiny",
     patch_size:   int   = 4,
     head_dropout: float = 0.1,
+    pretrained:   bool  = False,
+    pretrained_ckpt: str = "",
     **backbone_kwargs,
 ) -> MedicalVMamba:
     """Construct a ``MedicalVMamba`` from a named size preset.
@@ -486,8 +488,13 @@ def build_model(
         **backbone_kwargs,
     }
 
-    return MedicalVMamba(
+    model = MedicalVMamba(
         task_configs=task_configs,
         backbone_cfg=backbone_cfg,
         head_dropout=head_dropout,
     )
+
+    if pretrained and pretrained_ckpt:
+        model.backbone.load_pretrained(pretrained_ckpt)
+
+    return model
