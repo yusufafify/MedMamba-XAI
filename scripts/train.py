@@ -175,14 +175,14 @@ def main() -> None:
         warmup_epochs  = training.get("warmup_epochs",  10),
         grad_clip      = training.get("grad_clip",      1.0),
         label_smoothing= training.get("label_smoothing", 0.1),
-        use_amp        = training.get("mixed_precision", True),
+        use_amp        = training.get("use_amp", True),
         # training — scheduler
         scheduler      = training.get("scheduler",       "cosine_warmup"),
         plateau_factor = training.get("plateau_factor",  0.5),
         plateau_patience=training.get("plateau_patience", 5),
         plateau_min_lr = training.get("plateau_min_lr",  1e-6),
         # training — stopping & saving
-        patience       = training.get("early_stopping_patience", 15),
+        patience       = training.get("patience", 15),
         save_best_metric=training.get("save_best_metric", "avg_f1_macro"),
         # training — contrastive domain discovery (SupCon)
         use_contrastive                   = training.get("use_contrastive", False),
@@ -190,6 +190,9 @@ def main() -> None:
         contrastive_temp                  = training.get("contrastive_temp", 0.07),
         contrastive_warmup                = training.get("contrastive_warmup", 10),
         compute_prototypes_after_training = training.get("compute_prototypes_after_training", True),
+        # training — pretraining
+        pretrained                        = training.get("pretrained", False),
+        pretrained_ckpt                   = training.get("pretrained_ckpt", ""),
         # infrastructure
         output_dir     = project.get("output_dir", "runs/medical_mamba"),
         device         = device,
@@ -261,6 +264,8 @@ def main() -> None:
             model_size=cfg_obj.model_size,
             patch_size=cfg_obj.patch_size,
             head_dropout=cfg_obj.head_dropout,
+            pretrained=cfg_obj.pretrained,
+            pretrained_ckpt=cfg_obj.pretrained_ckpt,
         )
 
     # ── Train ─────────────────────────────────────────────────────────────
